@@ -8,21 +8,6 @@
 		<style>
 			@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
 		</style>
-		<style scoped>
-			@media screen and (max-width:600px) {
-				#timer {
-					margin-right: calc(100vw * 0.05) !important;
-				}
-
-				.image-container {
-					width: calc(100vh * 0.3);
-				}
-
-				.image-container svg {
-					width: calc(100vh * 0.3);
-				}
-			}
-		</style>
 	</head>
 	<body class="fade-in">
 		<div class="page-container">
@@ -971,6 +956,17 @@
 	.image-logo {
 		display: none;
 	}
+
+	@media screen and (max-width:600px) {
+		#timer {
+			margin-right: calc(100vw * 0.05) !important;
+		}
+		.image-container,
+		.image-container svg {
+			width:calc(100vh * 0.3);
+		}
+	}
+
 </style>
 <script>
 	var timer = document.getElementById('timer');
