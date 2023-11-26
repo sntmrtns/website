@@ -957,16 +957,16 @@
 		display: none;
 	}
 
-	@media screen and (max-width:600px) {
+	@media screen and (max-width:600px) and (orientation:portrait) {
 		#timer {
 			margin-right: calc(100vw * 0.05) !important;
 		}
+
 		.image-container,
 		.image-container svg {
-			width:calc(100vh * 0.35);
+			width: calc(100vh * 0.3);
 		}
 	}
-
 </style>
 <script>
 	var timer = document.getElementById('timer');
