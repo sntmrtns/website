@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Saint Martins</title>
+		<title>Richie Souf</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="Saint Martins">
+		<meta name="description" content="Richie Souf">
 		<meta name="robots" content="nosnippet">
 		<link rel="icon" type="image/x-icon" href="/images/favicon.png">
 		<style>
@@ -34,14 +34,10 @@
 				</svg>
 			</div>
 			<div class="page-footer">
-				<div class="page-footer-timer">
-					<span id="timer" class="page-footer-timer-text"></span>
-					<span id="date" class="page-footer-timer-text"></span>
-				</div>
 			</div>
 		</div>
 		<script>
-			document.title = "Saint Martins"
+			document.title = "Richie Souf"
 		</script>
 	</body>
 </html>
@@ -97,68 +93,17 @@
 		user-select: none;
 	}
 
-	.page-footer-timer {
-		display: flex;
-	}
-
-	.page-footer-timer-text {
-		color: white;
-		text-transform: uppercase;
-		user-select: none;
-		display: block;
-		font-size: 1.5vh;
-	}
-
-	#timer {
-		margin-right: calc(100vw * 0.01);
-	}
-
 	.image-logo {
 		display: none;
 	}
 
 	@media screen and (max-width:600px) and (orientation:portrait) {
-		#timer {
-			margin-right: calc(100vw * 0.05) !important;
-		}
-
 		.image-container,
 		.image-container svg {
 			width: calc(100vh * 0.3);
 		}
 	}
 </style>
-<script>
-	var timer = document.getElementById('timer');
-
-	function addZero(x, n) {
-		while (x.toString().length < n) {
-			x = "0" + x;
-		}
-		return x;
-	}
-
-	function time() {
-		const d = new Date();
-		let h = addZero(d.getHours(), 2);
-		let m = addZero(d.getMinutes(), 2);
-		let s = addZero(d.getSeconds(), 2);
-		let ms = addZero(d.getMilliseconds(), 4);
-		let time = h + ":" + m + ":" + s + ":" + ("0" + ms).substr(2, 2);
-		timer.textContent = time;
-	}
-	setInterval(time, 0.1);
-</script>
-<script>
-	var today = new Date();
-	var dd = String(today.getDate()).padStart(2, '0');
-	var mm = today.toLocaleString('default', {
-		month: 'long'
-	});
-	var yyyy = today.getFullYear();
-	today = mm + ' ' + dd + ' ' + yyyy;
-	document.getElementById('date').textContent = (today);
-</script>
 <script>
 	const logos = document.querySelectorAll('.image-logo');
 	window.onload = () => generateRandomPicture(logos);
