@@ -36,7 +36,7 @@
 			<div class="page-footer">
 				<div class="social-icons">
 					<a href="https://x.com/richiesouf" target="_blank" style="text-decoration:none">
-						<svg id="twitter" width="20px" height="20px" viewBox="0 0 20 20" fill="white">
+						<svg id="twitter" width="auto" height="1.8vh" viewBox="0 0 20 20" fill="white">
 							<defs>
 								<style>
 									.st0 {
@@ -50,7 +50,7 @@
 					</a>
 					
 					<a href="https://instagram.com/richiesouf" target="_blank" style="text-decoration:none">
-						<svg id="instagram" width="20px" height="20px" viewBox="0 0 20 20" fill="white">
+						<svg id="instagram" width="auto" height="1.8vh" viewBox="0 0 20 20" fill="white">
 							<defs>
 								<style>
 									.st0 {
@@ -64,7 +64,7 @@
 					</a>
 					
 					<a href="https://music.apple.com/playlist/pl.u-vxy6933sz12jeGV" target="_blank" style="text-decoration:none">
-						<svg id="applemusic" width="20px" height="20px" viewBox="0 0 20 20" fill="white">
+						<svg id="applemusic" width="auto" height="1.8vh" viewBox="0 0 20 20" fill="white">
 							<defs>
 								<style>
 									.st0 {
@@ -78,7 +78,7 @@
 					</a>
 					
 					<a href="https://open.spotify.com/playlist/3wWCLuTQIIE9FTfXc31Ip9" target="_blank" style="text-decoration:none">
-						<svg id="spotify" width="20px" height="20px" viewBox="0 0 20 20" fill="white">
+						<svg id="spotify" width="auto" height="1.8vh" viewBox="0 0 20 20" fill="white">
 							<defs>
 								<style>
 									.st0 {
@@ -92,7 +92,7 @@
 					</a>
 					
 					<a href="https://splice.com/sounds/splice/richie-souf-pack" target="_blank" style="text-decoration:none">
-						<svg id="splice" width="20px" height="20px" viewBox="0 0 14 20" fill="white">
+						<svg id="splice" width="auto" height="1.8vh" viewBox="0 0 14 20" fill="white">
 							<defs>
 								<style>
 									.st0 {
@@ -161,33 +161,29 @@
 		position: fixed;
 		text-align: center;
 		bottom: 0;
-		margin-bottom: calc(100vh * 0.02777777777);
+		margin-bottom: calc(100vh * 0.025);
 		user-select: none;
 	}
 	
-	html {
-		font-size: 16px;
-	}
-	
-	.social-icons {
+        .social-icons {
 		display: flex;
 		justify-content: center;
-		align-items: center;
-	}
-	
-	.social-icons a {
-		display: inline-flex;
-		justify-content: center;
-		align-items: center;
-		width: 20px;
-		height: 20px;
-		flex-shrink: 0;
-	}
-	
-	.social-icons svg {
-		width: 20px;
-		height: 20px;
-	}
+        }
+
+        .social-icons a {
+		text-decoration: none;
+		width: auto;
+		height: 1.8vh;
+		max-height: 1.8vh;
+		min-height: 1.8vh;
+        }
+
+        .social-icons svg {
+		width: auto;
+		height: 1.8vh;
+		max-height: 1.8vh;
+		min-height: 1.8vh;
+        }
 
 	#twitter, #instagram, #applemusic, #spotify {
 		margin-right: calc(100vw * 0.02);
