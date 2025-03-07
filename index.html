@@ -36,7 +36,7 @@
 			<div class="page-footer">
 				<div class="social-icons">
 					<a href="https://x.com/richiesouf" target="_blank" style="text-decoration:none">
-						<svg width="32" height="32" viewBox="0 0 20 20" fill="white">
+						<svg width="2.5vw" height="auto" viewBox="0 0 20 20" fill="white">
 							<defs>
 								<style>
 									.st0 {
@@ -50,7 +50,7 @@
 					</a>
 					
 					<a href="https://instagram.com/richiesouf" target="_blank" style="text-decoration:none">
-						<svg width="32" height="32" viewBox="0 0 20 20" fill="white">
+						<svg width="2.5vw" height="auto" viewBox="0 0 20 20" fill="white">
 							<defs>
 								<style>
 									.st0 {
@@ -64,7 +64,7 @@
 					</a>
 					
 					<a href="https://music.apple.com/playlist/pl.u-vxy6933sz12jeGV" target="_blank" style="text-decoration:none">
-						<svg width="32" height="32" viewBox="0 0 20 20" fill="white">
+						<svg width="2.5vw" height="auto" viewBox="0 0 20 20" fill="white">
 							<defs>
 								<style>
 									.st0 {
@@ -78,7 +78,7 @@
 					</a>
 					
 					<a href="https://open.spotify.com/playlist/3wWCLuTQIIE9FTfXc31Ip9" target="_blank" style="text-decoration:none">
-						<svg width="32" height="32" viewBox="0 0 20 20" fill="white">
+						<svg width="2.5vw" height="auto" viewBox="0 0 20 20" fill="white">
 							<defs>
 								<style>
 									.st0 {
@@ -92,7 +92,7 @@
 					</a>
 					
 					<a href="https://splice.com/sounds/splice/richie-souf-pack" target="_blank" style="text-decoration:none">
-						<svg width="32" height="32" viewBox="0 0 14 20" fill="white">
+						<svg width="2.5vw" height="auto" viewBox="0 0 14 20" fill="white">
 							<defs>
 								<style>
 									.st0 {
@@ -165,29 +165,33 @@
 		user-select: none;
 	}
 	
-	.social-icons {
-		display: flex;
-		gap: 40px;
-		justify-content: center;
-		margin-right: calc(100vw * 0.01);
-	}
-	
-	.social-icons svg {
-		height: 1.852vh;
-		width: auto;
-	}
+        .social-icons {
+            display: flex;
+            gap: 3vw;
+            justify-content: center;
+        }
 
+        .social-icons a {
+            text-decoration: none;
+        }
+
+        .social-icons svg {
+            width: 2.5vw;
+            height: auto;
+            min-width: 24px;
+        }
+	
 	.image-logo {
 		display: none;
 	}
 
 	@media screen and (max-width:600px) and (orientation:portrait) {
 		.social-icons {
-			margin-right: calc(100vw * 0.05) !important;
+			gap: 5vw;
 		}
 		
 		.social-icons svg {
-			width: calc(100vh * 0.05);
+			width: 5vw;
 		}
 		
 		.image-container,
