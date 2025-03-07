@@ -166,20 +166,20 @@
 	}
 	
         .social-icons {
-            display: flex;
-            gap: 40px;
-            justify-content: center;
+		display: flex;
+		margin-right: calc(100vw * 0.01);
+		justify-content: center;
         }
 
         .social-icons a {
-            text-decoration: none;
+		text-decoration: none;
         }
 
         .social-icons svg {
-            width: auto;
-            height: 1.8vh;
-            max-height: 1.8vh;
-            min-height: 1.8vh;
+		width: auto;
+		height: 1.8vh;
+		max-height: 1.8vh;
+		min-height: 1.8vh;
         }
 	
 	.image-logo {
@@ -187,6 +187,10 @@
 	}
 
 	@media screen and (max-width:600px) and (orientation:portrait) {		
+		.social-icons {
+			margin-right: calc(100vw * 0.05) !important;
+		}
+		
 		.image-container,
 		.image-container svg {
 			width: calc(100vh * 0.3);
