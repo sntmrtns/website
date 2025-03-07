@@ -36,7 +36,7 @@
 			<div class="page-footer">
 				<div class="social-icons">
 					<a href="https://x.com/richiesouf" target="_blank" style="text-decoration:none">
-						<svg id="twitter" viewBox="0 0 20 20" fill="white">
+						<svg id="twitter" width="20px" height="20px" viewBox="0 0 20 20" fill="white">
 							<defs>
 								<style>
 									.st0 {
@@ -50,7 +50,7 @@
 					</a>
 					
 					<a href="https://instagram.com/richiesouf" target="_blank" style="text-decoration:none">
-						<svg id="instagram" viewBox="0 0 20 20" fill="white">
+						<svg id="instagram" width="20px" height="20px" viewBox="0 0 20 20" fill="white">
 							<defs>
 								<style>
 									.st0 {
@@ -64,7 +64,7 @@
 					</a>
 					
 					<a href="https://music.apple.com/playlist/pl.u-vxy6933sz12jeGV" target="_blank" style="text-decoration:none">
-						<svg id="applemusic" viewBox="0 0 20 20" fill="white">
+						<svg id="applemusic" width="20px" height="20px" viewBox="0 0 20 20" fill="white">
 							<defs>
 								<style>
 									.st0 {
@@ -78,7 +78,7 @@
 					</a>
 					
 					<a href="https://open.spotify.com/playlist/3wWCLuTQIIE9FTfXc31Ip9" target="_blank" style="text-decoration:none">
-						<svg id="spotify" viewBox="0 0 20 20" fill="white">
+						<svg id="spotify" width="20px" height="20px" viewBox="0 0 20 20" fill="white">
 							<defs>
 								<style>
 									.st0 {
@@ -92,7 +92,7 @@
 					</a>
 					
 					<a href="https://splice.com/sounds/splice/richie-souf-pack" target="_blank" style="text-decoration:none">
-						<svg id="splice" viewBox="0 0 14 20" fill="white">
+						<svg id="splice" width="20px" height="20px" viewBox="0 0 14 20" fill="white">
 							<defs>
 								<style>
 									.st0 {
@@ -165,23 +165,29 @@
 		user-select: none;
 	}
 	
-        .social-icons {
+	html {
+		font-size: 16px;
+	}
+	
+	.social-icons {
 		display: flex;
 		justify-content: center;
-        }
-
-        .social-icons a {
-		text-decoration: none;
-		display: inline-block;
-		width: auto;
+		align-items: center;
+	}
+	
+	.social-icons a {
+		display: inline-flex;
+		justify-content: center;
+		align-items: center;
+		width: 20px;
 		height: 20px;
 		flex-shrink: 0;
-        }
-
-        .social-icons svg {
-		width: 100%;
-		height: 100%;
-        }
+	}
+	
+	.social-icons svg {
+		width: 20px;
+		height: 20px;
+	}
 
 	#twitter, #instagram, #applemusic, #spotify {
 		margin-right: calc(100vw * 0.02);
