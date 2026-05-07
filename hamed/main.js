@@ -24,7 +24,8 @@ function navToggle() {
 function scrollToId(id) {
   var el = document.getElementById(id);
   if (!el) return;
-  window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY);
+  var margin = (100 * window.innerHeight) / 1440;
+  window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - margin);
 }
 
 function showSection(name) {
