@@ -21,6 +21,17 @@ function navToggle() {
   }
 }
 
+function loadVideo(facade) {
+  var src = facade.getAttribute('data-src');
+  var iframe = document.createElement('iframe');
+  iframe.src = src;
+  iframe.frameBorder = '0';
+  iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+  iframe.allowFullscreen = true;
+  iframe.style.cssText = 'width:100%;height:100%;display:block;border:0;';
+  facade.parentNode.replaceChild(iframe, facade);
+}
+
 function scrollToId(id) {
   var el = document.getElementById(id);
   if (!el) return;
