@@ -41,12 +41,15 @@ scrollbar-width:none;
 body {
 background:black;
 margin:0px;
-animation:fadeIn 1s;
+}
+
+body.first-visit {
+animation:fadeIn 2s;
 }
 
 @keyframes fadeIn {
 from {
-opacity:0.3;
+opacity:0;
 }
 to {
 opacity:1;
