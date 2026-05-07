@@ -28,8 +28,14 @@ scroll-behavior:smooth;
 scrollbar-width:none;
 }
 
-html::-webkit-scrollbar {
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
 display:none;
+}
+
+body {
+scrollbar-width:none;
 }
 
 body {
