@@ -394,37 +394,64 @@
     ];
     let photosReady = false;
 
+    function layoutPhotos(imgs) {
+      const gallery = document.getElementById("photobox");
+      gallery.innerHTML = "";
+      const gap = 25 * window.innerWidth / 2560;
+      const W = gallery.offsetWidth;
+      const perRow = 3;
+      for (var i = 0; i < imgs.length; i += perRow) {
+        var rowImgs = imgs.slice(i, i + perRow);
+        var sumAR = rowImgs.reduce(function(s, img) {
+          return s + (img.naturalWidth || 1) / (img.naturalHeight || 1);
+        }, 0);
+        var rowH = (W - (rowImgs.length - 1) * gap) / sumAR;
+        var row = document.createElement("div");
+        row.className = "photos-row";
+        row.style.gap = gap + "px";
+        if (i + perRow < imgs.length) row.style.marginBottom = gap + "px";
+        rowImgs.forEach(function(img) {
+          var ar = (img.naturalWidth || 1) / (img.naturalHeight || 1);
+          var wrapper = document.createElement("div");
+          wrapper.style.width = Math.round(rowH * ar) + "px";
+          wrapper.style.height = Math.round(rowH) + "px";
+          img.style.cssText = "";
+          wrapper.appendChild(img);
+          row.appendChild(wrapper);
+        });
+        gallery.appendChild(row);
+      }
+    }
+
     function loadImages() {
       const gallery = document.getElementById("photobox");
       gallery.style.opacity = "0";
       gallery.style.transition = "opacity 0.3s";
-      let loaded = 0;
-      function done() {
-        if (++loaded === photos.length) {
-          photosReady = true;
-          if (document.getElementById("section-photos").style.display !== "none") {
-            gallery.style.opacity = "1";
+      var loaded = 0;
+      var imgs = new Array(photos.length);
+      photos.forEach(function(name, idx) {
+        var img = document.createElement("img");
+        img.decoding = "async";
+        img.alt = name;
+        imgs[idx] = img;
+        function done() {
+          if (++loaded === photos.length) {
+            layoutPhotos(imgs);
+            photosReady = true;
+            if (document.getElementById("section-photos").style.display !== "none") {
+              gallery.style.opacity = "1";
+            }
           }
         }
-      }
-      photos.forEach(function(name) {
-        const wrapper = document.createElement("div");
-        const img = document.createElement("img");
         img.onload = done;
         img.onerror = done;
         img.src = "/hamed/photos/" + name;
-        img.alt = name;
-        img.decoding = "async";
-        wrapper.appendChild(img);
-        gallery.appendChild(wrapper);
       });
     }
 
     function showPhotos() {
       const gallery = document.getElementById("photobox");
-      if (photosReady) {
-        gallery.style.opacity = "1";
-      }
+      if (photosReady) gallery.style.opacity = "1";
     }
 
     document.addEventListener("DOMContentLoaded", loadImages);
