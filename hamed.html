@@ -417,42 +417,38 @@
   </div>
 
   <script>
-    const apiUrl = "https://api.github.com/repos/hanjoojn/hanjoojn.github.io/contents/Photos";
+    const photos = [
+      "DSC03137.jpg","DSC03145.jpg","DSC03148.jpg","DSC03154.jpg","DSC03155.jpg",
+      "DSC03156.jpg","DSC03237.jpg","DSC03293.jpg","DSC03296.jpg","DSC03556.jpg",
+      "DSC03582.jpg","DSC03603.jpg","DSC03622.jpg","DSC03642.jpg","DSC03659.jpg",
+      "DSC03885.jpg","DSC04300.jpg","DSC04340.jpg","DSC04431.jpg","DSC04456.jpg",
+      "DSC04471.jpg"
+    ];
     let photosLoaded = false;
 
-    async function loadImages() {
+    function loadImages() {
       if (photosLoaded) return;
       photosLoaded = true;
-      try {
-        const response = await fetch(apiUrl);
-        if (!response.ok) throw new Error("GitHub API error");
-        const files = await response.json();
-        const gallery = document.getElementById("photobox");
-        for (let i = 0; i < files.length; i += 3) {
-          const row = document.createElement("div");
-          row.classList.add("photobox");
-          const group = files.slice(i, i + 3);
-          const fragment = document.createDocumentFragment();
-          group.forEach((file, j) => {
-            const wrapper = document.createElement("div");
-            const img = document.createElement("img");
-            img.onload = function() { wrapper.style.aspectRatio = img.naturalWidth / img.naturalHeight; };
-            img.src = "https://hanjoojn.github.io/Photos/" + encodeURIComponent(file.name);
-            img.alt = file.name;
-            img.decoding = "async";
-            if (i === 0 && j < 3) {
-              img.fetchPriority = "high";
-            } else {
-              img.loading = "lazy";
-            }
-            wrapper.appendChild(img);
-            row.appendChild(wrapper);
-            fragment.appendChild(row);
-          });
-          gallery.appendChild(fragment);
-        }
-      } catch (error) {
-        console.error("Error loading images:", error);
+      const gallery = document.getElementById("photobox");
+      for (let i = 0; i < photos.length; i += 3) {
+        const row = document.createElement("div");
+        row.classList.add("photobox");
+        photos.slice(i, i + 3).forEach((name, j) => {
+          const wrapper = document.createElement("div");
+          const img = document.createElement("img");
+          img.onload = function() { wrapper.style.aspectRatio = img.naturalWidth / img.naturalHeight; };
+          img.src = "hamed/Photos/" + name;
+          img.alt = name;
+          img.decoding = "async";
+          if (i === 0) {
+            img.fetchPriority = "high";
+          } else {
+            img.loading = "lazy";
+          }
+          wrapper.appendChild(img);
+          row.appendChild(wrapper);
+        });
+        gallery.appendChild(row);
       }
     }
   </script>
