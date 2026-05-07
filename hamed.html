@@ -381,6 +381,29 @@
       _imgs[i] = img;
     });
 
+    function fixVideos() {
+      var cells = document.querySelectorAll('#videobox > div');
+      if (!cells.length) return;
+      var colW = cells[0].offsetWidth;
+      if (!colW) return;
+      var zoom = window.screen.width / window.innerWidth;
+      var baseW = Math.round(colW * zoom);
+      var baseH = Math.round(baseW * 9 / 16);
+      var scale = colW / baseW;
+      document.querySelectorAll('.videobox-video').forEach(function(el) {
+        el.style.width = baseW + 'px';
+        el.style.height = baseH + 'px';
+        el.style.transform = 'scale(' + scale + ')';
+        el.style.transformOrigin = 'top left';
+        el.style.marginRight = (colW - baseW) + 'px';
+        el.style.marginBottom = (Math.round(baseH * scale) - baseH) + 'px';
+      });
+    }
+    function showVideos() { fixVideos(); }
+    window.addEventListener('resize', function() {
+      if (document.getElementById('section-videos').style.display !== 'none') fixVideos();
+    });
+
     function showPhotos() {
       var box = document.getElementById("photobox");
       box.innerHTML = "";
