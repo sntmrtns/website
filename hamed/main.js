@@ -48,8 +48,4 @@ function showSection(name) {
 
   window.scrollTo(0, 0);
 
-  document.getElementById("section-" + name).querySelectorAll("iframe[data-src]").forEach(function(iframe) {
-    iframe.src = iframe.getAttribute("data-src");
-    iframe.removeAttribute("data-src");
-  });
 }
