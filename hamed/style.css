@@ -33,7 +33,7 @@ margin:0px;
 }
 
 body.first-visit {
-animation:fadeIn 2s;
+animation:fadeIn 0.4s;
 }
 
 @keyframes fadeIn {
