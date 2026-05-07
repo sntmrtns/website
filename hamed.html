@@ -392,66 +392,68 @@
       "DSC03885.webp","DSC04300.webp","DSC04340.webp","DSC04431.webp","DSC04456.webp",
       "DSC04471.webp"
     ];
-    let photosReady = false;
+    var photosReady = false;
+    var photosImgs = [];
 
-    function layoutPhotos(imgs) {
-      const gallery = document.getElementById("photobox");
+    function layoutPhotos() {
+      var gallery = document.getElementById("photobox");
       gallery.innerHTML = "";
-      const gap = 25 * window.innerWidth / 2560;
-      const W = gallery.offsetWidth;
-      const perRow = 3;
-      for (var i = 0; i < imgs.length; i += perRow) {
-        var rowImgs = imgs.slice(i, i + perRow);
-        var sumAR = rowImgs.reduce(function(s, img) {
-          return s + (img.naturalWidth || 1) / (img.naturalHeight || 1);
-        }, 0);
-        var rowH = (W - (rowImgs.length - 1) * gap) / sumAR;
+      var gap = 25 * window.innerWidth / 2560;
+      var W = gallery.offsetWidth;
+      var perRow = 3;
+      for (var i = 0; i < photosImgs.length; i += perRow) {
+        var rowImgs = photosImgs.slice(i, i + perRow);
+        var sumAR = 0;
+        for (var j = 0; j < rowImgs.length; j++) {
+          sumAR += (rowImgs[j].naturalWidth || 1) / (rowImgs[j].naturalHeight || 1);
+        }
+        var rowH = Math.round((W - (rowImgs.length - 1) * gap) / sumAR);
         var row = document.createElement("div");
         row.className = "photos-row";
         row.style.gap = gap + "px";
-        if (i + perRow < imgs.length) row.style.marginBottom = gap + "px";
-        rowImgs.forEach(function(img) {
+        if (i + perRow < photosImgs.length) row.style.marginBottom = gap + "px";
+        for (var k = 0; k < rowImgs.length; k++) {
+          var img = rowImgs[k];
           var ar = (img.naturalWidth || 1) / (img.naturalHeight || 1);
           var wrapper = document.createElement("div");
           wrapper.style.width = Math.round(rowH * ar) + "px";
-          wrapper.style.height = Math.round(rowH) + "px";
-          img.style.cssText = "";
+          wrapper.style.height = rowH + "px";
           wrapper.appendChild(img);
           row.appendChild(wrapper);
-        });
+        }
         gallery.appendChild(row);
       }
     }
 
     function loadImages() {
-      const gallery = document.getElementById("photobox");
+      var gallery = document.getElementById("photobox");
       gallery.style.opacity = "0";
       gallery.style.transition = "opacity 0.3s";
       var loaded = 0;
-      var imgs = new Array(photos.length);
+      photosImgs = new Array(photos.length);
       photos.forEach(function(name, idx) {
         var img = document.createElement("img");
         img.decoding = "async";
         img.alt = name;
-        imgs[idx] = img;
-        function done() {
+        photosImgs[idx] = img;
+        img.onload = img.onerror = function() {
           if (++loaded === photos.length) {
-            layoutPhotos(imgs);
             photosReady = true;
             if (document.getElementById("section-photos").style.display !== "none") {
+              layoutPhotos();
               gallery.style.opacity = "1";
             }
           }
-        }
-        img.onload = done;
-        img.onerror = done;
+        };
         img.src = "/hamed/photos/" + name;
       });
     }
 
     function showPhotos() {
-      const gallery = document.getElementById("photobox");
-      if (photosReady) gallery.style.opacity = "1";
+      var gallery = document.getElementById("photobox");
+      if (!photosReady) return;
+      if (gallery.children.length === 0) layoutPhotos();
+      gallery.style.opacity = "1";
     }
 
     document.addEventListener("DOMContentLoaded", loadImages);
