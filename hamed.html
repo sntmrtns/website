@@ -424,33 +424,54 @@
       "DSC03885.webp","DSC04300.webp","DSC04340.webp","DSC04431.webp","DSC04456.webp",
       "DSC04471.webp"
     ];
-    let photosLoaded = false;
+    let photosReady = false;
 
     function loadImages() {
-      if (photosLoaded) return;
-      photosLoaded = true;
       const gallery = document.getElementById("photobox");
+      gallery.style.opacity = "0";
+      gallery.style.transition = "opacity 0.3s";
+      let loaded = 0;
       for (let i = 0; i < photos.length; i += 3) {
         const row = document.createElement("div");
         row.classList.add("photobox");
-        photos.slice(i, i + 3).forEach((name, j) => {
+        photos.slice(i, i + 3).forEach(function(name) {
           const wrapper = document.createElement("div");
           const img = document.createElement("img");
-          img.onload = function() { wrapper.style.aspectRatio = img.naturalWidth / img.naturalHeight; };
+          img.onload = function() {
+            wrapper.style.aspectRatio = img.naturalWidth / img.naturalHeight;
+            if (++loaded === photos.length) {
+              photosReady = true;
+              if (document.getElementById("section-photos").style.display !== "none") {
+                gallery.style.opacity = "1";
+              }
+            }
+          };
+          img.onerror = function() {
+            if (++loaded === photos.length) {
+              photosReady = true;
+              if (document.getElementById("section-photos").style.display !== "none") {
+                gallery.style.opacity = "1";
+              }
+            }
+          };
           img.src = "/hamed/photos/" + name;
           img.alt = name;
           img.decoding = "async";
-          if (i === 0) {
-            img.fetchPriority = "high";
-          } else {
-            img.loading = "lazy";
-          }
           wrapper.appendChild(img);
           row.appendChild(wrapper);
         });
         gallery.appendChild(row);
       }
     }
+
+    function showPhotos() {
+      const gallery = document.getElementById("photobox");
+      if (photosReady) {
+        gallery.style.opacity = "1";
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", loadImages);
   </script>
 </body>
 </html>
