@@ -60,4 +60,5 @@ function showSection(name) {
 
   window.scrollTo(0, 0);
 
+  if (name === "photos" && typeof loadImages === "function") loadImages();
 }
