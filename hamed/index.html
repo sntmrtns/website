@@ -13,22 +13,23 @@
 
 <body>
   <div class="main flex">
+
     <div id="mobileHeader" class="mobile-header">
       <li class="flex column">
         <div class="logo-box flex column">
           <img class="logo" src="logo.svg">
           <h style="font-weight:bold;">HAMED TAHIRI</h>
         </div>
-        <a class="mobile-close">
+        <a class="mobile-close" onclick="navToggle()">
           <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 50 50">
           <path d="M 7.71875 6.28125 L 6.28125 7.71875 L 23.5625 25 L 6.28125 42.28125 L 7.71875 43.71875 L 25 26.4375 L 42.28125 43.71875 L 43.71875 42.28125 L 26.4375 25 L 43.71875 7.71875 L 42.28125 6.28125 L 25 23.5625 Z"></path>
-          </svg>  
+          </svg>
         </a>
-        <a href="/" class="btn btn-active">Experience</a>   
-        <a href="/design" class="btn">Design</a>
-        <a href="/photos" class="btn">Photos</a>
-        <a href="/videos" class="btn">Videos</a>
-        <a href="/music" class="btn">Music</a>
+        <a onclick="showSection('experience'); navToggle();" class="btn btn-active" id="mobile-btn-experience">Experience</a>
+        <a onclick="showSection('design'); navToggle();" class="btn" id="mobile-btn-design">Design</a>
+        <a onclick="showSection('photos'); navToggle();" class="btn" id="mobile-btn-photos">Photos</a>
+        <a onclick="showSection('videos'); navToggle();" class="btn" id="mobile-btn-videos">Videos</a>
+        <a onclick="showSection('music'); navToggle();" class="btn" id="mobile-btn-music">Music</a>
       </li>
     </div>
 
@@ -44,7 +45,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="header green">
       <div class="logo-box flex column">
         <img class="logo" src="logo.svg">
@@ -53,56 +54,381 @@
 
       <nav>
         <li class="flex column">
-          <a href="/" class="btn btn-active">Experience</a>
-          <ui class="flex column sub-btns">
+          <a onclick="showSection('experience')" class="btn btn-active" id="btn-experience">Experience</a>
+          <ui class="flex column sub-btns" id="sub-experience">
             <a href="#rok" class="btn">Rok</a>
             <a href="#warrlock" class="btn">Warrlock</a>
             <a href="#richiesouf" class="btn">Richie Souf</a>
             <a href="#saintmartins" class="btn">Saint Martins</a>
           </ui>
-          <a href="/design" class="btn">Design</a>
-          <a href="/photos" class="btn">Photos</a>
-          <a href="/videos" class="btn">Videos</a>
-          <a href="/music" class="btn">Music</a>
+          <a onclick="showSection('design')" class="btn" id="btn-design">Design</a>
+          <ui class="flex column sub-btns" id="sub-design" style="display:none">
+            <a href="#d-2-20-03" class="btn">2.20.03</a>
+            <a href="#d-notahuman" class="btn">NOT A HUMAN</a>
+            <a href="#d-saintmartins" class="btn">Saint Martins</a>
+            <a href="#d-sneak" class="btn">sneak</a>
+            <a href="#d-soufpaw" class="btn">SOUFPAW</a>
+          </ui>
+          <a onclick="showSection('photos')" class="btn" id="btn-photos">Photos</a>
+          <a onclick="showSection('videos')" class="btn" id="btn-videos">Videos</a>
+          <a onclick="showSection('music')" class="btn" id="btn-music">Music</a>
+          <ui class="flex column sub-btns" id="sub-music" style="display:none">
+            <a href="#personal" class="btn">Personal</a>
+            <a href="#production" class="btn">Production</a>
+            <a href="#mixing" class="btn">Mixing</a>
+          </ui>
         </li>
       </nav>
     </div>
 
     <div class="body green">
-      <div id="rok" class="work href-section">
-        <h2 class="company">Operations, Rok</h2>
-        <p class="time">March 2026 - Present • Remote</p>
-        <p class="description">Rok Curkovic, mononymously known as Rok, is a Canadian record producer from Toronto, Ontario.</p>
-      </div>
-      
-      <div id="warrlock" class="work href-section">
-        <h2 class="company">Operations, Warrlock</h2>
-        <p class="time">January 2025 - Present • Remote</p>
-        <p class="description">Warrlock is a talent management company co-founded in 2024 by American A&R coordinator Will Cramer and Canadian record producer Rok. The company represents recording artists sneak and Roxie.</p>
-        <ul class="description">
-          <li>Led team across creative decisions and day-to-day operations while serving as primary point of contact for all internal and external communications</li>
-          <li>Managed end-to-end release rollouts, from strategy and scheduling through asset creation and social posting, coordinating with label teams as needed</li>
-          <li>Oversaw distribution of all releases to DSPs and video content to YouTube with full metadata, credits, and pre-save pages</li>
-          <li>Planned and led multi-day recording and music video production trips, handling photography, videography, location scouting, shoot scheduling, and logistics</li>
-          <li>Ran social media accounts and directed content strategy across all channels, working with marketing and creative teams on assets, copy, and engagement</li>
-          <li>Drove several full artist rebrands across major streaming, social, and lyric platforms, establishing and maintaining cohesive artist profiles, catalog pages, and verification</li>
-          <li>Designed and produced all promotional and creative assets in-house on rapid turnaround, ranging from tracklist artwork and memes to trailers and music videos</li>
-          <li>Mixed and mastered multiple releases, including manual vocal tuning, song arrangement, beat manipulation, and effects processing</li>
-        </ul>
-      </div>
-      
-      <div id="richiesouf" class="work href-section">
-        <h2 class="company">Personal Assistant, Richie Souf</h2>
-        <p class="time">June 2021 - Present • Remote</p>
-        <p class="description">Tony T. Son, professionally known as Richie Souf, is an American record producer and label owner from Atlanta, Georgia.</p>
+
+      <!-- EXPERIENCE -->
+      <div id="section-experience">
+        <div id="rok" class="work href-section">
+          <h2 class="company">Operations, Rok</h2>
+          <p class="time">March 2026 - Present • Remote</p>
+          <p class="description">Rok Curkovic, mononymously known as Rok, is a Canadian record producer from Toronto, Ontario.</p>
+        </div>
+
+        <div id="warrlock" class="work href-section">
+          <h2 class="company">Operations, Warrlock</h2>
+          <p class="time">January 2025 - Present • Remote</p>
+          <p class="description">Warrlock is a talent management company co-founded in 2024 by American A&R coordinator Will Cramer and Canadian record producer Rok. The company represents recording artists sneak and Roxie.</p>
+          <ul class="description">
+            <li>Led team across creative decisions and day-to-day operations while serving as primary point of contact for all internal and external communications</li>
+            <li>Managed end-to-end release rollouts, from strategy and scheduling through asset creation and social posting, coordinating with label teams as needed</li>
+            <li>Oversaw distribution of all releases to DSPs and video content to YouTube with full metadata, credits, and pre-save pages</li>
+            <li>Planned and led multi-day recording and music video production trips, handling photography, videography, location scouting, shoot scheduling, and logistics</li>
+            <li>Ran social media accounts and directed content strategy across all channels, working with marketing and creative teams on assets, copy, and engagement</li>
+            <li>Drove several full artist rebrands across major streaming, social, and lyric platforms, establishing and maintaining cohesive artist profiles, catalog pages, and verification</li>
+            <li>Designed and produced all promotional and creative assets in-house on rapid turnaround, ranging from tracklist artwork and memes to trailers and music videos</li>
+            <li>Mixed and mastered multiple releases, including manual vocal tuning, song arrangement, beat manipulation, and effects processing</li>
+          </ul>
+        </div>
+
+        <div id="richiesouf" class="work href-section">
+          <h2 class="company">Personal Assistant, Richie Souf</h2>
+          <p class="time">June 2021 - Present • Remote</p>
+          <p class="description">Tony T. Son, professionally known as Richie Souf, is an American record producer and label owner from Atlanta, Georgia.</p>
+        </div>
+
+        <div id="saintmartins" class="work href-section">
+          <h2 class="company">Co-Founder, Saint Martins</h2>
+          <p class="time">February 2020 - Present • Remote</p>
+          <p class="description">Saint Martins is a talent management and creative services company that I co-founded in 2020 with my brother Hewad. The company represents record producers azure, legion, and RUNAWAY, and formerly represented skai.</p>
+        </div>
       </div>
 
-      <div id="saintmartins" class="work href-section">
-        <h2 class="company">Co-Founder, Saint Martins</h2>
-        <p class="time">February 2020 - Present • Remote</p>
-        <p class="description">Saint Martins is a talent management and creative services company that I co-founded in 2020 with my brother Hewad. The company represents record producers azure, legion, and RUNAWAY, and formerly represented skai.</p>
+      <!-- DESIGN -->
+      <div id="section-design" style="display:none">
+        <div id="d-2-20-03" class="href-section">
+          <h2>2.20.03</h2>
+          <div class="design flex">
+            <div><img src="Design/2.20.03/fashion week Cover.jpg"></div>
+            <div><img src="Design/2.20.03/Profile Picture (1).jpg"></div>
+            <div><img src="Design/2.20.03/Profile Picture (2).jpg"></div>
+          </div>
+        </div>
+        <div id="d-notahuman" class="href-section">
+          <h2>NOT A HUMAN</h2>
+          <div class="design flex">
+            <div><img src="Design/NOT A HUMAN/Version 1.png"></div>
+            <div><img src="Design/NOT A HUMAN/Version 2.png"></div>
+            <div><img src="Design/NOT A HUMAN/Profile Picture.png"></div>
+          </div>
+        </div>
+        <div id="d-saintmartins" class="href-section">
+          <h2>Saint Martins</h2>
+          <div class="design flex">
+            <div><img src="Design/Saint Martins/Logo (1).png"></div>
+            <div><img src="Design/Saint Martins/Logo (2).png"></div>
+            <div><img src="Design/Saint Martins/Logo (3).png"></div>
+          </div>
+        </div>
+        <div id="d-sneak" class="href-section">
+          <h2>sneak</h2>
+          <div class="design flex">
+            <div><img src="Design/sneak/SHARPSHOOTER Tracklist (1).jpg"></div>
+            <div><img src="Design/sneak/SHARPSHOOTER Tracklist (2).jpg"></div>
+            <div><img src="Design/sneak/VANILLA SKY Tracklist.jpg"></div>
+          </div>
+        </div>
+        <div id="d-soufpaw" class="href-section">
+          <h2>SOUFPAW</h2>
+          <div class="design flex">
+            <div><img src="Design/TTS 6200/Collar (1).jpg"></div>
+            <div><img src="Design/TTS 6200/Collar (2).jpg"></div>
+            <div><img src="Design/TTS 6200/Collar (3).jpg"></div>
+            <div><img src="Design/TTS 6200/Leash (1).jpg"></div>
+            <div><img src="Design/TTS 6200/Leash (2).jpg"></div>
+            <div><img src="Design/TTS 6200/Leash (3).jpg"></div>
+          </div>
+        </div>
       </div>
+
+      <!-- PHOTOS -->
+      <div id="section-photos" style="display:none">
+        <div id="photobox" class="photos"></div>
+      </div>
+
+      <!-- VIDEOS -->
+      <div id="section-videos" style="display:none">
+        <div class="videos">
+          <div class="videobox">
+            <div>
+              <iframe src="https://www.youtube.com/embed/uIwIzCKI7a8?si=ZX2DAOQw3wT38nAN" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+              <p>NOT A HUMAN - 2026-12-17</p>
+            </div>
+            <div>
+              <iframe src="https://www.youtube.com/embed/RZ7iZbF2BtQ?si=ix6vYVAr1boayDFj" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+              <p>sneak - THEY NEVER COMING BACK Trailer</p>
+            </div>
+            <div>
+              <iframe src="https://www.youtube.com/embed/RGavUVuHw20?si=a3Lj5XYZv_YIeFh-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+              <p>sneak - OK BOOL Trailer</p>
+            </div>
+            <div>
+              <iframe src="https://www.youtube.com/embed/qQ57vtbpJLw?si=zgSJROiYUIREXxFh" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+              <p>sneak - OK WITH IT Music Video</p>
+            </div>
+            <div>
+              <iframe src="https://www.youtube.com/embed/wTvThmhuT9k?si=8l6-PBDQA4TG7jTx" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+              <p>sneak - PUT DA CUP DOWN Trailer</p>
+            </div>
+            <div>
+              <iframe src="https://www.youtube.com/embed/gVdQ4hNLcPA?si=9WnVxLYBZdlM-Mle" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+              <p>sneak - LET ME KNOW Trailer</p>
+            </div>
+            <div>
+              <iframe src="https://www.youtube.com/embed/h1lCqAssywg?si=i2FEpfV2N2l3zFPF" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+              <p>sneak - VOORHEES Trailer</p>
+            </div>
+            <div>
+              <iframe src="https://www.youtube.com/embed/0q0bmCZTVdM?si=8v5yepKKk9oiJtBX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+              <p>sneak - HEAVEN ABOVE ME Trailer</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MUSIC -->
+      <div id="section-music" style="display:none">
+        <div class="music">
+          <div class="musicbox">
+            <div id="personal" class="personal href-section">
+              <h2>PERSONAL</h2>
+              <div class="gridbox">
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A1655337909&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>hamed, ARKMAN, legion, skai & yugen - fashion week</p>
+                </div>
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A1148742046&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>hamed, Cargo, legion, Lucid & skai - october</p>
+                </div>
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A1094275129&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>hamed & Luca Malaspina - down</p>
+                </div>
+              </div>
+            </div>
+
+            <div id="production" class="production href-section">
+              <h2>PRODUCTION</h2>
+              <div class="gridbox">
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2192092639&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>one2nine3 - MIME</p>
+                </div>
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A1970920195&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>one2nine3 - fell in &lt;3</p>
+                </div>
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A1914314045&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>TyFontaine - downer</p>
+                </div>
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A1731520011&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>Destroy Lonely - Okay</p>
+                </div>
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A1183172998&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>Vagex - Long Time</p>
+                </div>
+                <div>
+                  <video width="100%" height="auto" preload="none" poster="Music/FaZe Clan - Introducing FaZe Kaysan Trailer.png" controls>
+                    <source src="Music/FaZe Clan - Introducing FaZe Kaysan Trailer.mp4" type="video/mp4">
+                  </video>
+                  <p>FaZe Clan - Introducing FaZe Kaysan Trailer</p>
+                </div>
+              </div>
+            </div>
+
+            <div id="mixing" class="mixing href-section">
+              <h2>MIXING</h2>
+              <div class="gridbox">
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2310565175&color=%23000000&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>kels! - ALL ALONE</p>
+                </div>
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2302718000&color=%23000000&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>sneak - FLORIDA BEACH</p>
+                </div>
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2302714931&color=%23000000&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>sneak - JUNYA ON ME</p>
+                </div>
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2295670391&color=%23000000&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>sneak - THERE WILL BE BLOOD</p>
+                </div>
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2295658133&color=%23000000&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>sneak - ARRANCAR</p>
+                </div>
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2273489540&color=%23000000&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>sneak - BETTER LIES</p>
+                </div>
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2260234238&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>sneak - GRANDMASTER</p>
+                </div>
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2260244747&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>sneak - CHEAP THRILLS</p>
+                </div>
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2260242623&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>sneak - CASE CLOSED</p>
+                </div>
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2260235216&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>sneak - SCORPIO</p>
+                </div>
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2260238006&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>sneak - TYSON</p>
+                </div>
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2247094355&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>sneak - SLADE</p>
+                </div>
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2215648040&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>sneak - ZEROEZ</p>
+                </div>
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2202040635&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>sneak - BEAUTY:BEAST</p>
+                </div>
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2181282899&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>sneak - WNBA</p>
+                </div>
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2171172489&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>sneak - ALMIGHTY SNEAK</p>
+                </div>
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2160413415&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>sneak - ED & RUMMY</p>
+                </div>
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2121535092&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>sneak - GOOD TIME</p>
+                </div>
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2121535083&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>sneak - G NIKES</p>
+                </div>
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2122230795&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>sneak - SHIT GET REAL</p>
+                </div>
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2121535095&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>sneak - PRAGUE</p>
+                </div>
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2121535089&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>sneak - THUMBS MISSING</p>
+                </div>
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2121535086&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>sneak - CRY ABOUT IT</p>
+                </div>
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2111183424&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>sneak - NICKELODEON</p>
+                </div>
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2102265870&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>sneak - FREELOADING</p>
+                </div>
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2092639752&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>sneak - HIGH FIVE GHOST</p>
+                </div>
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2057486512&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>sneak - HAVE IT YO WAY</p>
+                </div>
+                <div>
+                  <iframe width="100%" height="178.5px" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2051441508&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                  <p>sneak - PUT DA CUP DOWN</p>
+                </div>
+                <div></div>
+                <div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
+
+  <script>
+    const username = "hanjoojn";
+    const repo = "hanjoojn.github.io";
+    const folder = "Photos";
+    const apiUrl = `https://api.github.com/repos/${username}/${repo}/contents/${folder}`;
+
+    async function loadImages() {
+      try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) throw new Error("GitHub API error");
+        const files = await response.json();
+        const gallery = document.getElementById("photobox");
+        for (let i = 0; i < files.length; i += 3) {
+          const row = document.createElement("div");
+          row.classList.add("photobox");
+          const group = files.slice(i, i + 3);
+          const fragment = document.createDocumentFragment();
+          group.forEach(file => {
+            const wrapper = document.createElement("div");
+            const img = document.createElement("img");
+            img.onload = function() { wrapper.style.aspectRatio = img.naturalWidth / img.naturalHeight; };
+            img.src = file.download_url;
+            img.alt = file.name;
+            img.loading = "lazy";
+            img.decoding = "async";
+            wrapper.appendChild(img);
+            row.appendChild(wrapper);
+            fragment.appendChild(row);
+          });
+          gallery.appendChild(fragment);
+        }
+      } catch (error) {
+        console.error("Error loading images:", error);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", loadImages);
+  </script>
 </body>
 </html>
