@@ -25,6 +25,11 @@ font-family:"Roboto Mono", monospace;
 font-weight:300;
 color:white;
 scroll-behavior:smooth;
+scrollbar-width:none;
+}
+
+html::-webkit-scrollbar {
+display:none;
 }
 
 body {
