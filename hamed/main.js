@@ -35,7 +35,7 @@ function loadVideo(facade) {
 function scrollToId(id) {
   var el = document.getElementById(id);
   if (!el) return;
-  window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY);
+  el.scrollIntoView();
 }
 
 function showSection(name) {
