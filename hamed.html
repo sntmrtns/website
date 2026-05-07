@@ -390,13 +390,19 @@
       var baseW = Math.round(colW * zoom);
       var baseH = Math.round(baseW * 9 / 16);
       var scale = colW / baseW;
-      document.querySelectorAll('.videobox-video').forEach(function(el) {
-        el.style.width = baseW + 'px';
-        el.style.height = baseH + 'px';
-        el.style.transform = 'scale(' + scale + ')';
-        el.style.transformOrigin = 'top left';
-        el.style.marginRight = (colW - baseW) + 'px';
-        el.style.marginBottom = (Math.round(baseH * scale) - baseH) + 'px';
+      var videoH = Math.round(baseH * scale);
+      cells.forEach(function(cell) {
+        var vid = cell.querySelector('.videobox-video');
+        if (!vid) return;
+        cell.style.position = 'relative';
+        cell.style.paddingTop = videoH + 'px';
+        vid.style.position = 'absolute';
+        vid.style.top = '0';
+        vid.style.left = '0';
+        vid.style.width = baseW + 'px';
+        vid.style.height = baseH + 'px';
+        vid.style.transform = 'scale(' + scale + ')';
+        vid.style.transformOrigin = 'top left';
       });
     }
     function showVideos() { fixVideos(); }
