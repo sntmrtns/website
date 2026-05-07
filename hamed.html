@@ -414,7 +414,6 @@
           const wrapper = document.createElement("div");
           const img = document.createElement("img");
           img.onload = function() {
-            wrapper.style.aspectRatio = img.naturalWidth / img.naturalHeight;
             done();
           };
           img.onerror = done;
