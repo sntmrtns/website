@@ -407,24 +407,17 @@
           }
         }
       }
-      for (let i = 0; i < photos.length; i += 3) {
-        const row = document.createElement("div");
-        row.classList.add("photobox");
-        photos.slice(i, i + 3).forEach(function(name) {
-          const wrapper = document.createElement("div");
-          const img = document.createElement("img");
-          img.onload = function() {
-            done();
-          };
-          img.onerror = done;
-          img.src = "/hamed/photos/" + name;
-          img.alt = name;
-          img.decoding = "async";
-          wrapper.appendChild(img);
-          row.appendChild(wrapper);
-        });
-        gallery.appendChild(row);
-      }
+      photos.forEach(function(name) {
+        const wrapper = document.createElement("div");
+        const img = document.createElement("img");
+        img.onload = done;
+        img.onerror = done;
+        img.src = "/hamed/photos/" + name;
+        img.alt = name;
+        img.decoding = "async";
+        wrapper.appendChild(img);
+        gallery.appendChild(wrapper);
+      });
     }
 
     function showPhotos() {
