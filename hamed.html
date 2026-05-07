@@ -417,12 +417,12 @@
   </div>
 
   <script>
-    const username = "hanjoojn";
-    const repo = "hanjoojn.github.io";
-    const folder = "Photos";
-    const apiUrl = `https://api.github.com/repos/${username}/${repo}/contents/${folder}`;
+    const apiUrl = "https://api.github.com/repos/hanjoojn/hanjoojn.github.io/contents/Photos";
+    let photosLoaded = false;
 
     async function loadImages() {
+      if (photosLoaded) return;
+      photosLoaded = true;
       try {
         const response = await fetch(apiUrl);
         if (!response.ok) throw new Error("GitHub API error");
@@ -433,14 +433,18 @@
           row.classList.add("photobox");
           const group = files.slice(i, i + 3);
           const fragment = document.createDocumentFragment();
-          group.forEach(file => {
+          group.forEach((file, j) => {
             const wrapper = document.createElement("div");
             const img = document.createElement("img");
             img.onload = function() { wrapper.style.aspectRatio = img.naturalWidth / img.naturalHeight; };
-            img.src = file.download_url;
+            img.src = "https://hanjoojn.github.io/Photos/" + encodeURIComponent(file.name);
             img.alt = file.name;
-            img.loading = "lazy";
             img.decoding = "async";
+            if (i === 0 && j < 3) {
+              img.fetchPriority = "high";
+            } else {
+              img.loading = "lazy";
+            }
             wrapper.appendChild(img);
             row.appendChild(wrapper);
             fragment.appendChild(row);
@@ -451,8 +455,6 @@
         console.error("Error loading images:", error);
       }
     }
-
-    document.addEventListener("DOMContentLoaded", loadImages);
   </script>
 </body>
 </html>
