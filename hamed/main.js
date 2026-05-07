@@ -20,3 +20,25 @@ function navToggle() {
     document.body.style.touchAction = "none";
   }
 }
+
+function showSection(name) {
+  const sections = ["experience", "design", "photos", "videos", "music"];
+  const subNavs = ["experience", "design", "music"];
+
+  sections.forEach(s => {
+    document.getElementById("section-" + s).style.display = s === name ? "" : "none";
+
+    const btn = document.getElementById("btn-" + s);
+    if (btn) btn.classList.toggle("btn-active", s === name);
+
+    const mobileBtn = document.getElementById("mobile-btn-" + s);
+    if (mobileBtn) mobileBtn.classList.toggle("btn-active", s === name);
+  });
+
+  subNavs.forEach(s => {
+    const sub = document.getElementById("sub-" + s);
+    if (sub) sub.style.display = s === name ? "" : "none";
+  });
+
+  window.scrollTo(0, 0);
+}
