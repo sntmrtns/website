@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>HAMED TAHIRI</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+<script src="main.js"></script>
+<script>
+const username = "hanjoojn";
+const repo = "hanjoojn.github.io";
+const folder = "Photos";
+
+const apiUrl = `https://api.github.com/repos/${username}/${repo}/contents/${folder}`;
+
+async function loadImages() {
+  try {
+    const response = await fetch(apiUrl);
+
+    if (!response.ok) {
+      throw new Error("GitHub API error");
+    }
+
+    const files = await response.json();
+    const gallery = document.getElementById("photobox");
+
+    files.filter(file =>
+        file.type === "file" &&
+        /\.(jpg|jpeg|png|gif|webp)$/i.test(file.name)
+      )
+    
+    for (let i = 0; i < files.length; i += 3) {
+
+    // Create row wrapper
+    const row = document.createElement("div");
+    row.classList.add("photobox");
+
+    // Get next 3 images
+    const group = files.slice(i, i + 3);
+
+    const fragment = document.createDocumentFragment();
+
+    group.forEach(file => {
+      const wrapper = document.createElement("div");
+
+      const img = document.createElement("img");
+      img.onload = function () {
+        wrapper.style.aspectRatio = img.naturalWidth / img.naturalHeight;
+      };
+      img.src = file.download_url;
+      img.alt = file.name;
+      img.loading = "lazy";
+      img.decoding = "async";
+
+      wrapper.appendChild(img);
+      row.appendChild(wrapper);
+      fragment.appendChild(row);
+    });
+
+      gallery.appendChild(fragment);
+    }
+
+  } catch (error) {
+    console.error("Error loading images:", error);
+  }
+}
+
+loadImages();
+</script>
+</head>
+
+<body>
+  <div class="main flex">
+
+    <div id="mobileHeader" class="mobile-header">
+      <li class="flex column">
+        <div class="logo-box flex column">
+          <img class="logo" src="logo.svg">
+          <h style="font-weight:bold;">HAMED TAHIRI</h>
+        </div>
+        <a class="mobile-close">
+          <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 50 50">
+          <path d="M 7.71875 6.28125 L 6.28125 7.71875 L 23.5625 25 L 6.28125 42.28125 L 7.71875 43.71875 L 25 26.4375 L 42.28125 43.71875 L 43.71875 42.28125 L 26.4375 25 L 43.71875 7.71875 L 42.28125 6.28125 L 25 23.5625 Z"></path>
+          </svg>  
+        </a>
+        <a href="/" class="btn">Experience</a>   
+        <a href="/design" class="btn">Design</a>
+        <a href="/photos" class="btn btn-active">Photos</a>
+        <a href="/videos" class="btn">Videos</a>
+        <a href="/music" class="btn">Music</a>
+      </li>
+    </div>
+
+    <div class="mobile-header-btn">
+      <div class="mobile-header-btn-wrapper">
+        <a class="mobile-header_button" onclick="navToggle()">
+          <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 50 50">
+          <path d="M 3 9 A 1.0001 1.0001 0 1 0 3 11 L 47 11 A 1.0001 1.0001 0 1 0 47 9 L 3 9 z M 3 24 A 1.0001 1.0001 0 1 0 3 26 L 47 26 A 1.0001 1.0001 0 1 0 47 24 L 3 24 z M 3 39 A 1.0001 1.0001 0 1 0 3 41 L 47 41 A 1.0001 1.0001 0 1 0 47 39 L 3 39 z"></path>
+          </svg>
+        </a>
+        <div class="mobile-header-logo">
+          <img class="logo" src="logo.svg">
+        </div>
+      </div>
+    </div>
+    
+    <div class="header green">
+      <div class="logo-box flex column">
+        <img class="logo" src="logo.svg">
+        <h style="font-weight:bold;">HAMED TAHIRI</h>
+      </div>
+
+      <nav>
+        <li class="flex column">
+          <a href="/" class="btn">Work</a>
+          <a href="/design" class="btn">Design</a>
+          <a href="/photos" class="btn btn-active">Photos</a>
+          <a href="/videos" class="btn">Videos</a>
+          <a href="/music" class="btn">Music</a>
+        </li>
+      </nav>
+    </div>
+
+    <div class="body green">
+      <div id="photobox" class="photos">
+        <!--
+        <div class="photobox">
+          <div>
+            <img loading="lazy" src="Photos/DSC03084.jpg">
+          </div>
+          <div>
+            <img loading="lazy" src="Photos/DSC03094.jpg">
+          </div>
+          <div>
+            <img loading="lazy" src="Photos/DSC03105.jpg">
+          </div>
+        </div>
+
+        <div class="photobox">
+          <div>
+            <img loading="lazy" src="Photos/DSC03137.jpg">
+          </div>
+          <div>
+            <img loading="lazy" src="Photos/DSC03145.jpg">
+          </div>
+          <div>
+            <img loading="lazy" src="Photos/DSC03148.jpg">
+          </div>
+        </div>
+
+        <div class="photobox">
+          <div>
+            <img loading="lazy" src="Photos/DSC03154.jpg">
+          </div>
+          <div>
+            <img loading="lazy" src="Photos/DSC03155.jpg">
+          </div>
+          <div>
+            <img loading="lazy" src="Photos/DSC03156.jpg">
+          </div>
+        </div>
+
+        <div class="photobox">
+          <div>
+            <img loading="lazy" src="Photos/DSC03237.jpg">
+          </div>
+          <div>
+            <img loading="lazy" src="Photos/DSC03293.jpg">
+          </div>
+          <div>
+            <img loading="lazy" src="Photos/DSC03296.jpg">
+          </div>
+        </div>
+        
+        <div class="photobox">
+          <div>
+            <img loading="lazy" src="Photos/DSC03556.jpg">
+          </div>
+          <div>
+            <img loading="lazy" src="Photos/DSC03582.jpg">
+          </div>
+          <div>
+            <img loading="lazy" src="Photos/DSC03603.jpg">
+          </div>
+        </div>
+        
+        <div class="photobox">
+          <div>
+            <img loading="lazy" src="Photos/DSC03622.jpg">
+          </div>
+          <div>
+            <img loading="lazy" src="Photos/DSC03642.jpg">
+          </div>
+          <div>
+            <img loading="lazy" src="Photos/DSC03659.jpg">
+          </div>
+        </div>
+        
+        <div class="photobox">
+          <div>
+            <img loading="lazy" src="Photos/DSC03885.jpg">
+          </div>
+          <div>
+            <img loading="lazy" src="Photos/DSC04300.jpg">
+          </div>
+          <div>
+            <img loading="lazy" src="Photos/DSC04340.jpg">
+          </div>
+        </div>
+        
+        <div class="photobox">
+          <div>
+            <img loading="lazy" src="Photos/DSC04431.jpg">
+          </div>
+          <div>
+            <img loading="lazy" src="Photos/DSC04456.jpg">
+          </div>
+          <div>
+            <img loading="lazy" src="Photos/DSC04471.jpg">
+          </div>
+        </div>
+        -->
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
