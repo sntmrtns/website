@@ -22,7 +22,9 @@ function navToggle() {
 }
 
 function scrollToId(id) {
-  document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  var el = document.getElementById(id);
+  if (!el) return;
+  window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY);
 }
 
 function showSection(name) {
