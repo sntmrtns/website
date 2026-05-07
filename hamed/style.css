@@ -43,18 +43,6 @@ background:black;
 margin:0px;
 }
 
-body.first-visit {
-animation:fadeIn 2s;
-}
-
-@keyframes fadeIn {
-from {
-opacity:0;
-}
-to {
-opacity:1;
-}
-}
 
 h1, h2, a, .logo-box h {
 font-size:calc(20 * var(--vh-scale));
