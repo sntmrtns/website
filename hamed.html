@@ -143,64 +143,7 @@
       <!-- VIDEOS -->
       <div id="section-videos" style="display:none">
         <div class="videos">
-          <div class="videobox">
-            <div>
-              <div class="video-facade" data-src="https://www.youtube.com/embed/uIwIzCKI7a8?autoplay=1" onclick="loadVideo(this)">
-                <img src="https://img.youtube.com/vi/uIwIzCKI7a8/maxresdefault.jpg">
-                <span class="play-btn">&#9654;</span>
-              </div>
-              <p>NOT A HUMAN - 2026-12-17</p>
-            </div>
-            <div>
-              <div class="video-facade" data-src="https://www.youtube.com/embed/RZ7iZbF2BtQ?autoplay=1" onclick="loadVideo(this)">
-                <img src="https://img.youtube.com/vi/RZ7iZbF2BtQ/maxresdefault.jpg">
-                <span class="play-btn">&#9654;</span>
-              </div>
-              <p>sneak - THEY NEVER COMING BACK Trailer</p>
-            </div>
-            <div>
-              <div class="video-facade" data-src="https://www.youtube.com/embed/RGavUVuHw20?autoplay=1" onclick="loadVideo(this)">
-                <img src="https://img.youtube.com/vi/RGavUVuHw20/maxresdefault.jpg">
-                <span class="play-btn">&#9654;</span>
-              </div>
-              <p>sneak - OK BOOL Trailer</p>
-            </div>
-            <div>
-              <div class="video-facade" data-src="https://www.youtube.com/embed/qQ57vtbpJLw?autoplay=1" onclick="loadVideo(this)">
-                <img src="https://img.youtube.com/vi/qQ57vtbpJLw/maxresdefault.jpg">
-                <span class="play-btn">&#9654;</span>
-              </div>
-              <p>sneak - OK WITH IT Music Video</p>
-            </div>
-            <div>
-              <div class="video-facade" data-src="https://www.youtube.com/embed/wTvThmhuT9k?autoplay=1" onclick="loadVideo(this)">
-                <img src="https://img.youtube.com/vi/wTvThmhuT9k/maxresdefault.jpg">
-                <span class="play-btn">&#9654;</span>
-              </div>
-              <p>sneak - PUT DA CUP DOWN Trailer</p>
-            </div>
-            <div>
-              <div class="video-facade" data-src="https://www.youtube.com/embed/gVdQ4hNLcPA?autoplay=1" onclick="loadVideo(this)">
-                <img src="https://img.youtube.com/vi/gVdQ4hNLcPA/maxresdefault.jpg">
-                <span class="play-btn">&#9654;</span>
-              </div>
-              <p>sneak - LET ME KNOW Trailer</p>
-            </div>
-            <div>
-              <div class="video-facade" data-src="https://www.youtube.com/embed/h1lCqAssywg?autoplay=1" onclick="loadVideo(this)">
-                <img src="https://img.youtube.com/vi/h1lCqAssywg/maxresdefault.jpg">
-                <span class="play-btn">&#9654;</span>
-              </div>
-              <p>sneak - VOORHEES Trailer</p>
-            </div>
-            <div>
-              <div class="video-facade" data-src="https://www.youtube.com/embed/0q0bmCZTVdM?autoplay=1" onclick="loadVideo(this)">
-                <img src="https://img.youtube.com/vi/0q0bmCZTVdM/maxresdefault.jpg">
-                <span class="play-btn">&#9654;</span>
-              </div>
-              <p>sneak - HEAVEN ABOVE ME Trailer</p>
-            </div>
-          </div>
+          <div id="videobox" class="videobox"></div>
         </div>
       </div>
 
@@ -385,6 +328,40 @@
   </div>
 
   <script>
+    const videos = [
+      { title: "NOT A HUMAN - 2026-12-17",              url: "https://www.youtube.com/watch?v=uIwIzCKI7a8" },
+      { title: "sneak - THEY NEVER COMING BACK Trailer", url: "https://www.youtube.com/watch?v=RZ7iZbF2BtQ" },
+      { title: "sneak - OK BOOL Trailer",                url: "https://www.youtube.com/watch?v=RGavUVuHw20" },
+      { title: "sneak - OK WITH IT Music Video",         url: "https://www.youtube.com/watch?v=qQ57vtbpJLw" },
+      { title: "sneak - PUT DA CUP DOWN Trailer",        url: "https://www.youtube.com/watch?v=wTvThmhuT9k" },
+      { title: "sneak - LET ME KNOW Trailer",            url: "https://www.youtube.com/watch?v=gVdQ4hNLcPA" },
+      { title: "sneak - VOORHEES Trailer",               url: "https://www.youtube.com/watch?v=h1lCqAssywg" },
+      { title: "sneak - HEAVEN ABOVE ME Trailer",        url: "https://www.youtube.com/watch?v=0q0bmCZTVdM" },
+    ];
+
+    (function() {
+      function ytId(url) {
+        var m = url.match(/(?:v=|youtu\.be\/|embed\/)([^&?/]+)/);
+        return m ? m[1] : null;
+      }
+      var box = document.getElementById("videobox");
+      videos.forEach(function(v) {
+        var id = ytId(v.url);
+        if (!id) return;
+        var facade = document.createElement("div");
+        facade.className = "video-facade";
+        facade.setAttribute("data-src", "https://www.youtube.com/embed/" + id + "?autoplay=1");
+        facade.onclick = function() { loadVideo(this); };
+        facade.innerHTML = '<img src="https://img.youtube.com/vi/' + id + '/maxresdefault.jpg"><span class="play-btn">&#9654;</span>';
+        var cell = document.createElement("div");
+        var p = document.createElement("p");
+        p.textContent = v.title;
+        cell.appendChild(facade);
+        cell.appendChild(p);
+        box.appendChild(cell);
+      });
+    })();
+
     const photos = [
       "DSC03137.webp","DSC03145.webp","DSC03148.webp","DSC03154.webp","DSC03155.webp",
       "DSC03156.webp","DSC03237.webp","DSC03293.webp","DSC03296.webp","DSC03556.webp",
