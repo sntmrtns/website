@@ -21,6 +21,10 @@ function navToggle() {
   }
 }
 
+function scrollToId(id) {
+  document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
 function showSection(name) {
   const sections = ["experience", "design", "photos", "videos", "music"];
   const subNavs = ["experience", "design", "music"];
