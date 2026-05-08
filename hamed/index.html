@@ -5,7 +5,7 @@
 <link rel="icon" type="image/x-icon" href="/favicon.png">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="style.css?v=4">
+<link rel="stylesheet" href="style.css?v=5">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
@@ -302,13 +302,9 @@
             iframe.allow = "autoplay";
             iframe.src = scSrc(t.sc);
             cell.appendChild(iframe);
-            var parts = t.sc.split('/');
-            var artistUrl = parts.slice(0, -1).join('/');
-            var artistName = parts[parts.length - 2];
-            var attr = document.createElement("div");
-            attr.style.cssText = "font-size:10px;color:#cccccc;line-break:anywhere;word-break:normal;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-family:Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight:100;";
-            attr.innerHTML = '<a href="' + artistUrl + '" title="' + artistName + '" target="_blank" style="color:#cccccc;text-decoration:none;">' + artistName + '</a> · <a href="' + t.sc + '" title="' + t.title + '" target="_blank" style="color:#cccccc;text-decoration:none;">' + t.title + '</a>';
-            cell.appendChild(attr);
+            var p = document.createElement("p");
+            p.textContent = t.title;
+            cell.appendChild(p);
           } else if (t.video) {
             var video = document.createElement("video");
             video.setAttribute("width", "100%");
