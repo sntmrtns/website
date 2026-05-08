@@ -384,18 +384,17 @@
     function showPhotos() {
       var box = document.getElementById("photobox");
       if (box.children.length) return;
-      // body width = 100vw * (1948/2560); row height = (body_width - gaps) / totalAR
-      var BODY_COEFF = 1948 / 2560;
+      // All sizing uses --s = 100vw/2560 so proportions stay fixed at any zoom
+      // body width = 1948*s, gap = 25*s, row height = (1948 - gaps) / totalAR * s
       for (var i = 0; i < _imgs.length; i += 3) {
         var row = _imgs.slice(i, i + 3);
         var totalAR = row.reduce(function(s, img) {
           return s + (img.naturalWidth || 1) / (img.naturalHeight || 1);
         }, 0);
-        var hCoeff = BODY_COEFF / totalAR;
-        var hConst = (row.length - 1) * 25 / totalAR;
+        var hUnits = (1948 - (row.length - 1) * 25) / totalAR;
         var rowEl = document.createElement("div");
         rowEl.className = "photos-row";
-        rowEl.style.height = "calc(100vw * " + hCoeff + " - " + hConst + "px)";
+        rowEl.style.height = "calc(" + hUnits + " * 100vw / 2560)";
         row.forEach(function(img) {
           var ar = (img.naturalWidth || 1) / (img.naturalHeight || 1);
           var cell = document.createElement("div");
