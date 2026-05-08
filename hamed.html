@@ -391,10 +391,9 @@
         var totalAR = row.reduce(function(s, img) {
           return s + (img.naturalWidth || 1) / (img.naturalHeight || 1);
         }, 0);
-        var hUnits = (1948 - (row.length - 1) * 25) / totalAR;
         var rowEl = document.createElement("div");
         rowEl.className = "photos-row";
-        rowEl.style.height = "calc(" + hUnits + " * 100vw / 2560)";
+        rowEl.style.aspectRatio = totalAR;
         row.forEach(function(img) {
           var ar = (img.naturalWidth || 1) / (img.naturalHeight || 1);
           var cell = document.createElement("div");
