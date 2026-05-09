@@ -5,11 +5,11 @@
 <link rel="icon" type="image/x-icon" href="/favicon.png">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="style.css?v=5">
+<link rel="stylesheet" href="style.css?v=6">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
-<script src="main.js?v=2" defer></script>
+<script src="main.js?v=3" defer></script>
 </head>
 
 <body>
@@ -204,7 +204,7 @@
         if (!id) return;
         var facade = document.createElement("div");
         facade.className = "video-facade";
-        facade.setAttribute("data-src", "https://www.youtube.com/embed/" + id + "?autoplay=1");
+        facade.setAttribute("data-src", "https://www.youtube.com/embed/" + id + "?autoplay=1&enablejsapi=1");
         facade.onclick = function() { loadVideo(this); };
         facade.innerHTML = '<img src="https://img.youtube.com/vi/' + id + '/maxresdefault.jpg"><span class="play-btn">&#9654;</span>';
         var videoWrap = document.createElement("div");
@@ -231,7 +231,15 @@
 
     photos.forEach(function(name, i) {
       var img = new Image();
-      img.onload = img.onerror = function() { _loaded++; };
+      img.onload = img.onerror = function() {
+        _loaded++;
+        if (_loaded === photos.length) {
+          document.body.classList.add("first-visit");
+          document.body.addEventListener('animationend', function() {
+            document.body.style.pointerEvents = 'auto';
+          }, {once: true});
+        }
+      };
       img.src = "photos/" + name;
       _imgs[i] = img;
     });
@@ -284,10 +292,7 @@
 
     (function() {
       function scSrc(sc) {
-        var url = sc.indexOf('soundcloud.com') !== -1
-          ? sc
-          : "https://api.soundcloud.com/tracks/soundcloud%3Atracks%3A" + sc;
-        return "https://w.soundcloud.com/player/?url=" + encodeURIComponent(url) + "&color=%23000000&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true&sharing=false";
+        return "https://w.soundcloud.com/player/?url=" + encodeURIComponent(sc) + "&color=%23000000&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true&sharing=false";
       }
       function buildGridbox(tracks, boxId) {
         var box = document.getElementById(boxId);
