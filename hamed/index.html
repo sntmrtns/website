@@ -5,7 +5,7 @@
 <link rel="icon" type="image/x-icon" href="/favicon.png">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="style.css?v=5">
+<link rel="stylesheet" href="style.css?v=6">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
@@ -289,19 +289,30 @@
           : "https://api.soundcloud.com/tracks/soundcloud%3Atracks%3A" + sc;
         return "https://w.soundcloud.com/player/?url=" + encodeURIComponent(url) + "&color=%23000000&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true&sharing=false";
       }
+      var scResizeObs = new ResizeObserver(function(entries) {
+        entries.forEach(function(entry) {
+          var w = entry.contentRect.width;
+          if (!w) return;
+          var iframe = entry.target.querySelector('iframe');
+          if (iframe) iframe.style.transform = 'scale(' + (w / 474) + ')';
+        });
+      });
       function buildGridbox(tracks, boxId) {
         var box = document.getElementById(boxId);
         tracks.forEach(function(t) {
           var cell = document.createElement("div");
           if (t.sc) {
+            var wrap = document.createElement("div");
+            wrap.className = "sc-wrap";
             var iframe = document.createElement("iframe");
-            iframe.setAttribute("width", "100%");
-            iframe.setAttribute("height", "300");
             iframe.setAttribute("scrolling", "no");
             iframe.setAttribute("frameborder", "no");
             iframe.allow = "autoplay";
             iframe.src = scSrc(t.sc);
-            cell.appendChild(iframe);
+            iframe.style.cssText = "position:absolute;top:0;left:0;width:474px;height:134px;border:0;display:block;transform-origin:top left;";
+            wrap.appendChild(iframe);
+            scResizeObs.observe(wrap);
+            cell.appendChild(wrap);
             var p = document.createElement("p");
             p.textContent = t.title;
             cell.appendChild(p);
