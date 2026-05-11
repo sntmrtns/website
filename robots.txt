@@ -1,0 +1,26 @@
+User-agent: Discordbot
+Disallow: /
+
+User-agent: Slackbot-LinkExpanding
+Disallow: /
+
+User-agent: Twitterbot
+Disallow: /
+
+User-agent: facebookexternalhit
+Disallow: /
+
+User-agent: WhatsApp
+Disallow: /
+
+User-agent: Applebot
+Disallow: /
+
+User-agent: LinkedInBot
+Disallow: /
+
+User-agent: TelegramBot
+Disallow: /
+
+User-agent: *
+Allow: /
