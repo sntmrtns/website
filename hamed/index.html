@@ -5,11 +5,11 @@
 <link rel="icon" type="image/x-icon" href="/favicon.png">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="style.css?v=12">
+<link rel="stylesheet" href="style.css?v=13">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
-<script src="main.js?v=5" defer></script>
+<script src="main.js?v=6" defer></script>
 </head>
 
 <body>
@@ -195,14 +195,6 @@
         var m = url.match(/(?:v=|youtu\.be\/|embed\/)([^&?/]+)/);
         return m ? m[1] : null;
       }
-      var resizeObs = new ResizeObserver(function(entries) {
-        entries.forEach(function(entry) {
-          var w = entry.contentRect.width;
-          if (!w) return;
-          var iframe = entry.target.querySelector('iframe');
-          if (iframe) iframe.style.transform = 'scale(' + (w / 640) + ')';
-        });
-      });
       var box = document.getElementById("videobox");
       videos.forEach(function(v) {
         var id = ytId(v.url);
@@ -215,7 +207,6 @@
         var videoWrap = document.createElement("div");
         videoWrap.className = "videobox-video";
         videoWrap.appendChild(facade);
-        resizeObs.observe(videoWrap);
         var p = document.createElement("p");
         p.textContent = v.title;
         var cell = document.createElement("div");
