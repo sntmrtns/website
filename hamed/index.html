@@ -6,11 +6,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nosnippet">
-<link rel="stylesheet" href="style.css?v=30">
+<link rel="stylesheet" href="style.css?v=31">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
-<script src="main.js?v=17" defer></script>
+<script src="main.js?v=18" defer></script>
 </head>
 
 <body>
@@ -21,6 +21,7 @@
         <img class="logo" src="logo.svg">
         <span class="name">HAMED TAHIRI</span>
       </div>
+      <button class="hamburger" onclick="toggleMobileNav()"><span></span><span></span><span></span></button>
 
       <nav>
         <div class="flex column">
@@ -357,12 +358,13 @@
       }
     }
   </script>
-  <div class="mobile-nav">
-    <a href="javascript:void(0)" onclick="showSection('experience')" class="btn btn-active" data-nav="experience">Experience</a>
-    <a href="javascript:void(0)" onclick="showSection('design')" class="btn" data-nav="design">Design</a>
-    <a href="javascript:void(0)" onclick="showSection('photos')" class="btn" data-nav="photos">Photos</a>
-    <a href="javascript:void(0)" onclick="showSection('videos')" class="btn" data-nav="videos">Videos</a>
-    <a href="javascript:void(0)" onclick="showSection('music')" class="btn" data-nav="music">Music</a>
+  <div id="mobile-nav-overlay">
+    <button class="mobile-nav-close" onclick="toggleMobileNav()">&#10005;</button>
+    <a href="javascript:void(0)" onclick="showSection('experience');toggleMobileNav()" class="btn btn-active" data-nav="experience">Experience</a>
+    <a href="javascript:void(0)" onclick="showSection('design');toggleMobileNav()" class="btn" data-nav="design">Design</a>
+    <a href="javascript:void(0)" onclick="showSection('photos');toggleMobileNav()" class="btn" data-nav="photos">Photos</a>
+    <a href="javascript:void(0)" onclick="showSection('videos');toggleMobileNav()" class="btn" data-nav="videos">Videos</a>
+    <a href="javascript:void(0)" onclick="showSection('music');toggleMobileNav()" class="btn" data-nav="music">Music</a>
   </div>
   <div id="lightbox" class="hidden"><span id="lb-prev">&#8592;</span><img><span id="lb-next">&#8594;</span></div>
   <div id="site-lock"></div>
