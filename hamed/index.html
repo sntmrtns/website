@@ -5,11 +5,11 @@
 <link rel="icon" type="image/x-icon" href="/favicon.png">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="style.css?v=20">
+<link rel="stylesheet" href="style.css?v=21">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
-<script src="main.js?v=10" defer></script>
+<script src="main.js?v=11" defer></script>
 </head>
 
 <body>
@@ -22,7 +22,7 @@
       </div>
 
       <nav>
-        <li class="flex column">
+        <div class="flex column">
           <a href="javascript:void(0)" onclick="showSection('experience')" class="btn btn-active" id="btn-experience">Experience</a>
           <div class="flex column sub-btns" id="sub-experience">
             <a href="javascript:void(0)" onclick="scrollToId('rok')" class="btn">Rok</a>
@@ -46,7 +46,7 @@
             <a href="javascript:void(0)" onclick="scrollToId('production')" class="btn">Production</a>
             <a href="javascript:void(0)" onclick="scrollToId('mixing')" class="btn">Mixing</a>
           </div>
-        </li>
+        </div>
       </nav>
     </div>
 
@@ -278,7 +278,9 @@
       ]
     };
 
-    (function() {
+    function buildMusicSection() {
+      if (buildMusicSection._built) return;
+      buildMusicSection._built = true;
       function scSrc(sc) {
         return "https://w.soundcloud.com/player/?url=" + encodeURIComponent(sc) + "&color=%23000000&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true&sharing=false";
       }
@@ -320,7 +322,7 @@
       buildGridbox(music.personal, "gridbox-personal");
       buildGridbox(music.production, "gridbox-production");
       buildGridbox(music.mixing, "gridbox-mixing");
-    })();
+    }
 
     document.body.classList.add("first-visit");
     document.body.addEventListener('animationend', function() {
@@ -354,7 +356,7 @@
       }
     }
   </script>
-  <div id="lightbox" class="hidden"><img></div>
+  <div id="lightbox" class="hidden"><span id="lb-prev">&#8592;</span><img><span id="lb-next">&#8594;</span></div>
   <div id="site-lock"></div>
 </body>
 </html>
