@@ -6,11 +6,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nosnippet">
-<link rel="stylesheet" href="style.css?v=28">
+<link rel="stylesheet" href="style.css?v=29">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
-<script src="main.js?v=16" defer></script>
+<script src="main.js?v=17" defer></script>
 </head>
 
 <body>
@@ -204,7 +204,7 @@
         facade.className = "video-facade";
         facade.setAttribute("data-src", "https://www.youtube.com/embed/" + id + "?autoplay=1&enablejsapi=1");
         facade.onclick = function() { loadVideo(this); };
-        facade.innerHTML = '<img src="https://img.youtube.com/vi/' + id + '/maxresdefault.jpg"><span class="play-btn">&#9654;</span>';
+        facade.innerHTML = '<img src="https://img.youtube.com/vi/' + id + '/maxresdefault.jpg" onerror="this.onerror=null;this.src=\'https://img.youtube.com/vi/' + id + '/hqdefault.jpg\'"><span class="play-btn">&#9654;</span>';
         var videoWrap = document.createElement("div");
         videoWrap.className = "videobox-video";
         videoWrap.appendChild(facade);
@@ -324,11 +324,14 @@
     })();
 
     document.body.classList.add("first-visit");
-    document.body.addEventListener('animationend', function() {
-      document.getElementById('site-lock').remove();
+    function _unlock() {
+      var lock = document.getElementById('site-lock');
+      if (lock) lock.remove();
       document.removeEventListener('wheel', _blockScroll);
       document.removeEventListener('keydown', _blockKeys);
-    }, {once: true});
+    }
+    document.body.addEventListener('animationend', _unlock, {once: true});
+    setTimeout(_unlock, 1600);
 
     function showPhotos() {
       var box = document.getElementById("photobox");
