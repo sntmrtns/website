@@ -6,7 +6,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nosnippet">
-<link rel="stylesheet" href="style.css?v=29">
+<link rel="stylesheet" href="style.css?v=30">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
@@ -95,44 +95,44 @@
         <div id="d-2-20-03" class="href-section">
           <h2>2.20.03</h2>
           <div class="design flex">
-            <div><img src="design/2-20-03/fashion-week-cover.jpg"></div>
-            <div><img src="design/2-20-03/profile-picture-1.jpg"></div>
-            <div><img src="design/2-20-03/profile-picture-2.jpg"></div>
+            <div><img loading="lazy" src="design/2-20-03/fashion-week-cover.jpg"></div>
+            <div><img loading="lazy" src="design/2-20-03/profile-picture-1.jpg"></div>
+            <div><img loading="lazy" src="design/2-20-03/profile-picture-2.jpg"></div>
           </div>
         </div>
         <div id="d-notahuman" class="href-section">
           <h2>NOT A HUMAN</h2>
           <div class="design flex">
-            <div><img src="design/not-a-human/version-1.png"></div>
-            <div><img src="design/not-a-human/version-2.png"></div>
-            <div><img src="design/not-a-human/profile-picture.png"></div>
+            <div><img loading="lazy" src="design/not-a-human/version-1.png"></div>
+            <div><img loading="lazy" src="design/not-a-human/version-2.png"></div>
+            <div><img loading="lazy" src="design/not-a-human/profile-picture.png"></div>
           </div>
         </div>
         <div id="d-saintmartins" class="href-section">
           <h2>Saint Martins</h2>
           <div class="design flex">
-            <div><img src="design/saint-martins/logo-1.png"></div>
-            <div><img src="design/saint-martins/logo-2.png"></div>
-            <div><img src="design/saint-martins/logo-3.png"></div>
+            <div><img loading="lazy" src="design/saint-martins/logo-1.png"></div>
+            <div><img loading="lazy" src="design/saint-martins/logo-2.png"></div>
+            <div><img loading="lazy" src="design/saint-martins/logo-3.png"></div>
           </div>
         </div>
         <div id="d-sneak" class="href-section">
           <h2>sneak</h2>
           <div class="design flex">
-            <div><img src="design/sneak/sharpshooter-tracklist-1.jpg"></div>
-            <div><img src="design/sneak/sharpshooter-tracklist-2.jpg"></div>
-            <div><img src="design/sneak/vanilla-sky-tracklist.jpg"></div>
+            <div><img loading="lazy" src="design/sneak/sharpshooter-tracklist-1.jpg"></div>
+            <div><img loading="lazy" src="design/sneak/sharpshooter-tracklist-2.jpg"></div>
+            <div><img loading="lazy" src="design/sneak/vanilla-sky-tracklist.jpg"></div>
           </div>
         </div>
         <div id="d-soufpaw" class="href-section">
           <h2>SOUFPAW</h2>
           <div class="design flex">
-            <div><img src="design/tts-6200/collar-1.jpg"></div>
-            <div><img src="design/tts-6200/collar-2.jpg"></div>
-            <div><img src="design/tts-6200/collar-3.jpg"></div>
-            <div><img src="design/tts-6200/leash-1.jpg"></div>
-            <div><img src="design/tts-6200/leash-2.jpg"></div>
-            <div><img src="design/tts-6200/leash-3.jpg"></div>
+            <div><img loading="lazy" src="design/tts-6200/collar-1.jpg"></div>
+            <div><img loading="lazy" src="design/tts-6200/collar-2.jpg"></div>
+            <div><img loading="lazy" src="design/tts-6200/collar-3.jpg"></div>
+            <div><img loading="lazy" src="design/tts-6200/leash-1.jpg"></div>
+            <div><img loading="lazy" src="design/tts-6200/leash-2.jpg"></div>
+            <div><img loading="lazy" src="design/tts-6200/leash-3.jpg"></div>
           </div>
         </div>
       </div>
@@ -336,10 +336,9 @@
     function showPhotos() {
       var box = document.getElementById("photobox");
       if (box.children.length) return;
-      // All sizing uses --s = 100vw/2560 so proportions stay fixed at any zoom
-      // body width = 1948*s, gap = 25*s, row height = (1948 - gaps) / totalAR * s
-      for (var i = 0; i < _imgs.length; i += 3) {
-        var row = _imgs.slice(i, i + 3);
+      var perRow = window.innerWidth <= 480 ? 1 : window.innerWidth <= 900 ? 2 : 3;
+      for (var i = 0; i < _imgs.length; i += perRow) {
+        var row = _imgs.slice(i, i + perRow);
         var totalAR = row.reduce(function(s, img) {
           return s + (img.naturalWidth || 1) / (img.naturalHeight || 1);
         }, 0);
