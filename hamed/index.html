@@ -223,7 +223,7 @@
       "DSC03885.webp","DSC04300.webp","DSC04340.webp","DSC04431.webp","DSC04456.webp",
       "DSC04471.webp"
     ];
-    var _imgs = [], _loaded = 0, _photosRequested = false;
+    var _imgs = [], _loaded = 0, _photosRequested = false, _photosBuilt = false;
 
     photos.forEach(function(name, i) {
       var img = new Image();
@@ -291,9 +291,6 @@
           var cell = document.createElement("div");
           if (t.sc) {
             var iframe = document.createElement("iframe");
-            iframe.setAttribute("width", "100%");
-            iframe.setAttribute("height", "300");
-            iframe.setAttribute("scrolling", "no");
             iframe.allow = "autoplay";
             iframe.src = scSrc(t.sc);
             cell.appendChild(iframe);
@@ -302,8 +299,6 @@
             cell.appendChild(p);
           } else if (t.video) {
             var video = document.createElement("video");
-            video.setAttribute("width", "100%");
-            video.setAttribute("height", "auto");
             video.setAttribute("preload", "none");
             video.setAttribute("poster", t.poster);
             video.setAttribute("controls", "");
@@ -335,24 +330,25 @@
     setTimeout(_unlock, 1600);
 
     function showPhotos() {
+      if (_photosBuilt) return;
       var box = document.getElementById("photobox");
-      if (box.children.length) return;
-      if (_loaded === photos.length) { _buildPhotos(); } else { _photosRequested = true; }
+      if (_loaded === photos.length) { _buildPhotos(); } else { _photosRequested = true; box.textContent = 'Loading...'; }
     }
 
     function _buildPhotos() {
+      _photosBuilt = true;
       var box = document.getElementById("photobox");
-      if (box.children.length) return;
+      box.textContent = '';
       for (var i = 0; i < _imgs.length; i += 3) {
         var row = _imgs.slice(i, i + 3);
         var totalAR = row.reduce(function(s, img) {
-          return s + img.naturalWidth / img.naturalHeight;
+          return s + (img.naturalWidth || 1) / (img.naturalHeight || 1);
         }, 0);
         var rowEl = document.createElement("div");
         rowEl.className = "photos-row";
         rowEl.style.aspectRatio = totalAR;
         row.forEach(function(img) {
-          var ar = img.naturalWidth / img.naturalHeight;
+          var ar = (img.naturalWidth || 1) / (img.naturalHeight || 1);
           var cell = document.createElement("div");
           cell.style.flex = ar;
           img.style.cssText = "width:100%;height:100%;display:block;object-fit:cover";
