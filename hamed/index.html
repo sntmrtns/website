@@ -192,24 +192,24 @@
 
     (function() {
       function ytId(url) {
-        var m = url.match(/(?:v=|youtu\.be\/|embed\/)([^&?/]+)/);
+        const m = url.match(/(?:v=|youtu\.be\/|embed\/)([^&?/]+)/);
         return m ? m[1] : null;
       }
-      var box = document.getElementById("videobox");
+      const box = document.getElementById("videobox");
       videos.forEach(function(v) {
-        var id = ytId(v.url);
+        const id = ytId(v.url);
         if (!id) return;
-        var facade = document.createElement("div");
+        const facade = document.createElement("div");
         facade.className = "video-facade";
         facade.setAttribute("data-src", "https://www.youtube.com/embed/" + id + "?autoplay=1&enablejsapi=1");
         facade.onclick = function() { loadVideo(this); };
         facade.innerHTML = '<img src="https://img.youtube.com/vi/' + id + '/maxresdefault.jpg" alt="" onerror="this.onerror=null;this.src=\'https://img.youtube.com/vi/' + id + '/hqdefault.jpg\'"><span class="play-btn">&#9654;</span>';
-        var videoWrap = document.createElement("div");
+        const videoWrap = document.createElement("div");
         videoWrap.className = "videobox-video";
         videoWrap.appendChild(facade);
-        var p = document.createElement("p");
+        const p = document.createElement("p");
         p.textContent = v.title;
-        var cell = document.createElement("div");
+        const cell = document.createElement("div");
         cell.appendChild(videoWrap);
         cell.appendChild(p);
         box.appendChild(cell);
@@ -226,7 +226,7 @@
     const _imgs = []; let _loaded = 0, _photosRequested = false, _photosBuilt = false;
 
     photos.forEach(function(name, i) {
-      var img = new Image();
+      const img = new Image();
       img.alt = '';
       img.onload = img.onerror = function() {
         _loaded++;
@@ -287,28 +287,28 @@
         return "https://w.soundcloud.com/player/?url=" + encodeURIComponent(sc) + "&color=%23000000&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true&sharing=false";
       }
       function buildGridbox(tracks, boxId) {
-        var box = document.getElementById(boxId);
+        const box = document.getElementById(boxId);
         tracks.forEach(function(t) {
-          var cell = document.createElement("div");
+          const cell = document.createElement("div");
           if (t.sc) {
-            var iframe = document.createElement("iframe");
+            const iframe = document.createElement("iframe");
             iframe.allow = "autoplay";
             iframe.src = scSrc(t.sc);
             cell.appendChild(iframe);
-            var p = document.createElement("p");
+            const p = document.createElement("p");
             p.textContent = t.title;
             cell.appendChild(p);
           } else if (t.video) {
-            var video = document.createElement("video");
+            const video = document.createElement("video");
             video.setAttribute("preload", "none");
             video.setAttribute("poster", t.poster);
             video.setAttribute("controls", "");
-            var source = document.createElement("source");
+            const source = document.createElement("source");
             source.src = t.video;
             source.type = "video/mp4";
             video.appendChild(source);
             cell.appendChild(video);
-            var p = document.createElement("p");
+            const p = document.createElement("p");
             p.textContent = t.title;
             cell.appendChild(p);
           }
@@ -322,7 +322,7 @@
 
     document.body.classList.add("fade-in");
     function _unlock() {
-      var lock = document.getElementById('site-lock');
+      const lock = document.getElementById('site-lock');
       if (lock) lock.remove();
       document.removeEventListener('wheel', _blockScroll);
       document.removeEventListener('keydown', _blockKeys);
@@ -332,25 +332,25 @@
 
     function showPhotos() {
       if (_photosBuilt) return;
-      var box = document.getElementById("photobox");
+      const box = document.getElementById("photobox");
       if (_loaded === photos.length) { _buildPhotos(); } else { _photosRequested = true; box.textContent = 'Loading...'; }
     }
 
     function _buildPhotos() {
       _photosBuilt = true;
-      var box = document.getElementById("photobox");
+      const box = document.getElementById("photobox");
       box.textContent = '';
-      for (var i = 0; i < _imgs.length; i += 3) {
-        var row = _imgs.slice(i, i + 3);
-        var totalAR = row.reduce(function(s, img) {
+      for (let i = 0; i < _imgs.length; i += 3) {
+        const row = _imgs.slice(i, i + 3);
+        const totalAR = row.reduce(function(s, img) {
           return s + (img.naturalWidth || 1) / (img.naturalHeight || 1);
         }, 0);
-        var rowEl = document.createElement("div");
+        const rowEl = document.createElement("div");
         rowEl.className = "photos-row";
         rowEl.style.aspectRatio = totalAR;
         row.forEach(function(img) {
-          var ar = (img.naturalWidth || 1) / (img.naturalHeight || 1);
-          var cell = document.createElement("div");
+          const ar = (img.naturalWidth || 1) / (img.naturalHeight || 1);
+          const cell = document.createElement("div");
           cell.style.flex = ar;
           img.style.cssText = "width:100%;height:100%;display:block;object-fit:cover";
           cell.appendChild(img);
