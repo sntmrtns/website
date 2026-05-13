@@ -5,11 +5,11 @@
 <title>Hamed Tahiri</title>
 <link rel="icon" type="image/png" href="/favicon.png">
 <meta name="robots" content="noindex, nosnippet">
-<link rel="stylesheet" href="style.css?v=50">
+<link rel="stylesheet" href="style.css?v=51">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;600&amp;display=swap" rel="stylesheet">
-<script src="main.js?v=24" defer></script>
+<script src="main.js?v=25" defer></script>
 </head>
 
 <body>
@@ -22,28 +22,28 @@
       </div>
 
       <nav class="flex column">
-        <a href="javascript:void(0)" onclick="showSection('experience')" class="btn btn-active" id="btn-experience">Experience</a>
+        <button onclick="showSection('experience')" class="btn btn-active" id="btn-experience">Experience</button>
         <div class="flex column sub-btns" id="sub-experience">
-          <a href="javascript:void(0)" onclick="scrollToId('rok')" class="btn">Rok</a>
-          <a href="javascript:void(0)" onclick="scrollToId('warrlock')" class="btn">Warrlock</a>
-          <a href="javascript:void(0)" onclick="scrollToId('richiesouf')" class="btn">Richie Souf</a>
-          <a href="javascript:void(0)" onclick="scrollToId('saintmartins')" class="btn">Saint Martins</a>
+          <button onclick="scrollToId('rok')" class="btn">Rok</button>
+          <button onclick="scrollToId('warrlock')" class="btn">Warrlock</button>
+          <button onclick="scrollToId('richiesouf')" class="btn">Richie Souf</button>
+          <button onclick="scrollToId('saintmartins')" class="btn">Saint Martins</button>
         </div>
-        <a href="javascript:void(0)" onclick="showSection('design')" class="btn" id="btn-design">Design</a>
+        <button onclick="showSection('design')" class="btn" id="btn-design">Design</button>
         <div class="flex column sub-btns" id="sub-design" style="display:none">
-          <a href="javascript:void(0)" onclick="scrollToId('d-2-20-03')" class="btn">2.20.03</a>
-          <a href="javascript:void(0)" onclick="scrollToId('d-notahuman')" class="btn">NOT A HUMAN</a>
-          <a href="javascript:void(0)" onclick="scrollToId('d-saintmartins')" class="btn">Saint Martins</a>
-          <a href="javascript:void(0)" onclick="scrollToId('d-sneak')" class="btn">sneak</a>
-          <a href="javascript:void(0)" onclick="scrollToId('d-soufpaw')" class="btn">SOUFPAW</a>
+          <button onclick="scrollToId('d-2-20-03')" class="btn">2.20.03</button>
+          <button onclick="scrollToId('d-notahuman')" class="btn">NOT A HUMAN</button>
+          <button onclick="scrollToId('d-saintmartins')" class="btn">Saint Martins</button>
+          <button onclick="scrollToId('d-sneak')" class="btn">sneak</button>
+          <button onclick="scrollToId('d-soufpaw')" class="btn">SOUFPAW</button>
         </div>
-        <a href="javascript:void(0)" onclick="showSection('photos')" class="btn" id="btn-photos">Photos</a>
-        <a href="javascript:void(0)" onclick="showSection('videos')" class="btn" id="btn-videos">Videos</a>
-        <a href="javascript:void(0)" onclick="showSection('music')" class="btn" id="btn-music">Music</a>
+        <button onclick="showSection('photos')" class="btn" id="btn-photos">Photos</button>
+        <button onclick="showSection('videos')" class="btn" id="btn-videos">Videos</button>
+        <button onclick="showSection('music')" class="btn" id="btn-music">Music</button>
         <div class="flex column sub-btns" id="sub-music" style="display:none">
-          <a href="javascript:void(0)" onclick="scrollToId('personal')" class="btn">Personal</a>
-          <a href="javascript:void(0)" onclick="scrollToId('production')" class="btn">Production</a>
-          <a href="javascript:void(0)" onclick="scrollToId('mixing')" class="btn">Mixing</a>
+          <button onclick="scrollToId('personal')" class="btn">Personal</button>
+          <button onclick="scrollToId('production')" class="btn">Production</button>
+          <button onclick="scrollToId('mixing')" class="btn">Mixing</button>
         </div>
       </nav>
     </div>
@@ -296,9 +296,9 @@
             cell.appendChild(p);
           } else if (t.video) {
             const video = document.createElement("video");
-            video.setAttribute("preload", "none");
-            video.setAttribute("poster", t.poster);
-            video.setAttribute("controls", "");
+            video.preload="none";
+            video.poster=t.poster;
+            video.controls=true;
             const source = document.createElement("source");
             source.src = t.video;
             source.type = "video/mp4";
