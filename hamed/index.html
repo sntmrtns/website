@@ -9,44 +9,44 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;600&amp;display=swap" rel="stylesheet">
-<script src="main.js?v=25" defer></script>
+<script src="main.js?v=26" defer></script>
 </head>
 
 <body>
   <main class="flex">
 
-    <div class="header">
+    <header class="header">
       <div class="logo-box flex column">
         <img class="logo" src="logo.svg" alt="Hamed Tahiri">
         <span class="name">HAMED TAHIRI</span>
       </div>
 
       <nav class="flex column">
-        <button onclick="showSection('experience')" class="btn btn-active" id="btn-experience">Experience</button>
+        <button type="button" onclick="showSection('experience')" class="btn btn-active" id="btn-experience">Experience</button>
         <div class="flex column sub-btns" id="sub-experience">
-          <button onclick="scrollToId('rok')" class="btn">Rok</button>
-          <button onclick="scrollToId('warrlock')" class="btn">Warrlock</button>
-          <button onclick="scrollToId('richiesouf')" class="btn">Richie Souf</button>
-          <button onclick="scrollToId('saintmartins')" class="btn">Saint Martins</button>
+          <button type="button" onclick="scrollToId('rok')" class="btn">Rok</button>
+          <button type="button" onclick="scrollToId('warrlock')" class="btn">Warrlock</button>
+          <button type="button" onclick="scrollToId('richiesouf')" class="btn">Richie Souf</button>
+          <button type="button" onclick="scrollToId('saintmartins')" class="btn">Saint Martins</button>
         </div>
-        <button onclick="showSection('design')" class="btn" id="btn-design">Design</button>
+        <button type="button" onclick="showSection('design')" class="btn" id="btn-design">Design</button>
         <div class="flex column sub-btns" id="sub-design" style="display:none">
-          <button onclick="scrollToId('d-2-20-03')" class="btn">2.20.03</button>
-          <button onclick="scrollToId('d-notahuman')" class="btn">NOT A HUMAN</button>
-          <button onclick="scrollToId('d-saintmartins')" class="btn">Saint Martins</button>
-          <button onclick="scrollToId('d-sneak')" class="btn">sneak</button>
-          <button onclick="scrollToId('d-soufpaw')" class="btn">SOUFPAW</button>
+          <button type="button" onclick="scrollToId('d-2-20-03')" class="btn">2.20.03</button>
+          <button type="button" onclick="scrollToId('d-notahuman')" class="btn">NOT A HUMAN</button>
+          <button type="button" onclick="scrollToId('d-saintmartins')" class="btn">Saint Martins</button>
+          <button type="button" onclick="scrollToId('d-sneak')" class="btn">sneak</button>
+          <button type="button" onclick="scrollToId('d-soufpaw')" class="btn">SOUFPAW</button>
         </div>
-        <button onclick="showSection('photos')" class="btn" id="btn-photos">Photos</button>
-        <button onclick="showSection('videos')" class="btn" id="btn-videos">Videos</button>
-        <button onclick="showSection('music')" class="btn" id="btn-music">Music</button>
+        <button type="button" onclick="showSection('photos')" class="btn" id="btn-photos">Photos</button>
+        <button type="button" onclick="showSection('videos')" class="btn" id="btn-videos">Videos</button>
+        <button type="button" onclick="showSection('music')" class="btn" id="btn-music">Music</button>
         <div class="flex column sub-btns" id="sub-music" style="display:none">
-          <button onclick="scrollToId('personal')" class="btn">Personal</button>
-          <button onclick="scrollToId('production')" class="btn">Production</button>
-          <button onclick="scrollToId('mixing')" class="btn">Mixing</button>
+          <button type="button" onclick="scrollToId('personal')" class="btn">Personal</button>
+          <button type="button" onclick="scrollToId('production')" class="btn">Production</button>
+          <button type="button" onclick="scrollToId('mixing')" class="btn">Mixing</button>
         </div>
       </nav>
-    </div>
+    </header>
 
     <div class="body">
 
