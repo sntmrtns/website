@@ -5,7 +5,7 @@
 <title>Hamed Tahiri</title>
 <link rel="icon" type="image/png" href="/favicon.png">
 <meta name="robots" content="noindex, nosnippet">
-<link rel="stylesheet" href="style.css?v=51">
+<link rel="stylesheet" href="style.css?v=52">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;600&amp;display=swap" rel="stylesheet">
@@ -170,8 +170,8 @@
   </main>
 
   <script>
-    function _blockScroll(e) { e.preventDefault(); }
-    function _blockKeys(e) { if ([' ','PageUp','PageDown','End','Home','ArrowLeft','ArrowUp','ArrowRight','ArrowDown'].includes(e.key)) e.preventDefault(); }
+    const _blockScroll=(e)=>{e.preventDefault();};
+    const _blockKeys=(e)=>{if([' ','PageUp','PageDown','End','Home','ArrowLeft','ArrowUp','ArrowRight','ArrowDown'].includes(e.key))e.preventDefault();};
     document.addEventListener('wheel', _blockScroll, {passive:false});
     document.addEventListener('keydown', _blockKeys);
 
@@ -317,22 +317,22 @@
     })();
 
     document.body.classList.add("fade-in");
-    function _unlock() {
-      const lock = document.getElementById('site-lock');
-      if (lock) lock.remove();
-      document.removeEventListener('wheel', _blockScroll);
-      document.removeEventListener('keydown', _blockKeys);
-    }
+    const _unlock=()=>{
+      const lock=document.getElementById('site-lock');
+      if(lock)lock.remove();
+      document.removeEventListener('wheel',_blockScroll);
+      document.removeEventListener('keydown',_blockKeys);
+    };
     document.body.addEventListener('animationend', _unlock, {once: true});
     setTimeout(_unlock, 1600);
 
-    function showPhotos() {
-      if (_photosBuilt) return;
-      const box = document.getElementById("photobox");
-      if (_loaded === photos.length) { _buildPhotos(); } else { _photosRequested = true; box.textContent = 'Loading...'; }
-    }
+    const showPhotos=()=>{
+      if(_photosBuilt)return;
+      const box=document.getElementById("photobox");
+      if(_loaded===photos.length){_buildPhotos();}else{_photosRequested=true;box.textContent='Loading...';}
+    };
 
-    function _buildPhotos() {
+    const _buildPhotos=()=>{
       _photosBuilt = true;
       const box = document.getElementById("photobox");
       box.textContent = '';
