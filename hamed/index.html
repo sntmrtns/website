@@ -5,11 +5,11 @@
 <title>Hamed Tahiri</title>
 <link rel="icon" type="image/png" href="/favicon.png">
 <meta name="robots" content="noindex, nosnippet">
-<link rel="stylesheet" href="style.css?v=59">
+<link rel="stylesheet" href="style.css?v=60">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;600&amp;display=swap" rel="stylesheet">
-<script src="main.js?v=30" defer></script>
+<script src="main.js?v=31" defer></script>
 </head>
 
 <body>
@@ -187,25 +187,21 @@
     ];
 
     (()=>{
-      function ytId(url) {
-        const m = url.match(/(?:v=|youtu\.be\/|embed\/)([^&?/]+)/);
-        return m ? m[1] : null;
-      }
-      const box = document.getElementById("videobox");
+      const ytId=url=>{const m=url.match(/(?:v=|youtu\.be\/|embed\/)([^&?/]+)/);return m?m[1]:null;};
+      const box=document.getElementById("videobox");
       videos.forEach(v=>{
-        const id = ytId(v.url);
-        if (!id) return;
-        const facade = document.createElement("div");
-        facade.className = "video-facade";
-        facade.setAttribute("data-src", "https://www.youtube.com/embed/" + id + "?autoplay=1&enablejsapi=1");
-        facade.onclick=()=>{loadVideo(facade);};
-        facade.innerHTML = '<img src="https://img.youtube.com/vi/' + id + '/maxresdefault.jpg" alt="" onerror="this.onerror=null;this.src=\'https://img.youtube.com/vi/' + id + '/hqdefault.jpg\'"><span class="play-btn">&#9654;</span>';
-        const videoWrap = document.createElement("div");
-        videoWrap.className = "videobox-video";
-        videoWrap.appendChild(facade);
-        const p = document.createElement("p");
-        p.textContent = v.title;
-        const cell = document.createElement("div");
+        const id=ytId(v.url);
+        if(!id)return;
+        const iframe=document.createElement("iframe");
+        iframe.src="https://www.youtube.com/embed/"+id+"?enablejsapi=1";
+        iframe.allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+        iframe.allowFullscreen=true;
+        const videoWrap=document.createElement("div");
+        videoWrap.className="videobox-video";
+        videoWrap.appendChild(iframe);
+        const p=document.createElement("p");
+        p.textContent=v.title;
+        const cell=document.createElement("div");
         cell.appendChild(videoWrap);
         cell.appendChild(p);
         box.appendChild(cell);
@@ -219,14 +215,14 @@
       "DSC03885.webp","DSC04300.webp","DSC04340.webp","DSC04431.webp","DSC04456.webp",
       "DSC04471.webp"
     ];
-    const _imgs = []; let _loaded = 0, _photosRequested = false, _photosBuilt = false;
+    const _imgs = []; let _loaded = 0, _photosBuilt = false;
 
     photos.forEach((name,i)=>{
       const img = new Image();
       img.alt = '';
       img.onload=img.onerror=()=>{
         _loaded++;
-        if (_photosRequested && _loaded === photos.length) _buildPhotos();
+        if(_loaded===photos.length)_buildPhotos();
       };
       img.src = "photos/" + name;
       _imgs[i] = img;
@@ -326,11 +322,7 @@
     document.body.addEventListener('animationend', _unlock, {once: true});
     setTimeout(_unlock, 1600);
 
-    const showPhotos=()=>{
-      if(_photosBuilt)return;
-      const box=document.getElementById("photobox");
-      if(_loaded===photos.length){_buildPhotos();}else{_photosRequested=true;}
-    };
+    const showPhotos=()=>{};
 
     const _buildPhotos=()=>{
       _photosBuilt = true;
