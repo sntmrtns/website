@@ -5,11 +5,11 @@
 <title>Hamed Tahiri</title>
 <link rel="icon" type="image/png" href="/favicon.png">
 <meta name="robots" content="noindex, nosnippet">
-<link rel="stylesheet" href="style.css?v=60">
+<link rel="stylesheet" href="style.css?v=61">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;600&amp;display=swap" rel="stylesheet">
-<script src="main.js?v=31" defer></script>
+<script src="main.js?v=32" defer></script>
 </head>
 
 <body>
@@ -192,13 +192,14 @@
       videos.forEach(v=>{
         const id=ytId(v.url);
         if(!id)return;
-        const iframe=document.createElement("iframe");
-        iframe.src="https://www.youtube.com/embed/"+id+"?enablejsapi=1";
-        iframe.allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-        iframe.allowFullscreen=true;
+        const facade=document.createElement("div");
+        facade.className="video-facade";
+        facade.setAttribute("data-src","https://www.youtube.com/embed/"+id+"?autoplay=1&enablejsapi=1");
+        facade.onclick=()=>{loadVideo(facade);};
+        facade.innerHTML='<img src="https://img.youtube.com/vi/'+id+'/maxresdefault.jpg" alt="" onerror="this.onerror=null;this.src=\'https://img.youtube.com/vi/'+id+'/hqdefault.jpg\'"><span class="play-btn">&#9654;</span>';
         const videoWrap=document.createElement("div");
         videoWrap.className="videobox-video";
-        videoWrap.appendChild(iframe);
+        videoWrap.appendChild(facade);
         const p=document.createElement("p");
         p.textContent=v.title;
         const cell=document.createElement("div");
