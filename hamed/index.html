@@ -329,7 +329,7 @@
     const showPhotos=()=>{
       if(_photosBuilt)return;
       const box=document.getElementById("photobox");
-      if(_loaded===photos.length){_buildPhotos();}else{_photosRequested=true;box.textContent='Loading...';}
+      if(_loaded===photos.length){_buildPhotos();}else{_photosRequested=true;}
     };
 
     const _buildPhotos=()=>{
