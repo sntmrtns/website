@@ -5,7 +5,7 @@
 <title>Hamed Tahiri</title>
 <link rel="icon" type="image/png" href="/favicon.png">
 <meta name="robots" content="noindex, nosnippet">
-<link rel="stylesheet" href="style.css?v=62">
+<link rel="stylesheet" href="style.css?v=63">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;600&amp;display=swap" rel="stylesheet">
@@ -217,40 +217,37 @@
       "DSC04471.webp"
     ];
     const _imgs = [];
-    const _rowsBuilt = new Set();
-    const _buildRow = rowIdx => {
-      if (_rowsBuilt.has(rowIdx)) return;
-      const start = rowIdx * 3;
-      const row = _imgs.slice(start, Math.min(start + 3, photos.length));
-      if (!row.every(m => m && m.complete)) return;
-      _rowsBuilt.add(rowIdx);
-      const box = document.getElementById("photobox");
-      const totalAR = row.reduce((s,m) => s + (m.naturalWidth||1)/(m.naturalHeight||1), 0);
-      const rowEl = document.createElement("div");
-      rowEl.className = "photos-row";
-      rowEl.style.aspectRatio = totalAR;
-      rowEl.dataset.row = rowIdx;
-      row.forEach(m => {
-        const ar = (m.naturalWidth||1)/(m.naturalHeight||1);
-        const cell = document.createElement("div");
-        cell.style.flex = ar;
-        m.style.cssText = "width:100%;height:100%;display:block;object-fit:cover";
-        cell.appendChild(m);
-        rowEl.appendChild(cell);
-      });
-      let next = null;
-      for (const el of box.querySelectorAll('.photos-row')) {
-        if (+el.dataset.row > rowIdx) { next = el; break; }
-      }
-      box.insertBefore(rowEl, next);
-    };
 
     photos.forEach((name,i)=>{
       const img = new Image();
       img.alt = '';
-      img.onload=img.onerror=()=>{ _buildRow(Math.floor(i/3)); };
-      img.src = "photos/" + name;
-      _imgs[i] = img;
+      img.onload=img.onerror=()=>{
+        const rowIdx=Math.floor(i/3),posInRow=i%3;
+        const ar=(img.naturalWidth||3)/(img.naturalHeight||2);
+        const box=document.getElementById("photobox");
+        let rowEl=box.querySelector('.photos-row[data-row="'+rowIdx+'"]');
+        if(!rowEl){
+          rowEl=document.createElement("div");
+          rowEl.className="photos-row";
+          rowEl.dataset.row=rowIdx;
+          let next=null;
+          for(const el of box.querySelectorAll('.photos-row')){if(+el.dataset.row>rowIdx){next=el;break;}}
+          box.insertBefore(rowEl,next);
+        }
+        const cell=document.createElement("div");
+        cell.style.flex=ar;
+        cell.dataset.pos=posInRow;
+        img.style.cssText="width:100%;height:100%;display:block;object-fit:cover";
+        cell.appendChild(img);
+        let nextCell=null;
+        for(const c of rowEl.children){if(+c.dataset.pos>posInRow){nextCell=c;break;}}
+        rowEl.insertBefore(cell,nextCell);
+        let totalAR=0;
+        for(const c of rowEl.children)totalAR+=parseFloat(c.style.flex)||0;
+        rowEl.style.aspectRatio=totalAR;
+      };
+      img.src="photos/"+name;
+      _imgs[i]=img;
     });
 
     const music = {
