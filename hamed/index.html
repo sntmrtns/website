@@ -193,34 +193,42 @@
       "DSC03885.webp","DSC04300.webp","DSC04340.webp","DSC04431.webp","DSC04456.webp",
       "DSC04471.webp"
     ];
-    const _imgs = [];
-
+    const _imgs=[];
+    const _photoRows=(()=>{
+      const box=document.getElementById("photobox");
+      const rows=[];
+      photos.forEach((_,i)=>{
+        if(i%3===0){
+          const n=Math.min(3,photos.length-i);
+          const rowEl=document.createElement("div");
+          rowEl.className="photos-row";
+          rowEl.style.aspectRatio=n*1.5;
+          const cells=[];
+          for(let j=0;j<n;j++){
+            const cell=document.createElement("div");
+            cell.style.flex=1.5;
+            rowEl.appendChild(cell);
+            cells.push(cell);
+          }
+          box.appendChild(rowEl);
+          rows.push({el:rowEl,cells});
+        }
+      });
+      return rows;
+    })();
     photos.forEach((name,i)=>{
-      const img = new Image();
-      img.alt = '';
+      const img=new Image();
+      img.alt='';
       img.onload=img.onerror=()=>{
         const rowIdx=Math.floor(i/3),posInRow=i%3;
         const ar=(img.naturalWidth||3)/(img.naturalHeight||2);
-        const box=document.getElementById("photobox");
-        let rowEl=box.querySelector('.photos-row[data-row="'+rowIdx+'"]');
-        if(!rowEl){
-          rowEl=document.createElement("div");
-          rowEl.className="photos-row";
-          rowEl.dataset.row=rowIdx;
-          let next=null;
-          for(const el of box.querySelectorAll('.photos-row')){if(+el.dataset.row>rowIdx){next=el;break;}}
-          box.insertBefore(rowEl,next);
-        }
-        const cell=document.createElement("div");
+        const{el:rowEl,cells}=_photoRows[rowIdx];
+        const cell=cells[posInRow];
         cell.style.flex=ar;
-        cell.dataset.pos=posInRow;
         img.style.cssText="width:100%;height:100%;display:block;object-fit:cover";
         cell.appendChild(img);
-        let nextCell=null;
-        for(const c of rowEl.children){if(+c.dataset.pos>posInRow){nextCell=c;break;}}
-        rowEl.insertBefore(cell,nextCell);
         let totalAR=0;
-        for(const c of rowEl.children)totalAR+=parseFloat(c.style.flex)||0;
+        for(const c of cells)totalAR+=parseFloat(c.style.flex)||1.5;
         rowEl.style.aspectRatio=totalAR;
       };
       img.src="photos/"+name;
@@ -237,16 +245,18 @@
     (()=>{
       Object.entries(design).forEach(([id,srcs])=>{
         const box=document.querySelector('#'+id+' .design');
+        const cells=srcs.map(()=>{
+          const cell=document.createElement('div');
+          cell.style.aspectRatio='4/3';
+          box.appendChild(cell);
+          return cell;
+        });
         srcs.forEach((src,i)=>{
           const img=new Image();
           img.alt='';
           img.onload=img.onerror=()=>{
-            const cell=document.createElement('div');
-            cell.dataset.pos=i;
-            cell.appendChild(img);
-            let next=null;
-            for(const c of box.children){if(+c.dataset.pos>i){next=c;break;}}
-            box.insertBefore(cell,next);
+            cells[i].style.aspectRatio='';
+            cells[i].appendChild(img);
           };
           img.src=src;
         });
