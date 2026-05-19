@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hamed Tahiri</title>
 <link rel="icon" type="image/png" href="/favicon.png">
 <meta name="robots" content="noindex, nosnippet">
@@ -13,6 +14,24 @@
 </head>
 
 <body>
+  <div class="mobile-bar">
+    <span class="mobile-bar-name">HAMED TAHIRI</span>
+    <button type="button" class="mobile-bar-btn" id="mobile-bar-btn" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-nav" id="mobile-nav">
+    <div class="mobile-nav-top">
+      <button type="button" class="mobile-nav-close" id="mobile-nav-close" aria-label="Close menu">&#10005;</button>
+    </div>
+    <nav class="mobile-nav-links">
+      <button type="button" onclick="mobileShowSection('experience')">Experience</button>
+      <button type="button" onclick="mobileShowSection('design')">Design</button>
+      <button type="button" onclick="mobileShowSection('photos')">Photos</button>
+      <button type="button" onclick="mobileShowSection('videos')">Videos</button>
+      <button type="button" onclick="mobileShowSection('music')">Music</button>
+    </nav>
+  </div>
   <main class="flex">
 
     <header class="header">
@@ -370,6 +389,9 @@
     });
 
     const showPhotos=()=>{};
+    document.getElementById('mobile-bar-btn').addEventListener('click',()=>{document.getElementById('mobile-nav').classList.add('open');});
+    document.getElementById('mobile-nav-close').addEventListener('click',()=>{document.getElementById('mobile-nav').classList.remove('open');});
+    function mobileShowSection(name){showSection(name);document.getElementById('mobile-nav').classList.remove('open');}
   </script>
   <div id="lightbox" class="hidden"><span id="lb-prev">&#8592;</span><img alt=""><span id="lb-next">&#8594;</span></div>
   <div id="site-lock"></div>
