@@ -225,8 +225,8 @@
         const{el:rowEl,cells}=_photoRows[rowIdx];
         const cell=cells[posInRow];
         cell.style.flex=ar;
-        img.style.cssText="width:100%;height:100%;display:block;object-fit:cover";
         cell.appendChild(img);
+        requestAnimationFrame(()=>img.classList.add('loaded'));
         let totalAR=0;
         for(const c of cells)totalAR+=parseFloat(c.style.flex)||1.5;
         rowEl.style.aspectRatio=totalAR;
@@ -257,6 +257,7 @@
           img.onload=img.onerror=()=>{
             cells[i].style.aspectRatio='';
             cells[i].appendChild(img);
+            requestAnimationFrame(()=>img.classList.add('loaded'));
           };
           img.src=src;
         });
@@ -347,15 +348,17 @@
       buildGridbox(music.mixing, "gridbox-mixing");
     })();
 
-    document.body.classList.add("fade-in");
     const _unlock=()=>{
       const lock=document.getElementById('site-lock');
       if(lock)lock.remove();
       document.removeEventListener('wheel',_blockScroll);
       document.removeEventListener('keydown',_blockKeys);
     };
-    document.body.addEventListener('animationend', _unlock, {once: true});
-    setTimeout(_unlock, 1600);
+    window.addEventListener('load',()=>{
+      document.body.classList.add("fade-in");
+      document.body.addEventListener('animationend', _unlock, {once: true});
+      setTimeout(_unlock, 1600);
+    });
 
     const showPhotos=()=>{};
   </script>
