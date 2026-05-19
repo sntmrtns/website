@@ -355,9 +355,18 @@
       document.removeEventListener('keydown',_blockKeys);
     };
     window.addEventListener('load',()=>{
-      document.body.classList.add("fade-in");
-      document.body.addEventListener('animationend', _unlock, {once: true});
-      setTimeout(_unlock, 1600);
+      const startFade=()=>{
+        document.body.classList.add("fade-in");
+        document.body.addEventListener('animationend',_unlock,{once:true});
+        setTimeout(_unlock,1600);
+      };
+      if(document.hidden){
+        document.addEventListener('visibilitychange',function h(){
+          if(!document.hidden){document.removeEventListener('visibilitychange',h);startFade();}
+        });
+      }else{
+        startFade();
+      }
     });
 
     const showPhotos=()=>{};
