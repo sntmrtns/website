@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;600&amp;display=swap" rel="stylesheet">
-<script src="main.js?v=32" defer></script>
+<script src="main.js?v=33" defer></script>
 </head>
 
 <body>
@@ -212,7 +212,6 @@
       "DSC03885.webp","DSC04300.webp","DSC04340.webp","DSC04431.webp","DSC04456.webp",
       "DSC04471.webp"
     ];
-    const _imgs=[];
     const _photoRows=(()=>{
       const box=document.getElementById("photobox");
       const rows=[];
@@ -251,7 +250,6 @@
         rowEl.style.aspectRatio=totalAR;
       };
       img.src="photos/"+name;
-      _imgs[i]=img;
     });
 
     const design = {
@@ -389,9 +387,9 @@
       }
     });
 
-    const showPhotos=()=>{};
-    function _openNav(){const n=document.getElementById('mobile-nav');n.classList.add('visible');requestAnimationFrame(()=>requestAnimationFrame(()=>n.classList.add('open')));}
-    function _closeNav(){const n=document.getElementById('mobile-nav');n.classList.remove('open');n.addEventListener('transitionend',()=>n.classList.remove('visible'),{once:true});}
+    let _navOpen=false;
+    function _openNav(){_navOpen=true;const n=document.getElementById('mobile-nav');n.classList.add('visible');requestAnimationFrame(()=>requestAnimationFrame(()=>n.classList.add('open')));}
+    function _closeNav(){_navOpen=false;const n=document.getElementById('mobile-nav');n.classList.remove('open');n.addEventListener('transitionend',()=>{if(!_navOpen)n.classList.remove('visible');},{once:true});}
     document.getElementById('mobile-bar-btn').addEventListener('click',_openNav);
     document.getElementById('mobile-nav-close').addEventListener('click',_closeNav);
     function mobileShowSection(name){const n=document.getElementById('mobile-nav');n.classList.remove('open','visible');showSection(name);}
