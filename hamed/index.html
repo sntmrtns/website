@@ -6,7 +6,7 @@
 <title>Hamed Tahiri</title>
 <link rel="icon" type="image/png" href="/favicon.png">
 <meta name="robots" content="noindex, nosnippet">
-<link rel="stylesheet" href="style.css?v=69">
+<link rel="stylesheet" href="style.css?v=70">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;600&amp;display=swap" rel="stylesheet">
@@ -390,12 +390,11 @@
     });
 
     const showPhotos=()=>{};
-    let _navScrollY=0;
-    function _openNav(){_navScrollY=window.scrollY;document.body.style.position='fixed';document.body.style.top='-'+_navScrollY+'px';document.body.style.width='100%';document.getElementById('mobile-nav').classList.add('open');}
-    function _closeNav(){document.getElementById('mobile-nav').classList.remove('open');document.body.style.position='';document.body.style.top='';document.body.style.width='';window.scrollTo(0,_navScrollY);}
+    function _openNav(){const n=document.getElementById('mobile-nav');n.classList.add('visible');requestAnimationFrame(()=>n.classList.add('open'));}
+    function _closeNav(){const n=document.getElementById('mobile-nav');n.classList.remove('open');setTimeout(()=>n.classList.remove('visible'),260);}
     document.getElementById('mobile-bar-btn').addEventListener('click',_openNav);
     document.getElementById('mobile-nav-close').addEventListener('click',_closeNav);
-    function mobileShowSection(name){document.getElementById('mobile-nav').classList.remove('open');document.body.style.position='';document.body.style.top='';document.body.style.width='';showSection(name);}
+    function mobileShowSection(name){const n=document.getElementById('mobile-nav');n.classList.remove('open','visible');showSection(name);}
   </script>
   <div id="lightbox" class="hidden"><span id="lb-prev">&#8592;</span><img alt=""><span id="lb-next">&#8594;</span></div>
   <div id="site-lock"></div>
