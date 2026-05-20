@@ -390,9 +390,8 @@
     });
 
     const showPhotos=()=>{};
-    let _navScrollY=0;
-    function _openNav(){_navScrollY=window.scrollY;window.scrollTo(0,0);const n=document.getElementById('mobile-nav');n.classList.add('visible');requestAnimationFrame(()=>n.classList.add('open'));}
-    function _closeNav(){const n=document.getElementById('mobile-nav');n.classList.remove('open');n.addEventListener('transitionend',()=>{n.classList.remove('visible');window.scrollTo(0,_navScrollY);},{once:true});}
+    function _openNav(){const n=document.getElementById('mobile-nav');n.classList.add('visible');requestAnimationFrame(()=>requestAnimationFrame(()=>n.classList.add('open')));}
+    function _closeNav(){const n=document.getElementById('mobile-nav');n.classList.remove('open');n.addEventListener('transitionend',()=>n.classList.remove('visible'),{once:true});}
     document.getElementById('mobile-bar-btn').addEventListener('click',_openNav);
     document.getElementById('mobile-nav-close').addEventListener('click',_closeNav);
     function mobileShowSection(name){const n=document.getElementById('mobile-nav');n.classList.remove('open','visible');showSection(name);}
