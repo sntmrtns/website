@@ -390,9 +390,12 @@
     });
 
     const showPhotos=()=>{};
-    document.getElementById('mobile-bar-btn').addEventListener('click',()=>{document.getElementById('mobile-nav').classList.add('open');});
-    document.getElementById('mobile-nav-close').addEventListener('click',()=>{document.getElementById('mobile-nav').classList.remove('open');});
-    function mobileShowSection(name){showSection(name);document.getElementById('mobile-nav').classList.remove('open');}
+    let _navScrollY=0;
+    function _openNav(){_navScrollY=window.scrollY;document.body.style.position='fixed';document.body.style.top='-'+_navScrollY+'px';document.body.style.width='100%';document.getElementById('mobile-nav').classList.add('open');}
+    function _closeNav(){document.getElementById('mobile-nav').classList.remove('open');document.body.style.position='';document.body.style.top='';document.body.style.width='';window.scrollTo(0,_navScrollY);}
+    document.getElementById('mobile-bar-btn').addEventListener('click',_openNav);
+    document.getElementById('mobile-nav-close').addEventListener('click',_closeNav);
+    function mobileShowSection(name){document.getElementById('mobile-nav').classList.remove('open');document.body.style.position='';document.body.style.top='';document.body.style.width='';showSection(name);}
   </script>
   <div id="lightbox" class="hidden"><span id="lb-prev">&#8592;</span><img alt=""><span id="lb-next">&#8594;</span></div>
   <div id="site-lock"></div>
