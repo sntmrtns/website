@@ -6,7 +6,7 @@
 <title>Hamed Tahiri</title>
 <link rel="icon" type="image/png" href="/favicon.png">
 <meta name="robots" content="noindex, nosnippet">
-<link rel="stylesheet" href="style.css?v=73">
+<link rel="stylesheet" href="style.css?v=74">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;600&amp;display=swap" rel="stylesheet">
@@ -392,7 +392,7 @@
     const showPhotos=()=>{};
     let _navScrollY=0;
     function _openNav(){_navScrollY=window.scrollY;window.scrollTo(0,0);const n=document.getElementById('mobile-nav');n.classList.add('visible');requestAnimationFrame(()=>n.classList.add('open'));}
-    function _closeNav(){const n=document.getElementById('mobile-nav');n.classList.remove('open');setTimeout(()=>{n.classList.remove('visible');window.scrollTo(0,_navScrollY);},260);}
+    function _closeNav(){const n=document.getElementById('mobile-nav');n.classList.remove('open');n.addEventListener('transitionend',()=>{n.classList.remove('visible');window.scrollTo(0,_navScrollY);},{once:true});}
     document.getElementById('mobile-bar-btn').addEventListener('click',_openNav);
     document.getElementById('mobile-nav-close').addEventListener('click',_closeNav);
     function mobileShowSection(name){const n=document.getElementById('mobile-nav');n.classList.remove('open','visible');showSection(name);}
