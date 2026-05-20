@@ -372,6 +372,7 @@
       if(lock)lock.remove();
       document.removeEventListener('wheel',_blockScroll);
       document.removeEventListener('keydown',_blockKeys);
+      document.body.style.opacity='1';
     };
     window.addEventListener('load',()=>{
       const startFade=()=>{
