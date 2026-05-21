@@ -392,7 +392,7 @@
     function _closeNav(){_navOpen=false;const n=document.getElementById('mobile-nav');n.classList.remove('open');let done=()=>{if(!_navOpen)n.classList.remove('visible');done=()=>{};};n.addEventListener('transitionend',(e)=>{if(e.target===n)done();},{once:true});setTimeout(()=>done(),350);}
     document.getElementById('mobile-bar-btn').addEventListener('click',_openNav);
     document.getElementById('mobile-nav-close').addEventListener('click',_closeNav);
-    function mobileShowSection(name){_navOpen=false;showSection(name);const n=document.getElementById('mobile-nav');n.offsetHeight;requestAnimationFrame(()=>{n.classList.remove('open');let done=()=>{if(!_navOpen)n.classList.remove('visible');done=()=>{};};n.addEventListener('transitionend',(e)=>{if(e.target===n)done();},{once:true});setTimeout(()=>done(),350);});}
+    function mobileShowSection(name){_navOpen=false;showSection(name,false);const n=document.getElementById('mobile-nav');requestAnimationFrame(()=>{n.classList.remove('open');let done=()=>{if(!_navOpen){window.scrollTo({top:0,behavior:'instant'});n.classList.remove('visible');}done=()=>{};};n.addEventListener('transitionend',(e)=>{if(e.target===n)done();},{once:true});setTimeout(()=>done(),350);});}
   </script>
   <div id="lightbox" class="hidden"><button id="lb-prev" aria-label="Previous image">&#8592;</button><img alt=""><button id="lb-next" aria-label="Next image">&#8594;</button></div>
   <div id="site-lock"></div>
