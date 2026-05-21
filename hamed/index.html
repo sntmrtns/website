@@ -6,11 +6,11 @@
 <title>Hamed Tahiri</title>
 <link rel="icon" type="image/png" href="/favicon.png">
 <meta name="robots" content="noindex, nosnippet">
-<link rel="stylesheet" href="style.css?v=103">
+<link rel="stylesheet" href="style.css?v=104">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;600&amp;display=swap" rel="stylesheet">
-<script src="main.js?v=38" defer></script>
+<script src="main.js?v=39" defer></script>
 </head>
 
 <body>
@@ -234,23 +234,27 @@
       });
       return rows;
     })();
-    photos.forEach((name,i)=>{
-      const img=new Image();
-      img.alt='';
-      img.onload=img.onerror=()=>{
-        const rowIdx=Math.floor(i/3),posInRow=i%3;
-        const ar=(img.naturalWidth||3)/(img.naturalHeight||2);
-        const{el:rowEl,cells}=_photoRows[rowIdx];
-        const cell=cells[posInRow];
-        cell.style.flex=ar;
-        cell.appendChild(img);
-        requestAnimationFrame(()=>img.classList.add('loaded'));
-        let totalAR=0;
-        for(const c of cells)totalAR+=parseFloat(c.style.flex)||1.5;
-        rowEl.style.aspectRatio=totalAR;
-      };
-      img.src="photos/"+name;
-    });
+    let _photosLoaded=false;
+    function _loadPhotos(){
+      if(_photosLoaded)return;_photosLoaded=true;
+      photos.forEach((name,i)=>{
+        const img=new Image();
+        img.alt='';
+        img.onload=img.onerror=()=>{
+          const rowIdx=Math.floor(i/3),posInRow=i%3;
+          const ar=(img.naturalWidth||3)/(img.naturalHeight||2);
+          const{el:rowEl,cells}=_photoRows[rowIdx];
+          const cell=cells[posInRow];
+          cell.style.flex=ar;
+          cell.appendChild(img);
+          requestAnimationFrame(()=>img.classList.add('loaded'));
+          let totalAR=0;
+          for(const c of cells)totalAR+=parseFloat(c.style.flex)||1.5;
+          rowEl.style.aspectRatio=totalAR;
+        };
+        img.src="photos/"+name;
+      });
+    }
 
     const design = {
       'd-2-20-03':     ['design/2-20-03/fashion-week-cover.jpg','design/2-20-03/profile-picture-1.jpg','design/2-20-03/profile-picture-2.jpg'],
@@ -259,7 +263,9 @@
       'd-sneak':       ['design/sneak/sharpshooter-tracklist-1.jpg','design/sneak/sharpshooter-tracklist-2.jpg','design/sneak/vanilla-sky-tracklist.jpg'],
       'd-soufpaw':     ['design/tts-6200/collar-1.jpg','design/tts-6200/collar-2.jpg','design/tts-6200/collar-3.jpg','design/tts-6200/leash-1.jpg','design/tts-6200/leash-2.jpg','design/tts-6200/leash-3.jpg'],
     };
-    (()=>{
+    let _designLoaded=false;
+    function _loadDesign(){
+      if(_designLoaded)return;_designLoaded=true;
       Object.entries(design).forEach(([id,srcs])=>{
         const box=document.querySelector('#'+id+' .design');
         const cells=srcs.map(()=>{
@@ -279,7 +285,7 @@
           img.src=src;
         });
       });
-    })();
+    }
 
     const music = {
       personal: [
@@ -392,7 +398,7 @@
     function _closeNav(){_navOpen=false;const n=document.getElementById('mobile-nav');n.classList.remove('open');let done=()=>{if(!_navOpen)n.classList.remove('visible');done=()=>{};};n.addEventListener('transitionend',(e)=>{if(e.target===n)done();},{once:true});setTimeout(()=>done(),350);}
     document.getElementById('mobile-bar-btn').addEventListener('click',_openNav);
     document.getElementById('mobile-nav-close').addEventListener('click',_closeNav);
-    function mobileShowSection(name){_navOpen=false;const n=document.getElementById('mobile-nav');requestAnimationFrame(()=>{n.classList.remove('open');let done=()=>{if(!_navOpen){showSection(name,false);window.scrollTo({top:0,behavior:'instant'});n.classList.remove('visible');}done=()=>{};};n.addEventListener('transitionend',(e)=>{if(e.target===n)done();},{once:true});setTimeout(()=>done(),350);});}
+    function mobileShowSection(name){_navOpen=false;showSection(name,false);const n=document.getElementById('mobile-nav');requestAnimationFrame(()=>{n.classList.remove('open');let done=()=>{if(!_navOpen){window.scrollTo({top:0,behavior:'instant'});n.classList.remove('visible');}done=()=>{};};n.addEventListener('transitionend',(e)=>{if(e.target===n)done();},{once:true});setTimeout(()=>done(),350);});}
   </script>
   <div id="lightbox" class="hidden"><button id="lb-prev" aria-label="Previous image">&#8592;</button><img alt=""><button id="lb-next" aria-label="Next image">&#8594;</button></div>
   <div id="site-lock"></div>
