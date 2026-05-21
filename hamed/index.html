@@ -392,7 +392,7 @@
     function _closeNav(){_navOpen=false;const n=document.getElementById('mobile-nav');n.classList.remove('open');n.addEventListener('transitionend',()=>{if(!_navOpen)n.classList.remove('visible');},{once:true});}
     document.getElementById('mobile-bar-btn').addEventListener('click',_openNav);
     document.getElementById('mobile-nav-close').addEventListener('click',_closeNav);
-    function mobileShowSection(name){_navOpen=false;const n=document.getElementById('mobile-nav');n.classList.remove('open');n.addEventListener('transitionend',()=>{if(!_navOpen){n.classList.remove('visible');showSection(name);}},{once:true});}
+    function mobileShowSection(name){_navOpen=false;showSection(name);const n=document.getElementById('mobile-nav');n.classList.remove('open');n.addEventListener('transitionend',()=>{if(!_navOpen)n.classList.remove('visible');},{once:true});}
   </script>
   <div id="lightbox" class="hidden"><span id="lb-prev">&#8592;</span><img alt=""><span id="lb-next">&#8594;</span></div>
   <div id="site-lock"></div>
