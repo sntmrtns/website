@@ -21,6 +21,9 @@
     </button>
   </div>
   <div class="mobile-nav" id="mobile-nav">
+    <button type="button" class="mobile-nav-close" id="mobile-nav-close" aria-label="Close menu">
+      <span></span><span></span>
+    </button>
     <nav class="mobile-nav-links">
       <button type="button" onclick="mobileShowSection('experience')">Experience</button>
       <button type="button" onclick="mobileShowSection('design')">Design</button>
@@ -385,11 +388,11 @@
     });
 
     let _navOpen=false;
-    const _mobileBarBtn=document.getElementById('mobile-bar-btn');
-    function _openNav(){_navOpen=true;_mobileBarBtn.classList.add('open');const n=document.getElementById('mobile-nav');n.classList.add('visible');requestAnimationFrame(()=>requestAnimationFrame(()=>n.classList.add('open')));}
-    function _closeNav(){_navOpen=false;_mobileBarBtn.classList.remove('open');const n=document.getElementById('mobile-nav');n.classList.remove('open');n.addEventListener('transitionend',()=>{if(!_navOpen)n.classList.remove('visible');},{once:true});}
-    _mobileBarBtn.addEventListener('click',()=>{_navOpen?_closeNav():_openNav();});
-    function mobileShowSection(name){_navOpen=false;_mobileBarBtn.classList.remove('open');const n=document.getElementById('mobile-nav');n.classList.remove('open','visible');showSection(name);}
+    function _openNav(){_navOpen=true;const n=document.getElementById('mobile-nav');n.classList.add('visible');requestAnimationFrame(()=>requestAnimationFrame(()=>n.classList.add('open')));}
+    function _closeNav(){_navOpen=false;const n=document.getElementById('mobile-nav');n.classList.remove('open');n.addEventListener('transitionend',()=>{if(!_navOpen)n.classList.remove('visible');},{once:true});}
+    document.getElementById('mobile-bar-btn').addEventListener('click',_openNav);
+    document.getElementById('mobile-nav-close').addEventListener('click',_closeNav);
+    function mobileShowSection(name){const n=document.getElementById('mobile-nav');n.classList.remove('open','visible');showSection(name);}
   </script>
   <div id="lightbox" class="hidden"><span id="lb-prev">&#8592;</span><img alt=""><span id="lb-next">&#8594;</span></div>
   <div id="site-lock"></div>
