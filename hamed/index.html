@@ -6,7 +6,7 @@
 <title>Hamed Tahiri</title>
 <link rel="icon" type="image/png" href="/favicon.png">
 <meta name="robots" content="noindex, nosnippet">
-<link rel="stylesheet" href="style.css?v=121">
+<link rel="stylesheet" href="style.css?v=122">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;600&amp;display=swap" rel="stylesheet">
@@ -397,7 +397,7 @@
     const _mobileBarBtn=document.getElementById('mobile-bar-btn');
     function _openNav(){if(_navAnimating)return;_navOpen=true;_navAnimating=true;const n=document.getElementById('mobile-nav');n.classList.add('visible');requestAnimationFrame(()=>requestAnimationFrame(()=>{n.classList.add('open');let done=()=>{_navAnimating=false;document.getElementById('mobile-nav-close').focus();done=()=>{};};n.addEventListener('transitionend',(e)=>{if(e.target===n)done();},{once:true});setTimeout(()=>done(),300);}));_mobileBarBtn.setAttribute('aria-expanded','true');_mobileBarBtn.setAttribute('aria-label','Close menu');}
     function _closeNav(){if(_navAnimating)return;_navOpen=false;_navAnimating=true;const n=document.getElementById('mobile-nav');n.classList.remove('open');let done=()=>{if(!_navOpen)n.classList.remove('visible');_navAnimating=false;_mobileBarBtn.focus();done=()=>{};};n.addEventListener('transitionend',(e)=>{if(e.target===n)done();},{once:true});setTimeout(()=>done(),350);_mobileBarBtn.setAttribute('aria-expanded','false');_mobileBarBtn.setAttribute('aria-label','Open menu');}
-    _mobileBarBtn.addEventListener('click',_openNav);
+    _mobileBarBtn.addEventListener('click',()=>{if(_navOpen)_closeNav();else _openNav();});
     document.getElementById('mobile-nav-close').addEventListener('click',_closeNav);
     document.getElementById('mobile-nav').addEventListener('click',(e)=>{if(e.target===document.getElementById('mobile-nav'))_closeNav();});
     document.addEventListener('keydown',(e)=>{if(e.key==='Escape'&&_navOpen){_closeNav();return;}if(_navOpen&&e.key==='Tab'){const focusable=Array.from(document.getElementById('mobile-nav').querySelectorAll('button'));const first=focusable[0];const last=focusable[focusable.length-1];if(e.shiftKey){if(document.activeElement===first){e.preventDefault();last.focus();}}else{if(document.activeElement===last){e.preventDefault();first.focus();}}}});
