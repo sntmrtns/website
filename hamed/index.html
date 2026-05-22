@@ -6,11 +6,11 @@
 <title>Hamed Tahiri</title>
 <link rel="icon" type="image/png" href="/favicon.png">
 <meta name="robots" content="noindex, nosnippet">
-<link rel="stylesheet" href="style.css?v=114">
+<link rel="stylesheet" href="style.css?v=115">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;600&amp;display=swap" rel="stylesheet">
-<script src="main.js?v=46" defer></script>
+<script src="main.js?v=47" defer></script>
 </head>
 
 <body>
@@ -26,10 +26,28 @@
     </button>
     <nav class="mobile-nav-links">
       <button type="button" class="mobile-nav-btn" id="mobile-btn-experience" onclick="mobileShowSection('experience')">Experience</button>
+      <div class="mobile-sub-btns" id="mobile-sub-experience">
+        <button type="button" class="mobile-sub-btn" onclick="mobileScrollToId('rok')">Rok</button>
+        <button type="button" class="mobile-sub-btn" onclick="mobileScrollToId('warrlock')">Warrlock</button>
+        <button type="button" class="mobile-sub-btn" onclick="mobileScrollToId('richiesouf')">Richie Souf</button>
+        <button type="button" class="mobile-sub-btn" onclick="mobileScrollToId('saintmartins')">Saint Martins</button>
+      </div>
       <button type="button" class="mobile-nav-btn" id="mobile-btn-design" onclick="mobileShowSection('design')">Design</button>
+      <div class="mobile-sub-btns" id="mobile-sub-design" style="display:none">
+        <button type="button" class="mobile-sub-btn" onclick="mobileScrollToId('d-2-20-03')">2.20.03</button>
+        <button type="button" class="mobile-sub-btn" onclick="mobileScrollToId('d-notahuman')">NOT A HUMAN</button>
+        <button type="button" class="mobile-sub-btn" onclick="mobileScrollToId('d-saintmartins')">Saint Martins</button>
+        <button type="button" class="mobile-sub-btn" onclick="mobileScrollToId('d-sneak')">sneak</button>
+        <button type="button" class="mobile-sub-btn" onclick="mobileScrollToId('d-soufpaw')">SOUFPAW</button>
+      </div>
       <button type="button" class="mobile-nav-btn" id="mobile-btn-photos" onclick="mobileShowSection('photos')">Photos</button>
       <button type="button" class="mobile-nav-btn" id="mobile-btn-videos" onclick="mobileShowSection('videos')">Videos</button>
       <button type="button" class="mobile-nav-btn" id="mobile-btn-music" onclick="mobileShowSection('music')">Music</button>
+      <div class="mobile-sub-btns" id="mobile-sub-music" style="display:none">
+        <button type="button" class="mobile-sub-btn" onclick="mobileScrollToId('personal')">Personal</button>
+        <button type="button" class="mobile-sub-btn" onclick="mobileScrollToId('production')">Production</button>
+        <button type="button" class="mobile-sub-btn" onclick="mobileScrollToId('mixing')">Mixing</button>
+      </div>
     </nav>
   </div>
   <main class="flex">
@@ -388,7 +406,7 @@
       _updateMobileNavActive('experience');
     });
 
-    function _updateMobileNavActive(name){['experience','design','photos','videos','music'].forEach(s=>{const btn=document.getElementById('mobile-btn-'+s);if(btn)btn.classList.toggle('mobile-nav-active',s===name);});}
+    function _updateMobileNavActive(name){['experience','design','photos','videos','music'].forEach(s=>{const btn=document.getElementById('mobile-btn-'+s);if(btn)btn.classList.toggle('mobile-nav-active',s===name);const sub=document.getElementById('mobile-sub-'+s);if(sub)sub.style.display=s===name?'':'none';});}
     let _navOpen=false,_navAnimating=false;
     const _mobileBarBtn=document.getElementById('mobile-bar-btn');
     function _openNav(){if(_navAnimating)return;_navOpen=true;_navAnimating=true;const n=document.getElementById('mobile-nav');n.classList.add('visible');requestAnimationFrame(()=>requestAnimationFrame(()=>{n.classList.add('open');let done=()=>{_navAnimating=false;document.getElementById('mobile-nav-close').focus();done=()=>{};};n.addEventListener('transitionend',(e)=>{if(e.target===n)done();},{once:true});setTimeout(()=>done(),300);}));_mobileBarBtn.setAttribute('aria-expanded','true');_mobileBarBtn.setAttribute('aria-label','Close menu');}
@@ -396,8 +414,9 @@
     _mobileBarBtn.addEventListener('click',_openNav);
     document.getElementById('mobile-nav-close').addEventListener('click',_closeNav);
     document.getElementById('mobile-nav').addEventListener('click',(e)=>{if(e.target===document.getElementById('mobile-nav'))_closeNav();});
-    document.addEventListener('keydown',(e)=>{if(e.key==='Escape'&&_navOpen){_closeNav();return;}if(_navOpen&&e.key==='Tab'){const focusable=Array.from(document.getElementById('mobile-nav').querySelectorAll('button'));const first=focusable[0];const last=focusable[focusable.length-1];if(e.shiftKey){if(document.activeElement===first){e.preventDefault();last.focus();}}else{if(document.activeElement===last){e.preventDefault();first.focus();}}}});
+    document.addEventListener('keydown',(e)=>{if(e.key==='Escape'&&_navOpen){_closeNav();return;}if(_navOpen&&e.key==='Tab'){const focusable=Array.from(document.getElementById('mobile-nav').querySelectorAll('button')).filter(b=>{const sub=b.closest('.mobile-sub-btns');return !sub||sub.style.display!=='none';});const first=focusable[0];const last=focusable[focusable.length-1];if(e.shiftKey){if(document.activeElement===first){e.preventDefault();last.focus();}}else{if(document.activeElement===last){e.preventDefault();first.focus();}}}});
     function mobileShowSection(name){_navOpen=false;_navAnimating=true;showSection(name);const n=document.getElementById('mobile-nav');requestAnimationFrame(()=>{n.classList.remove('open');let done=()=>{if(!_navOpen){n.classList.remove('visible');_updateMobileNavActive(name);}_navAnimating=false;done=()=>{};};n.addEventListener('transitionend',(e)=>{if(e.target===n)done();},{once:true});setTimeout(()=>done(),350);});}
+    function mobileScrollToId(id){_navOpen=false;_navAnimating=true;const n=document.getElementById('mobile-nav');requestAnimationFrame(()=>{n.classList.remove('open');let done=()=>{if(!_navOpen){n.classList.remove('visible');scrollToId(id);}_navAnimating=false;done=()=>{};};n.addEventListener('transitionend',(e)=>{if(e.target===n)done();},{once:true});setTimeout(()=>done(),350);});_mobileBarBtn.setAttribute('aria-expanded','false');_mobileBarBtn.setAttribute('aria-label','Open menu');}
   </script>
   <div id="lightbox"><button id="lb-close" aria-label="Close lightbox"><span></span><span></span></button><button id="lb-prev" aria-label="Previous image">&#8592;</button><img alt=""><button id="lb-next" aria-label="Next image">&#8594;</button><span id="lb-count"></span></div>
   <div id="site-lock"></div>
