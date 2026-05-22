@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;600&amp;display=swap" rel="stylesheet">
-<script src="main.js?v=54" defer></script>
+<script src="main.js?v=55" defer></script>
 </head>
 
 <body>
@@ -34,14 +34,14 @@
   </div>
   <main class="flex">
 
-    <header class="header">
+    <header class="header" role="banner">
       <div class="logo-box flex column">
         <img class="logo" src="logo.svg" alt="Hamed Tahiri">
         <span class="name" aria-hidden="true">HAMED TAHIRI</span>
       </div>
 
       <nav class="flex column" aria-label="Main navigation">
-        <button type="button" onclick="showSection('experience')" class="btn btn-active" id="btn-experience">Experience</button>
+        <button type="button" onclick="showSection('experience')" class="btn btn-active" id="btn-experience" aria-current="true">Experience</button>
         <div class="flex column sub-btns" id="sub-experience">
           <button type="button" onclick="scrollToId('rok')" class="btn">Rok</button>
           <button type="button" onclick="scrollToId('warrlock')" class="btn">Warrlock</button>
@@ -391,7 +391,7 @@
       _updateMobileNavActive('experience');
     });
 
-    function _updateMobileNavActive(name){['experience','design','photos','videos','music'].forEach(s=>{const btn=document.getElementById('mobile-btn-'+s);if(btn)btn.classList.toggle('mobile-nav-active',s===name);});}
+    function _updateMobileNavActive(name){['experience','design','photos','videos','music'].forEach(s=>{const btn=document.getElementById('mobile-btn-'+s);if(btn){btn.classList.toggle('mobile-nav-active',s===name);btn.setAttribute('aria-current',s===name?'true':'false');}});}
     let _navOpen=false,_navAnimating=false;
     const _mobileBarBtn=document.getElementById('mobile-bar-btn');
     function _openNav(){if(_navAnimating)return;_navOpen=true;_navAnimating=true;const n=document.getElementById('mobile-nav');n.classList.add('visible');requestAnimationFrame(()=>requestAnimationFrame(()=>{n.classList.add('open');let done=()=>{_navAnimating=false;document.getElementById('mobile-nav-close').focus();done=()=>{};};n.addEventListener('transitionend',(e)=>{if(e.target===n)done();},{once:true});setTimeout(()=>done(),300);}));_mobileBarBtn.setAttribute('aria-expanded','true');_mobileBarBtn.setAttribute('aria-label','Close menu');}
