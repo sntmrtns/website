@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;600&amp;display=swap" rel="stylesheet">
-<script src="main.js?v=52" defer></script>
+<script src="main.js?v=53" defer></script>
 </head>
 
 <body>
@@ -20,7 +20,7 @@
       <span></span><span></span><span></span>
     </button>
   </div>
-  <div class="mobile-nav" id="mobile-nav">
+  <div class="mobile-nav" id="mobile-nav" role="dialog" aria-modal="true" aria-label="Navigation menu">
     <button type="button" class="mobile-nav-close" id="mobile-nav-close" aria-label="Close menu">
       <span></span><span></span>
     </button>
@@ -37,7 +37,7 @@
     <header class="header">
       <div class="logo-box flex column">
         <img class="logo" src="logo.svg" alt="Hamed Tahiri">
-        <span class="name">HAMED TAHIRI</span>
+        <span class="name" aria-hidden="true">HAMED TAHIRI</span>
       </div>
 
       <nav class="flex column">
@@ -67,7 +67,7 @@
       </nav>
     </header>
 
-    <div class="body" role="main">
+    <div class="body">
 
       <!-- EXPERIENCE -->
       <div id="section-experience">
@@ -190,7 +190,7 @@
         if(!id)return;
         const facade=document.createElement("div");
         facade.className="video-facade";
-        facade.setAttribute("data-src","https://www.youtube.com/embed/"+id+"?autoplay=1&enablejsapi=1");
+        facade.setAttribute("data-src","https://www.youtube.com/embed/"+id+"?enablejsapi=1");
         facade.onclick=()=>{loadVideo(facade);};facade.setAttribute("tabindex","0");facade.setAttribute("role","button");facade.setAttribute("aria-label",v.title);facade.addEventListener("keydown",(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();loadVideo(facade);}});
         facade.innerHTML='<img src="https://img.youtube.com/vi/'+id+'/maxresdefault.jpg" alt="" onerror="this.onerror=null;this.src=\'https://img.youtube.com/vi/'+id+'/hqdefault.jpg\'"><span class="play-btn">&#9654;</span>';
         const videoWrap=document.createElement("div");
@@ -237,6 +237,7 @@
     photos.forEach((name,i)=>{
       const img=new Image();
       img.alt='';
+      img.tabIndex=0;
       img.onload=img.onerror=()=>{
         const rowIdx=Math.floor(i/3),posInRow=i%3;
         const ar=(img.naturalWidth||3)/(img.naturalHeight||2);
@@ -271,6 +272,7 @@
         srcs.forEach((src,i)=>{
           const img=new Image();
           img.alt='';
+          img.tabIndex=0;
           img.onload=img.onerror=()=>{
             cells[i].style.aspectRatio='';
             cells[i].appendChild(img);
@@ -337,6 +339,7 @@
           const cell = document.createElement("div");
           if (t.sc) {
             const iframe = document.createElement("iframe");
+            iframe.title = t.title;
             iframe.allow = "autoplay";
             iframe.src = scSrc(t.sc);
             cell.appendChild(iframe);
