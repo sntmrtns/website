@@ -69,8 +69,8 @@
 
     <div class="body">
 
-      <!-- EXPERIENCE -->
-      <div id="section-experience">
+      <!-- WORK -->
+      <div id="section-work">
         <div id="warrlock" class="work href-section">
           <h2>Operations, Warrlock</h2>
           <p class="time">January 2025 - Present &bull; Remote</p>
@@ -393,10 +393,10 @@
       }else{
         startFade();
       }
-      _updateMobileNavActive('experience');
+      _updateMobileNavActive('work');
     });
 
-    function _updateMobileNavActive(name){['experience','design','photos','videos','music'].forEach(s=>{const btn=document.getElementById('mobile-btn-'+s);if(btn){btn.classList.toggle('mobile-nav-active',s===name);btn.setAttribute('aria-current',s===name?'page':'false');}});}
+    function _updateMobileNavActive(name){['work','design','photos','videos','music'].forEach(s=>{const btn=document.getElementById('mobile-btn-'+s);if(btn){btn.classList.toggle('mobile-nav-active',s===name);btn.setAttribute('aria-current',s===name?'page':'false');}});}
     let _navOpen=false,_navAnimating=false;
     const _mobileBarBtn=document.getElementById('mobile-bar-btn');
     function _openNav(){if(_navAnimating)return;_navOpen=true;_navAnimating=true;const n=document.getElementById('mobile-nav');n.classList.add('visible');requestAnimationFrame(()=>requestAnimationFrame(()=>{n.classList.add('open');let done=()=>{_navAnimating=false;document.getElementById('mobile-nav-close').focus();done=()=>{};};n.addEventListener('transitionend',(e)=>{if(e.target===n)done();},{once:true});setTimeout(()=>done(),350);}));_mobileBarBtn.setAttribute('aria-expanded','true');_mobileBarBtn.setAttribute('aria-label','Close menu');}
