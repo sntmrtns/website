@@ -6,11 +6,11 @@
 <title>Hamed Tahiri</title>
 <link rel="icon" type="image/png" href="/favicon.png">
 <meta name="robots" content="noindex, nosnippet">
-<link rel="stylesheet" href="style.css?v=128">
+<link rel="stylesheet" href="style.css?v=129">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;600&amp;display=swap" rel="stylesheet">
-<script src="main.js?v=63" defer></script>
+<script src="main.js?v=64" defer></script>
 </head>
 
 <body>
@@ -36,12 +36,12 @@
 
     <header class="header">
       <div class="logo-box flex column">
-        <img class="logo" src="logo.svg" alt="Hamed Tahiri">
-        <span class="name" aria-hidden="true">HAMED TAHIRI</span>
+        <img class="logo" src="logo.svg" alt="">
+        <span class="name" role="heading" aria-level="1">HAMED TAHIRI</span>
       </div>
 
       <nav class="flex column" aria-label="Main navigation">
-        <button type="button" onclick="showSection('experience')" class="btn btn-active" id="btn-experience" aria-current="true">Experience</button>
+        <button type="button" onclick="showSection('experience')" class="btn btn-active" id="btn-experience" aria-current="page">Experience</button>
         <div class="flex column sub-btns" id="sub-experience">
           <button type="button" onclick="scrollToId('rok')" class="btn">Rok</button>
           <button type="button" onclick="scrollToId('warrlock')" class="btn">Warrlock</button>
@@ -396,7 +396,7 @@
       _updateMobileNavActive('experience');
     });
 
-    function _updateMobileNavActive(name){['experience','design','photos','videos','music'].forEach(s=>{const btn=document.getElementById('mobile-btn-'+s);if(btn){btn.classList.toggle('mobile-nav-active',s===name);btn.setAttribute('aria-current',s===name?'true':'false');}});}
+    function _updateMobileNavActive(name){['experience','design','photos','videos','music'].forEach(s=>{const btn=document.getElementById('mobile-btn-'+s);if(btn){btn.classList.toggle('mobile-nav-active',s===name);btn.setAttribute('aria-current',s===name?'page':'false');}});}
     let _navOpen=false,_navAnimating=false;
     const _mobileBarBtn=document.getElementById('mobile-bar-btn');
     function _openNav(){if(_navAnimating)return;_navOpen=true;_navAnimating=true;const n=document.getElementById('mobile-nav');n.classList.add('visible');requestAnimationFrame(()=>requestAnimationFrame(()=>{n.classList.add('open');let done=()=>{_navAnimating=false;document.getElementById('mobile-nav-close').focus();done=()=>{};};n.addEventListener('transitionend',(e)=>{if(e.target===n)done();},{once:true});setTimeout(()=>done(),350);}));_mobileBarBtn.setAttribute('aria-expanded','true');_mobileBarBtn.setAttribute('aria-label','Close menu');}
