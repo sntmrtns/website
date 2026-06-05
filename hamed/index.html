@@ -387,7 +387,7 @@
       document.removeEventListener('keydown',_blockKeys);
       document.body.style.opacity='1';
     };
-    window.addEventListener('load',()=>{
+    document.addEventListener('DOMContentLoaded',()=>{
       const startFade=()=>{
         document.body.classList.add("fade-in");
         document.body.addEventListener('animationend',_unlock,{once:true});
