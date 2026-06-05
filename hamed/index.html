@@ -391,7 +391,7 @@
       const startFade=()=>{
         document.body.classList.add("fade-in");
         document.body.addEventListener('animationend',_unlock,{once:true});
-        setTimeout(_unlock,1600);
+        setTimeout(_unlock,1500);
       };
       if(document.hidden){
         document.addEventListener('visibilitychange',function h(){
