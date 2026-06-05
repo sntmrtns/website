@@ -175,6 +175,7 @@
     const _blockKeys=(e)=>{if([' ','PageUp','PageDown','End','Home','ArrowLeft','ArrowUp','ArrowRight','ArrowDown'].includes(e.key))e.preventDefault();};
     document.addEventListener('wheel', _blockScroll, {passive:false});
     document.addEventListener('keydown', _blockKeys);
+    const _loadPromises=[];
 
     const videos = [
       { title: "NOT A HUMAN - 2025-12-17",              url: "https://www.youtube.com/watch?v=uIwIzCKI7a8" },
@@ -197,7 +198,11 @@
         facade.className="video-facade";
         facade.setAttribute("data-src","https://www.youtube.com/embed/"+id+"?enablejsapi=1");
         facade.addEventListener('click',()=>{loadVideo(facade);});facade.setAttribute("tabindex","0");facade.setAttribute("role","button");facade.setAttribute("aria-label",v.title);facade.addEventListener("keydown",(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();loadVideo(facade);}});
-        facade.innerHTML='<img src="https://img.youtube.com/vi/'+id+'/maxresdefault.jpg" alt="" onerror="this.onerror=null;this.src=\'https://img.youtube.com/vi/'+id+'/hqdefault.jpg\'"><span class="play-btn">&#9654;</span>';
+        const _thumb=new Image();_thumb.alt='';
+        _loadPromises.push(new Promise(r=>{let _tried=false;_thumb.onload=r;_thumb.onerror=()=>{if(!_tried){_tried=true;_thumb.src='https://img.youtube.com/vi/'+id+'/hqdefault.jpg';}else r();};}));
+        _thumb.src='https://img.youtube.com/vi/'+id+'/maxresdefault.jpg';
+        const _playBtn=document.createElement('span');_playBtn.className='play-btn';_playBtn.innerHTML='&#9654;';
+        facade.appendChild(_thumb);facade.appendChild(_playBtn);
         const videoWrap=document.createElement("div");
         videoWrap.className="videobox-video";
         videoWrap.appendChild(facade);
@@ -245,7 +250,7 @@
       img.tabIndex=0;
       img.setAttribute('role','button');
       img.setAttribute('aria-label','Photo '+(i+1)+' of '+photos.length);
-      img.onload=img.onerror=()=>{
+      _loadPromises.push(new Promise(r=>{img.onload=img.onerror=()=>{
         const rowIdx=Math.floor(i/3),posInRow=i%3;
         const ar=(img.naturalWidth||3)/(img.naturalHeight||2);
         const{el:rowEl,cells}=_photoRows[rowIdx];
@@ -256,7 +261,8 @@
         let totalAR=0;
         for(const c of cells)totalAR+=parseFloat(c.style.flex)||1.5;
         rowEl.style.aspectRatio=totalAR;
-      };
+        r();
+      };}));
       img.src="photos/"+name;
     });
 
@@ -282,11 +288,12 @@
           img.tabIndex=0;
           img.setAttribute('role','button');
           img.setAttribute('aria-label','Image '+(i+1)+' of '+srcs.length);
-          img.onload=img.onerror=()=>{
+          _loadPromises.push(new Promise(r=>{img.onload=img.onerror=()=>{
             cells[i].style.aspectRatio='';
             cells[i].appendChild(img);
             requestAnimationFrame(()=>img.classList.add('loaded'));
-          };
+            r();
+          };}));
           img.src=src;
         });
       });
@@ -352,6 +359,7 @@
             const iframe = document.createElement("iframe");
             iframe.title = t.title;
             iframe.allow = "autoplay";
+            _loadPromises.push(new Promise(r=>{iframe.onload=r;setTimeout(r,10000);}));
             iframe.src = scSrc(t.sc);
             cell.appendChild(iframe);
             const p = document.createElement("p");
@@ -361,6 +369,7 @@
             const video = document.createElement("video");
             video.preload="none";
             video.poster=t.poster;
+            if(t.poster){const _pi=new Image();_loadPromises.push(new Promise(r=>{_pi.onload=_pi.onerror=r;}));_pi.src=t.poster;}
             video.controls=true;
             video.setAttribute('aria-label',t.title);
             const source = document.createElement("source");
@@ -392,14 +401,17 @@
         document.body.classList.add("fade-in");
         setTimeout(_unlock,300);
       };
-      if(document.hidden){
-        document.addEventListener('visibilitychange',function h(){
-          if(!document.hidden){document.removeEventListener('visibilitychange',h);startFade();}
-        });
-      }else{
-        startFade();
-      }
-      _updateMobileNavActive('work');
+      const doStart=()=>{
+        if(document.hidden){
+          document.addEventListener('visibilitychange',function h(){
+            if(!document.hidden){document.removeEventListener('visibilitychange',h);startFade();}
+          });
+        }else{
+          startFade();
+        }
+        _updateMobileNavActive('work');
+      };
+      Promise.race([Promise.all(_loadPromises),new Promise(r=>setTimeout(r,15000))]).then(doStart);
     });
 
     function _updateMobileNavActive(name){['work','design','photos','videos','music'].forEach(s=>{const btn=document.getElementById('mobile-btn-'+s);if(btn){btn.classList.toggle('mobile-nav-active',s===name);btn.setAttribute('aria-current',s===name?'page':'false');}});}
