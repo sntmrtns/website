@@ -387,11 +387,10 @@
       document.removeEventListener('keydown',_blockKeys);
       document.body.style.opacity='1';
     };
-    document.addEventListener('DOMContentLoaded',()=>{
+    window.addEventListener('load',()=>{
       const startFade=()=>{
         document.body.classList.add("fade-in");
-        document.body.addEventListener('animationend',_unlock,{once:true});
-        setTimeout(_unlock,1500);
+        setTimeout(_unlock,800);
       };
       if(document.hidden){
         document.addEventListener('visibilitychange',function h(){
