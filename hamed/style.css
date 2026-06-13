@@ -15,7 +15,7 @@
 .duties li{position:relative;display:block;margin:0 0 calc(12.38*var(--s));padding-left:calc(24.6*var(--s));font-size:calc(16*var(--s));font-weight:300;line-height:1.55;color:rgba(255,255,255,.6);text-wrap:pretty}
 .duty-col li:last-child{margin-bottom:0}
 .duties li:first-child{margin-top:0}
-.duties li::before{content:"\2022";position:absolute;left:0;top:0;color:rgba(255,255,255,.3)}
+.duties li::before{content:"\2014";position:absolute;left:0;top:0;color:rgba(255,255,255,.3)}
 @media(max-width:768px){
   #section-work{margin-top:0}
   #section-work .work{display:block;padding:26px 0 28px;margin:0;column-gap:0}
