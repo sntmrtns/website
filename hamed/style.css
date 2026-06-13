@@ -5,8 +5,9 @@
 .work:last-child{margin-bottom:0}
 .work-meta{flex:0 0 auto;width:calc(360*var(--s));display:flex;flex-direction:column}
 .work-meta h2{font-size:calc(20*var(--s));text-transform:uppercase;margin:0 0 calc(12*var(--s));line-height:1.2}
-.work-meta .role{font-size:calc(14*var(--s));color:#fff;margin:0;line-height:1.45}
-.work-meta .time{font-size:calc(14*var(--s));color:#fff;margin:0;line-height:1.45}
+.work-meta .role{font-size:calc(14*var(--s));color:#fff;margin:0;line-height:1.45;display:inline}
+.work-meta .role::after{content:", "}
+.work-meta .time{font-size:calc(14*var(--s));color:#fff;margin:0;line-height:1.45;display:inline}
 .work-meta .work-desc{font-size:calc(14*var(--s));color:#fff;line-height:1.45;margin:calc(14*var(--s)) 0 0}
 .work-duties{display:flex;align-items:flex-start;column-gap:calc(48*var(--s));flex-wrap:nowrap}
 .work-duties .duty-col{flex:1;list-style:none;margin:0;padding:0}
