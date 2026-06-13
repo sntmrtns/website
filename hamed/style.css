@@ -4,7 +4,7 @@
 .work:first-child{margin-top:calc(-6*var(--s))}
 .work:last-child{margin-bottom:0}
 .work-meta{flex:0 0 auto;width:calc(360*var(--s));display:block}
-.work-meta h2{font-size:calc(20*var(--s));text-transform:uppercase;margin:0 0 calc(12*var(--s));line-height:1.2}
+.work-meta h2{font-size:calc(20*var(--s));text-transform:uppercase;margin:0 0 calc(9*var(--s));line-height:1.2}
 .work-meta .role{font-size:calc(14*var(--s));color:#fff;margin:0;line-height:1.45;display:inline}
 .work-meta .role::after{content:", "}
 .work-meta .time{font-size:calc(14*var(--s));color:#fff;margin:0;line-height:1.45;display:inline}
