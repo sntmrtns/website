@@ -19,7 +19,7 @@
   #section-work .work{display:block;padding:26px 0 28px;margin:0;column-gap:0}
   #section-work .work:first-child{padding-top:0}
   #section-work .work:last-child{padding-bottom:0}
-  .work-info h2{font-size:20px;line-height:1.2;margin:0 0 6px}
+  .work-info h2{font-size:16px;line-height:1.2;margin:0 0 6px}
   .work-dates{display:block;margin-top:6px;font-size:12px;line-height:1.55}
   .work-role{margin-top:8px;font-size:12px;line-height:1.55}
   .work-desc,.work:not(:has(.duties)) .work-desc{max-width:none;margin-top:12px;font-size:12px;line-height:1.55}
