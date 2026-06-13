@@ -2,13 +2,11 @@
 /* ===== Experience — full-width ledger ===== */
 #section-work{padding-bottom:100px}
 .work{display:grid;grid-template-columns:repeat(3,1fr);column-gap:calc(50*var(--s));align-items:start;margin:0;padding:calc(51.3*var(--s)) 0}
-.work:first-child{margin-top:calc(-6*var(--s));padding-top:0}
+#section-work .work:first-child{margin-top:calc(-6*var(--s));padding-top:0}
 .work:last-child{padding-bottom:0}
 .work-info{grid-column:1}
-.work-head{display:flex;align-items:baseline}
-.work-head h2{margin:0;font-size:calc(20*var(--s));font-weight:600;text-transform:uppercase;letter-spacing:.015em;line-height:1.1}
-.work-dates{flex:0 0 auto;font-size:calc(16*var(--s));font-weight:300;line-height:1.6;color:rgba(255,255,255,.9);white-space:nowrap}
-.work-role{margin:calc(11.55*var(--s)) 0 0;font-size:calc(16*var(--s));font-weight:300;line-height:1.6;color:rgba(255,255,255,.9)}
+.work-info h2{margin:0 0 calc(9*var(--s));font-size:calc(20*var(--s));font-weight:600;text-transform:uppercase;letter-spacing:.015em}
+.work-role{margin:0;font-size:calc(16*var(--s));font-weight:300;line-height:1.6;color:rgba(255,255,255,.9)}
 .work-desc{max-width:none;margin:calc(11.55*var(--s)) 0 0;font-size:calc(16*var(--s));font-weight:300;line-height:1.6;color:rgba(255,255,255,.9);text-wrap:pretty}
 .duties{grid-column:2/4;align-self:start;display:grid;grid-template-columns:repeat(2,1fr);column-gap:calc(50*var(--s))}
 .duty-col{margin:0;padding:0;list-style:none;align-self:start}
@@ -21,8 +19,7 @@
   #section-work .work{display:block;padding:26px 0 28px;margin:0;column-gap:0}
   #section-work .work:first-child{padding-top:0}
   #section-work .work:last-child{padding-bottom:0}
-  .work-head{display:block}
-  .work-head h2{font-size:17px;line-height:1.2}
+  .work-info h2{font-size:17px;line-height:1.2;margin:0 0 6px}
   .work-dates{display:block;margin-top:6px;font-size:14px;line-height:1.55}
   .work-role{margin-top:8px;font-size:14px;line-height:1.55}
   .work-desc,.work:not(:has(.duties)) .work-desc{max-width:none;margin-top:12px;font-size:14px;line-height:1.55}
