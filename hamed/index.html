@@ -6,7 +6,7 @@
 <title>Hamed Tahiri</title>
 <link rel="icon" type="image/png" href="/favicon.png">
 <meta name="robots" content="noindex, nosnippet">
-<link rel="stylesheet" href="style.css?v=191">
+<link rel="stylesheet" href="style.css?v=192">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;600&amp;display=swap" rel="stylesheet">
@@ -455,6 +455,7 @@
       Promise.race([Promise.all(_loadPromises),new Promise(r=>setTimeout(r,15000))]).then(doStart);
     });
 
+    (function(){let _prevW=window.innerWidth;window.addEventListener('resize',function(){const w=window.innerWidth;if(w!==_prevW&&!window.matchMedia('(pointer:coarse)').matches){window.scrollTo(0,Math.round(window.scrollY*w/_prevW));}_prevW=w;});})();
     function _updateMobileNavActive(name){['work','design','photos','videos','music'].forEach(s=>{const btn=document.getElementById('mobile-btn-'+s);if(btn){btn.classList.toggle('mobile-nav-active',s===name);btn.setAttribute('aria-current',s===name?'page':'false');}});}
     let _navOpen=false,_navAnimating=false;
     const _mobileBarBtn=document.getElementById('mobile-bar-btn');
