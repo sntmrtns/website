@@ -5,7 +5,7 @@
 #section-work .work:first-child{margin-top:calc(-6*var(--s));padding-top:0}
 .work:last-child{padding-bottom:0}
 .work-info{grid-column:1}
-.work-info h2{margin:0 0 calc(9*var(--s));font-size:calc(20*var(--s));font-weight:600;text-transform:uppercase;letter-spacing:.015em}
+.work-info h2{margin:0 0 calc(9*var(--s) - 5px);font-size:calc(20*var(--s));font-weight:600;text-transform:uppercase;letter-spacing:.015em}
 .work-role{margin:0;font-size:calc(16*var(--s));font-weight:300;line-height:1.6;color:rgba(255,255,255,.9)}
 .work-desc{max-width:none;margin:calc(11.55*var(--s)) 0 0;font-size:calc(16*var(--s));font-weight:300;line-height:1.6;color:rgba(255,255,255,.9);text-wrap:pretty}
 .duties{grid-column:2/4;align-self:start;display:grid;grid-template-columns:repeat(2,1fr);column-gap:calc(50*var(--s))}
