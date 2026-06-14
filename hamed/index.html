@@ -6,11 +6,11 @@
 <title>Hamed Tahiri</title>
 <link rel="icon" type="image/png" href="/favicon.png">
 <meta name="robots" content="noindex, nosnippet">
-<link rel="stylesheet" href="style.css?v=199">
+<link rel="stylesheet" href="style.css?v=200">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;600&amp;display=swap" rel="stylesheet">
-<script src="main.js?v=68" defer></script>
+<script src="main.js?v=69" defer></script>
 </head>
 
 <body>
@@ -455,7 +455,7 @@
       Promise.race([Promise.all(_loadPromises),new Promise(r=>setTimeout(r,15000))]).then(doStart);
     });
 
-    (function(){const bz=document.querySelector('.body-zoom');if(!bz)return;const mob=()=>window.matchMedia('(max-width:768px) and (pointer:coarse)').matches;let _prevW=window.innerWidth,_prevDPR=window.devicePixelRatio,_innerY=0,_seq=0;function _getInnerY(){return mob()?window.scrollY:window.scrollY*2560/_prevW;}_innerY=_getInnerY();window.addEventListener('scroll',()=>{_innerY=_getInnerY();},{passive:true});window.addEventListener('resize',function(){const w=window.innerWidth,dpr=window.devicePixelRatio;if(w===_prevW){_prevDPR=dpr;return;}const winResize=dpr===_prevDPR,tgt=_innerY*(w/2560);_prevW=w;_prevDPR=dpr;if(winResize&&!mob()){const s=++_seq;requestAnimationFrame(()=>{if(_seq===s)window.scrollTo({top:tgt,behavior:'instant'});});}});})();
+    (function(){const bz=document.querySelector('.body-zoom');if(!bz)return;const mob=()=>window.matchMedia('(max-width:768px) and (pointer:coarse)').matches;let _prevW=window.innerWidth,_prevDPR=window.devicePixelRatio,_innerY=0,_seq=0,_preZoomY=null,_pzt=null;function _getInnerY(){return mob()?window.scrollY:window.scrollY*2560/_prevW;}_innerY=_getInnerY();window.addEventListener('scroll',()=>{_innerY=_getInnerY();},{passive:true});function _capture(){if(_preZoomY===null){_preZoomY=_innerY;clearTimeout(_pzt);_pzt=setTimeout(()=>{_preZoomY=null;},1000);}}document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&(e.key==='-'||e.key==='+'||e.key==='='||e.key==='0'))_capture();},true);window.addEventListener('wheel',function(e){if(e.ctrlKey)_capture();},{passive:true,capture:true});window.addEventListener('resize',function(){const w=window.innerWidth,dpr=window.devicePixelRatio;if(w===_prevW){_prevDPR=dpr;return;}const winResize=dpr===_prevDPR,snap=_preZoomY!==null?_preZoomY:_innerY,tgt=snap*(w/2560);_prevW=w;_prevDPR=dpr;if(!winResize){clearTimeout(_pzt);_preZoomY=null;}if(!mob()){const s=++_seq;requestAnimationFrame(()=>{if(_seq===s)window.scrollTo({top:tgt,behavior:'instant'});});}});})();
     function _updateMobileNavActive(name){['work','design','photos','videos','music'].forEach(s=>{const btn=document.getElementById('mobile-btn-'+s);if(btn){btn.classList.toggle('mobile-nav-active',s===name);btn.setAttribute('aria-current',s===name?'page':'false');}});}
     let _navOpen=false,_navAnimating=false;
     const _mobileBarBtn=document.getElementById('mobile-bar-btn');
