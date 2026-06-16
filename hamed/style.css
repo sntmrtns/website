@@ -6,14 +6,14 @@
 .work:last-child{padding-bottom:0}
 .work-info{grid-column:1}
 .work-info h2{margin:0 0 4px;font-size:20px;font-weight:600;text-transform:uppercase;letter-spacing:.015em}
-.work-role{margin:0;font-size:16px;font-weight:300;line-height:1.6;color:rgba(255,255,255,.9)}
-.work-desc{max-width:none;margin:13px 0 0;font-size:16px;font-weight:300;line-height:1.6;color:rgba(255,255,255,.9);text-wrap:pretty}
+.work-role{margin:0;font-size:16px;font-weight:300;line-height:1.6;color:#fff}
+.work-desc{max-width:none;margin:13px 0 0;font-size:16px;font-weight:300;line-height:1.6;color:#fff;text-wrap:pretty}
 .duties{grid-column:2/4;align-self:start;display:grid;grid-template-columns:repeat(2,1fr);column-gap:50px}
 .duty-col{margin:0;padding:0;list-style:none;align-self:start}
-.duties li{position:relative;display:block;margin:0 0 13px;padding-left:25px;font-size:16px;font-weight:300;line-height:1.55;color:rgba(255,255,255,.6);text-wrap:pretty}
+.duties li{position:relative;display:block;margin:0 0 13px;padding-left:25px;font-size:16px;font-weight:300;line-height:1.55;color:#fff;text-wrap:pretty}
 .duty-col li:last-child{margin-bottom:0}
 .duties li:first-child{margin-top:0}
-.duties li::before{content:"\2014";position:absolute;left:0;top:0;color:rgba(255,255,255,.3)}
+.duties li::before{content:"\2014";position:absolute;left:0;top:0;color:#fff}
 @media(max-width:768px) and (pointer:coarse){
   #section-work{margin-top:0;padding-top:0;padding-bottom:0}
   #section-work .work{display:block;padding:40px 0 0;margin:0;column-gap:0}
