@@ -14,6 +14,14 @@
 .duty-col li:last-child{margin-bottom:0}
 .duties li:first-child{margin-top:0}
 .duties li::before{content:"\2014";position:absolute;left:0;top:0;color:#fff}
+@media(max-width:1100px){
+  .work{grid-template-columns:1fr 2fr}
+  .duties{grid-column:2;grid-template-columns:1fr}
+}
+@media(max-width:900px){
+  .work{grid-template-columns:1fr}
+  .duties{grid-column:1;grid-template-columns:1fr;margin-top:24px}
+}
 @media(max-width:768px){
   #section-work{margin-top:0;padding-top:0;padding-bottom:0}
   #section-work .work{display:block;padding:40px 0 0;margin:0;column-gap:0}
