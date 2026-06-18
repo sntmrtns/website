@@ -14,7 +14,7 @@
 .duty-col li:last-child{margin-bottom:0}
 .duties li:first-child{margin-top:0}
 .duties li::before{content:"\2014";position:absolute;left:0;top:0;color:#fff}
-@media(max-width:1500px){
+@media(max-width:1700px){
   .work{grid-template-columns:1fr 2fr}
   .duties{grid-column:2;grid-template-columns:1fr}
 }
