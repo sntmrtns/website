@@ -6,7 +6,7 @@
 <title>Hamed Tahiri</title>
 <link rel="icon" type="image/png" href="/favicon.png">
 <meta name="robots" content="noindex, nosnippet">
-<link rel="stylesheet" href="style.css?v=225">
+<link rel="stylesheet" href="style.css?v=226">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;600&amp;display=swap" rel="stylesheet">
@@ -401,8 +401,7 @@
             const iframe = document.createElement("iframe");
             iframe.title = t.title;
             iframe.allow = "autoplay";
-            iframe.loading = "lazy";
-            iframe.src = scSrc(t.sc);
+            iframe.dataset.src = scSrc(t.sc);
             cell.appendChild(iframe);
             const p = document.createElement("p");
             p.textContent = t.title;
@@ -429,6 +428,23 @@
       buildGridbox(music.personal, "gridbox-personal");
       buildGridbox(music.production, "gridbox-production");
       buildGridbox(music.mixing, "gridbox-mixing");
+    })();
+
+    (()=>{
+      const frames=Array.from(document.querySelectorAll('.gridbox iframe[data-src]'));
+      let i=0;
+      function next(){
+        if(i>=frames.length)return;
+        const f=frames[i++];
+        let done=false;
+        const advance=()=>{if(done)return;done=true;next();};
+        f.addEventListener('load',advance,{once:true});
+        setTimeout(advance,4000);
+        f.src=f.dataset.src;
+        f.removeAttribute('data-src');
+      }
+      if(document.readyState==='complete')next();
+      else window.addEventListener('load',next,{once:true});
     })();
 
     const _unlock=()=>{
