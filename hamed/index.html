@@ -6,11 +6,11 @@
 <title>Hamed Tahiri</title>
 <link rel="icon" type="image/png" href="/favicon.png">
 <meta name="robots" content="noindex, nosnippet">
-<link rel="stylesheet" href="style.css?v=230">
+<link rel="stylesheet" href="style.css?v=231">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;600&amp;display=swap" rel="stylesheet">
-<script src="main.js?v=71" defer></script>
+<script src="main.js?v=72" defer></script>
 </head>
 
 <body>
@@ -475,13 +475,13 @@
     function _updateMobileNavActive(name){['work','design','photos','videos','music'].forEach(s=>{const btn=document.getElementById('mobile-btn-'+s);if(btn){btn.classList.toggle('mobile-nav-active',s===name);btn.setAttribute('aria-current',s===name?'page':'false');}});}
     let _navOpen=false,_navAnimating=false;
     const _mobileBarBtn=document.getElementById('mobile-bar-btn');
-    function _openNav(){if(_navAnimating)return;_navOpen=true;_navAnimating=true;const n=document.getElementById('mobile-nav');n.classList.add('visible');requestAnimationFrame(()=>requestAnimationFrame(()=>{n.classList.add('open');let done=()=>{_navAnimating=false;document.getElementById('mobile-nav-close').focus();done=()=>{};};n.addEventListener('transitionend',(e)=>{if(e.target===n)done();},{once:true});setTimeout(()=>done(),1100);}));_mobileBarBtn.setAttribute('aria-expanded','true');_mobileBarBtn.setAttribute('aria-label','Close menu');}
-    function _closeNav(){if(_navAnimating)return;_navOpen=false;_navAnimating=true;const n=document.getElementById('mobile-nav');n.classList.remove('open');let done=()=>{if(!_navOpen)n.classList.remove('visible');_navAnimating=false;_mobileBarBtn.focus();done=()=>{};};n.addEventListener('transitionend',(e)=>{if(e.target===n)done();},{once:true});setTimeout(()=>done(),1100);_mobileBarBtn.setAttribute('aria-expanded','false');_mobileBarBtn.setAttribute('aria-label','Open menu');}
+    function _openNav(){if(_navAnimating)return;_navOpen=true;_navAnimating=true;const n=document.getElementById('mobile-nav');n.classList.add('visible');requestAnimationFrame(()=>requestAnimationFrame(()=>{n.classList.add('open');let done=()=>{_navAnimating=false;document.getElementById('mobile-nav-close').focus();done=()=>{};};n.addEventListener('transitionend',(e)=>{if(e.target===n)done();},{once:true});setTimeout(()=>done(),250);}));_mobileBarBtn.setAttribute('aria-expanded','true');_mobileBarBtn.setAttribute('aria-label','Close menu');}
+    function _closeNav(){if(_navAnimating)return;_navOpen=false;_navAnimating=true;const n=document.getElementById('mobile-nav');n.classList.remove('open');let done=()=>{if(!_navOpen)n.classList.remove('visible');_navAnimating=false;_mobileBarBtn.focus();done=()=>{};};n.addEventListener('transitionend',(e)=>{if(e.target===n)done();},{once:true});setTimeout(()=>done(),250);_mobileBarBtn.setAttribute('aria-expanded','false');_mobileBarBtn.setAttribute('aria-label','Open menu');}
     _mobileBarBtn.addEventListener('click',()=>{if(_navOpen)_closeNav();else _openNav();});
     document.getElementById('mobile-nav-close').addEventListener('click',_closeNav);
     document.getElementById('mobile-nav').addEventListener('click',(e)=>{if(e.target===document.getElementById('mobile-nav'))_closeNav();});
     document.addEventListener('keydown',(e)=>{if(e.key==='Escape'&&_navOpen){_closeNav();return;}if(_navOpen&&e.key==='Tab'){const focusable=Array.from(document.getElementById('mobile-nav').querySelectorAll('button'));const first=focusable[0];const last=focusable[focusable.length-1];if(e.shiftKey){if(document.activeElement===first){e.preventDefault();last.focus();}}else{if(document.activeElement===last){e.preventDefault();first.focus();}}}});
-    function mobileShowSection(name){if(_navAnimating)return;_navOpen=false;_navAnimating=true;showSection(name);_mobileBarBtn.setAttribute('aria-expanded','false');_mobileBarBtn.setAttribute('aria-label','Open menu');const n=document.getElementById('mobile-nav');requestAnimationFrame(()=>{n.classList.remove('open');let done=()=>{if(!_navOpen){n.classList.remove('visible');}_navAnimating=false;_mobileBarBtn.focus();done=()=>{};};n.addEventListener('transitionend',(e)=>{if(e.target===n)done();},{once:true});setTimeout(()=>done(),1100);});}
+    function mobileShowSection(name){if(_navAnimating)return;_navOpen=false;_navAnimating=true;showSection(name);_mobileBarBtn.setAttribute('aria-expanded','false');_mobileBarBtn.setAttribute('aria-label','Open menu');const n=document.getElementById('mobile-nav');requestAnimationFrame(()=>{n.classList.remove('open');let done=()=>{if(!_navOpen){n.classList.remove('visible');}_navAnimating=false;_mobileBarBtn.focus();done=()=>{};};n.addEventListener('transitionend',(e)=>{if(e.target===n)done();},{once:true});setTimeout(()=>done(),250);});}
   </script>
   <div id="lightbox" role="dialog" aria-modal="true" aria-label="Image lightbox"><button type="button" id="lb-close" aria-label="Close lightbox"><span></span><span></span></button><button type="button" id="lb-prev" aria-label="Previous image">&#8592;</button><img alt=""><button type="button" id="lb-next" aria-label="Next image">&#8594;</button><span id="lb-count" aria-live="polite"></span></div>
   <div id="site-lock"></div>
