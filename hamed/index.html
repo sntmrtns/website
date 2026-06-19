@@ -454,23 +454,23 @@
       document.removeEventListener('keydown',_blockKeys);
       document.body.style.opacity='1';
     };
-    window.addEventListener('load',()=>{
-      const startFade=()=>{
-        document.body.classList.add("fade-in");
-        setTimeout(_unlock,300);
-      };
-      const doStart=()=>{
-        if(document.hidden){
-          document.addEventListener('visibilitychange',function h(){
-            if(!document.hidden){document.removeEventListener('visibilitychange',h);startFade();}
-          });
-        }else{
-          startFade();
-        }
-        _updateMobileNavActive('work');
-      };
-      Promise.race([Promise.all(_loadPromises),new Promise(r=>setTimeout(r,15000))]).then(doStart);
-    });
+    const startFade=()=>{
+      document.body.classList.add("fade-in");
+      setTimeout(_unlock,300);
+    };
+    let _faded=false;
+    const doStart=()=>{
+      if(_faded)return;_faded=true;
+      if(document.hidden){
+        document.addEventListener('visibilitychange',function h(){
+          if(!document.hidden){document.removeEventListener('visibilitychange',h);startFade();}
+        });
+      }else{
+        startFade();
+      }
+      _updateMobileNavActive('work');
+    };
+    Promise.race([Promise.all(_loadPromises),new Promise(r=>setTimeout(r,15000))]).then(doStart);
 
     function _updateMobileNavActive(name){['work','design','photos','videos','music'].forEach(s=>{const btn=document.getElementById('mobile-btn-'+s);if(btn){btn.classList.toggle('mobile-nav-active',s===name);btn.setAttribute('aria-current',s===name?'page':'false');}});}
     let _navOpen=false,_navAnimating=false;
