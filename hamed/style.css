@@ -4,6 +4,9 @@
 #section-work .exp-group:first-child{margin-top:-6px}
 #section-work .exp-group+.work{padding-top:0}
 .entry-logo{display:block;width:auto;height:32px;max-width:100%;margin:0 0 16px}
+.entry-logo[src*="roblox.svg"]{height:36px}
+.entry-logo[src*="saint-martins.svg"]{height:42px}
+.entry-logo[src*="schwifty-studios.svg"]{height:46px}
 .work{display:grid;grid-template-columns:repeat(3,1fr);column-gap:50px;align-items:start;margin:0;padding:44px 0}
 #section-work .work:first-child{margin-top:-6px;padding-top:0}
 .work:last-child{padding-bottom:0}
