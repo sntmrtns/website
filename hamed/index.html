@@ -6,7 +6,7 @@
 <title>Hamed Tahiri</title>
 <link rel="icon" type="image/png" href="/favicon.png">
 <meta name="robots" content="noindex, nosnippet">
-<link rel="stylesheet" href="style.css?v=234">
+<link rel="stylesheet" href="style.css?v=235">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;600&amp;display=swap" rel="stylesheet">
@@ -43,15 +43,18 @@
       <nav class="flex column" aria-label="Main navigation">
         <button type="button" onclick="showSection('work')" class="btn btn-active" id="btn-work" aria-current="page">Experience</button>
         <div class="flex column sub-btns" id="sub-work">
+          <button type="button" onclick="scrollToId('grp-work')" class="btn sub-group">Work</button>
           <button type="button" onclick="scrollToId('warrlock')" class="btn">Warrlock</button>
           <button type="button" onclick="scrollToId('soufside')" class="btn">SOUFSIDE</button>
           <button type="button" onclick="scrollToId('richiesouf')" class="btn">Richie Souf</button>
           <button type="button" onclick="scrollToId('saintmartins')" class="btn">Saint Martins</button>
+          <button type="button" onclick="scrollToId('grp-collabs')" class="btn sub-group">Collaborations</button>
+          <button type="button" onclick="scrollToId('interscope')" class="btn">Interscope</button>
+          <button type="button" onclick="scrollToId('roblox')" class="btn">Roblox UI Design</button>
         </div>
         <button type="button" onclick="showSection('design')" class="btn" id="btn-design" aria-current="false">Design</button>
         <div class="flex column sub-btns" id="sub-design" style="display:none">
           <button type="button" onclick="scrollToId('d-2-20-03')" class="btn">2.20.03</button>
-          <button type="button" onclick="scrollToId('d-interscope')" class="btn">Interscope</button>
           <button type="button" onclick="scrollToId('d-notahuman')" class="btn">NOT A HUMAN</button>
           <button type="button" onclick="scrollToId('d-saintmartins')" class="btn">Saint Martins</button>
           <button type="button" onclick="scrollToId('d-sneak')" class="btn">sneak</button>
@@ -73,6 +76,7 @@
 
       <!-- WORK -->
       <div id="section-work">
+        <h2 class="exp-group href-section" id="grp-work">Work</h2>
         <div id="warrlock" class="work href-section">
           <div class="work-info">
             <h2>Warrlock</h2>
@@ -153,16 +157,53 @@
             </ul>
           </div>
         </div>
+
+        <h2 class="exp-group href-section" id="grp-collabs">Collaborations</h2>
+
+        <div id="interscope" class="work href-section">
+          <div class="work-info">
+            <h2>Interscope</h2>
+            <p class="work-role">UI Design · June 2026 – Present · with Hewad Tahiri</p>
+            <p class="work-desc">Interscope is an internal fan-analytics platform that tracks an artist's audience growth across social and streaming networks. I led a full redesign of the dashboard and, together with my brother Hewad, rebuilt it into a functional product using Claude Design and Claude Code.</p>
+          </div>
+          <div class="duties">
+            <ul class="duty-col">
+              <li>Redesigned the entire dashboard from the ground up, establishing a cohesive visual system across charts, tables, and data cards</li>
+              <li>Built responsive, interactive modules including the fan-network growth chart, platform breakdown, and page tracker</li>
+            </ul>
+            <ul class="duty-col">
+              <li>Translated the design into production-ready front-end code in collaboration with Hewad, using Claude Design and Claude Code</li>
+              <li>Defined the layout, typography, and color language used consistently across every module of the product</li>
+            </ul>
+          </div>
+          <div class="collab-media" id="interscope-media">
+            <div class="design"></div>
+          </div>
+        </div>
+
+        <div id="roblox" class="work href-section">
+          <div class="work-info">
+            <h2>Roblox UI Design</h2>
+            <p class="work-role">UI Design · January 2023 – Present · Freelance</p>
+            <p class="work-desc">Designed user-interface systems for a range of Roblox experiences, delivering menus, HUDs, and in-game shops built to match each game's art direction.</p>
+          </div>
+          <div class="duties">
+            <ul class="duty-col">
+              <li>Designed complete UI kits for multiple Roblox games, including main menus, inventories, and shop interfaces</li>
+              <li>Created icon sets, buttons, and layout systems optimized for both desktop and mobile play</li>
+            </ul>
+            <ul class="duty-col">
+              <li>Worked directly with developers to hand off assets and specifications for in-engine implementation</li>
+              <li>Iterated on designs from playtesting feedback to improve clarity and usability</li>
+            </ul>
+          </div>
+        </div>
       </div>
 
       <!-- DESIGN -->
       <div id="section-design" style="display:none">
         <div id="d-2-20-03" class="href-section">
           <h2>2.20.03</h2>
-          <div class="design"></div>
-        </div>
-        <div id="d-interscope" class="href-section">
-          <h2>Interscope</h2>
           <div class="design"></div>
         </div>
         <div id="d-notahuman" class="href-section">
@@ -316,8 +357,8 @@
     });
 
     const design = {
+      'interscope-media':['collaborations/fan-network-dashboard.jpg'],
       'd-2-20-03':     ['design/2-20-03/fashion-week-cover.jpg','design/2-20-03/profile-picture-1.jpg','design/2-20-03/profile-picture-2.jpg'],
-      'd-interscope':  ['design/interscope/fan-network-dashboard.jpg'],
       'd-notahuman':   ['design/not-a-human/version-1.png','design/not-a-human/version-2.png','design/not-a-human/profile-picture.png'],
       'd-saintmartins':['design/saint-martins/logo-1.png','design/saint-martins/logo-2.png','design/saint-martins/logo-3.png'],
       'd-sneak':       ['design/sneak/sharpshooter-tracklist-1.jpg','design/sneak/sharpshooter-tracklist-2.jpg','design/sneak/vanilla-sky-tracklist.jpg'],
