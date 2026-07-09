@@ -10,6 +10,8 @@
 .work-info{grid-column:1}
 .work-info h2{margin:0 0 4px;font-size:20px;font-weight:600;text-transform:uppercase;letter-spacing:.015em}
 .work-role{margin:0;font-size:16px;font-weight:300;line-height:1.6;color:#fff}
+.work-role a{color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px;transition:opacity 0.15s cubic-bezier(0.16,1,0.3,1)}
+.work-role a:hover{opacity:0.6}
 .work-desc{max-width:none;margin:13px 0 0;font-size:16px;font-weight:300;line-height:1.6;color:#fff;text-wrap:pretty}
 .duties{grid-column:2/4;align-self:start;display:grid;grid-template-columns:repeat(2,1fr);column-gap:50px}
 .duty-col{margin:0;padding:0;list-style:none;align-self:start}
