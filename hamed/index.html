@@ -167,13 +167,12 @@
               <li>Rebuilt the reach panel as a single ranked table, combining platform totals, monthly deltas, inline share bars, and adaptive percentage precision for low-share platforms</li>
               <li>Rebuilt the page tracker with sortable columns, custom alphanumeric collation, platform and starred filters, a sticky header, and a hand-built scrollbar with drag-to-scroll</li>
               <li>Removed all synthetic and mock data, including a generated follower history and a hardcoded social feed, making the data pipeline the single source of truth</li>
-              <li>Corrected the growth chart's data model so each platform's line begins at launch rather than tracking along zero, and recalculated tick scaling from the visible range</li>
             </ul>
             <ul class="duty-col">
+              <li>Corrected the growth chart's data model so each platform's line begins at launch rather than tracking along zero, and recalculated tick scaling from the visible range</li>
               <li>Resolved chart axis clipping by measuring rendered labels against live font metrics, recomputing once web fonts load, and locking axis width across range and platform toggles</li>
               <li>Built a zoom-aware breakpoint so the desktop grid holds through 174% browser zoom, using fixed pixel spacing to keep proportions stable</li>
               <li>Split the movers panel into separate gainers and drops views, and rebuilt growth velocity to read from full history with a positive-month ratio and custom tooltip</li>
-              <li>Retired a live feed dependent on third-party proxies, eliminating an external point of failure</li>
               <li>Replaced the blocking loading spinner with a skeleton layout mirroring the final grid, and switched asset resolution to relative paths for deployment portability</li>
             </ul>
           </div>
