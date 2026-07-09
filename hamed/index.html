@@ -51,6 +51,7 @@
         <button type="button" onclick="showSection('design')" class="btn" id="btn-design" aria-current="false">Design</button>
         <div class="flex column sub-btns" id="sub-design" style="display:none">
           <button type="button" onclick="scrollToId('d-2-20-03')" class="btn">2.20.03</button>
+          <button type="button" onclick="scrollToId('d-interscope')" class="btn">INTERSCOPE</button>
           <button type="button" onclick="scrollToId('d-notahuman')" class="btn">NOT A HUMAN</button>
           <button type="button" onclick="scrollToId('d-saintmartins')" class="btn">Saint Martins</button>
           <button type="button" onclick="scrollToId('d-sneak')" class="btn">sneak</button>
@@ -158,6 +159,10 @@
       <div id="section-design" style="display:none">
         <div id="d-2-20-03" class="href-section">
           <h2>2.20.03</h2>
+          <div class="design"></div>
+        </div>
+        <div id="d-interscope" class="href-section">
+          <h2>INTERSCOPE</h2>
           <div class="design"></div>
         </div>
         <div id="d-notahuman" class="href-section">
@@ -312,6 +317,7 @@
 
     const design = {
       'd-2-20-03':     ['design/2-20-03/fashion-week-cover.jpg','design/2-20-03/profile-picture-1.jpg','design/2-20-03/profile-picture-2.jpg'],
+      'd-interscope':  ['design/interscope/fan-network-dashboard.jpg'],
       'd-notahuman':   ['design/not-a-human/version-1.png','design/not-a-human/version-2.png','design/not-a-human/profile-picture.png'],
       'd-saintmartins':['design/saint-martins/logo-1.png','design/saint-martins/logo-2.png','design/saint-martins/logo-3.png'],
       'd-sneak':       ['design/sneak/sharpshooter-tracklist-1.jpg','design/sneak/sharpshooter-tracklist-2.jpg','design/sneak/vanilla-sky-tracklist.jpg'],
