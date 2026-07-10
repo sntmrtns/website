@@ -29,6 +29,7 @@
   #section-work .work{display:block;padding:40px 0 0;margin:0;column-gap:0}
   #section-work .work:first-child{padding-top:0;margin-top:0}
   #section-work .work:last-child{padding-bottom:0}
+  #section-work .entry-logo{height:22px}
   .work-info h2{font-size:17px;line-height:1.2;margin:0 0 6px}
   .work-role{margin-top:8px;font-size:13px;line-height:1.55}
   .work-desc,.work:not(:has(.duties)) .work-desc{max-width:none;margin-top:12px;font-size:13px;line-height:1.55}
