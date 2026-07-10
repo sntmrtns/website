@@ -162,16 +162,17 @@
           </div>
           <div class="duties">
             <ul class="duty-col">
-              <li>Redesigned and rebuilt the full front end, replacing the original sidebar layout with a header-driven grid of aligned panel rows</li>
-              <li>Established a design system from scratch, defining spacing, radius, color, and typography tokens, then applied it across every panel, control, and tooltip</li>
-              <li>Rebuilt the Fan Network Reach panel as a single ranked table, combining platform totals, monthly deltas, inline share bars, and adaptive percentage precision for low-share platforms</li>
-              <li>Rebuilt the Fan Page Tracker with sortable columns, custom alphanumeric collation, platform and starred filters, a sticky header, and a hand-built scrollbar with drag-to-scroll</li>
+              <li>Redesigned and rebuilt the front end, replacing the sidebar layout with a header-driven grid of aligned panels</li>
+              <li>Overhauled the previous design system, redefining spacing, corner radius, color, and typography standards across every panel, control, and tooltip</li>
+              <li>Built a zoom-aware breakpoint so the desktop grid holds through 174% browser zoom, using fixed pixel spacing to keep proportions stable</li>
+              <li>Consolidated multiple panels into a single Fan Network Reach table showing platform totals, month-over-month change, and inline share bars, with adaptive percentage precision for low-share platforms</li>
+              <li>Rebuilt the Fan Page Tracker with sortable columns, natural alphanumeric sorting, filters for platform and starred items, a sticky header, and a custom scrollbar with drag-to-scroll</li>
             </ul>
             <ul class="duty-col">
-              <li>Split the Top Movers panel into separate Top Gainers and Biggest Drops views, and rebuilt growth velocity to read from full history with a positive-month ratio and custom tooltip</li>
+              <li>Split the Top Movers panel into separate Top Gainers and Biggest Drops views, each showing three list items</li>
+              <li>Rebuilt the Growth Velocity panel to read from full history, adding a positive-month ratio and a custom tooltip.</li>
               <li>Corrected the growth chart's data model so each platform's line begins at launch rather than tracking along zero, and recalculated tick scaling from the visible range</li>
               <li>Resolved chart axis clipping by measuring rendered labels against live font metrics, recomputing once web fonts load, and locking axis width across range and platform toggles</li>
-              <li>Built a zoom-aware breakpoint so the desktop grid holds through 174% browser zoom, using fixed pixel spacing to keep proportions stable</li>
             </ul>
           </div>
         </div>
