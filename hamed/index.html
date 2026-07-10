@@ -162,17 +162,17 @@
           </div>
           <div class="duties">
             <ul class="duty-col">
-              <li>Redesigned and rebuilt the front end, replacing the sidebar layout with a header-driven grid of aligned panels</li>
-              <li>Overhauled the previous design system, redefining spacing, corner radius, color, and typography standards across every panel, control, and tooltip</li>
-              <li>Built a zoom-aware breakpoint so the desktop grid holds through 174% browser zoom, using fixed pixel spacing to keep proportions stable</li>
-              <li>Consolidated multiple panels into a single Fan Network Reach table showing platform totals, month-over-month change, and inline share bars, with adaptive percentage precision for low-share platforms</li>
-              <li>Rebuilt the Fan Page Tracker with sortable columns, natural alphanumeric sorting, filters for platform and starred items, a sticky header, and a custom scrollbar with drag-to-scroll</li>
+              <li>Redesigned the front end, replacing the sidebar layout with a header-driven grid of aligned panels</li>
+              <li>Overhauled the design system, redefining spacing, corner radius, color, and typography standards across every panel, control, and tooltip</li>
+              <li>Built a zoom-aware breakpoint, holding the desktop grid through 174% browser zoom with fixed pixel spacing that keeps proportions stable</li>
+              <li>Consolidated multiple panels into a single Fan Network Reach table, showing platform totals, month-over-month change, and inline share bars with adaptive percentage precision for low-share platforms</li>
+              <li>Rebuilt the Fan Page Tracker, adding sortable columns, natural alphanumeric sorting, filters for platform and starred items, a sticky header, and a custom scrollbar with drag-to-scroll</li>
             </ul>
             <ul class="duty-col">
               <li>Split the Top Movers panel into separate Top Gainers and Biggest Drops views, each showing three list items</li>
-              <li>Rebuilt the Growth Velocity panel to read from full history, adding a positive-month ratio and a custom tooltip.</li>
-              <li>Corrected the growth chart's data model so each platform's line begins at launch rather than tracking along zero, and recalculated tick scaling from the visible range</li>
-              <li>Resolved chart axis clipping by measuring rendered labels against live font metrics, recomputing once web fonts load, and locking axis width across range and platform toggles</li>
+              <li>Rebuilt the Growth Velocity panel to read from full history, adding a positive-month ratio and a custom tooltip</li>
+              <li>Corrected the Fan Network Growth data model, starting each platform's line at launch rather than running flat at zero, and rescaling axis ticks to fit only the visible data</li>
+              <li>Fixed chart axis clipping, measuring rendered label widths with live font metrics, recalculating them after web fonts load, and locking the axis width across range and platform toggles</li>
             </ul>
           </div>
         </div>
