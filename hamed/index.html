@@ -498,20 +498,21 @@
     })();
 
     (()=>{
+      // Load each SoundCloud iframe only once it actually becomes visible.
+      // iOS Safari refuses to load an iframe whose src is set while it (or an
+      // ancestor, e.g. the hidden #section-music) is display:none, and leaves
+      // it blank even after the section is later shown. A display:none element
+      // never intersects, so the observer fires the moment Music is revealed.
+      const load=f=>{if(f.dataset.src){f.src=f.dataset.src;f.removeAttribute('data-src');}};
       const frames=Array.from(document.querySelectorAll('.gridbox iframe[data-src]'));
-      let i=0;
-      function next(){
-        if(i>=frames.length)return;
-        const f=frames[i++];
-        let done=false;
-        const advance=()=>{if(done)return;done=true;next();};
-        f.addEventListener('load',advance,{once:true});
-        setTimeout(advance,4000);
-        f.src=f.dataset.src;
-        f.removeAttribute('data-src');
+      if('IntersectionObserver' in window){
+        const io=new IntersectionObserver((entries,obs)=>{
+          entries.forEach(e=>{if(e.isIntersecting){load(e.target);obs.unobserve(e.target);}});
+        },{rootMargin:'300px'});
+        frames.forEach(f=>io.observe(f));
+      }else{
+        frames.forEach(load);
       }
-      if(document.readyState==='complete')next();
-      else window.addEventListener('load',next,{once:true});
     })();
 
     const _unlock=()=>{
