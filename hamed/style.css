@@ -41,6 +41,9 @@ p{font-size:16px}
 .design{column-gap:25px;row-gap:25px;margin-bottom:100px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,500px),1fr))}
 .design img{width:100%;height:auto;display:block;cursor:zoom-in;opacity:0;transition:opacity 0.25s cubic-bezier(0.16,1,0.3,1)}
 .design img.loaded{opacity:1}
+/* An image sits in the DOM at opacity 0 until it loads; don't let a
+   transparent box swallow clicks meant for the page behind it. */
+.design img:not(.loaded),.photos-row img:not(.loaded){pointer-events:none}
 
 /* ===== Pictures ===== */
 .photos{margin-bottom:100px}

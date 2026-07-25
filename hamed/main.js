@@ -200,7 +200,10 @@
       const img = new Image();
       img.alt = '';
       img.loading = 'lazy';
-      img.tabIndex = 0;
+      // Not interactive until it has actually arrived: an unloaded image is a
+      // transparent box, and making it clickable/tabbable would put 21 invisible
+      // buttons in the tab order and let the lightbox open on nothing.
+      img.tabIndex = -1;
       img.setAttribute('role', 'button');
       img.setAttribute('aria-label', 'Photo ' + (i + 1) + ' of ' + photos.length);
       img.addEventListener('load', () => {
@@ -209,6 +212,7 @@
         for (const c of cells) totalAR += parseFloat(c.style.flex) || DEFAULT_AR;
         rowEl.style.aspectRatio = totalAR;
         img.classList.add('loaded');
+        img.tabIndex = 0;
       });
 
       // Append before setting src so loading="lazy" applies: the photos
@@ -229,12 +233,13 @@
         const img = new Image();
         img.alt = '';
         img.loading = 'lazy';
-        img.tabIndex = 0;
+        img.tabIndex = -1; // see the photos builder above
         img.setAttribute('role', 'button');
         img.setAttribute('aria-label', 'Image ' + (i + 1) + ' of ' + srcs.length);
         img.addEventListener('load', () => {
           cell.style.aspectRatio = '';
           img.classList.add('loaded');
+          img.tabIndex = 0;
         });
 
         cell.appendChild(img);
