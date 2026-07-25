@@ -4,16 +4,21 @@
 img{-webkit-user-drag:none}
 html{font-family:"Roboto Mono",monospace;font-weight:300;color:#fff;scrollbar-width:none}
 *::-webkit-scrollbar{display:none}
-body{background:#000;margin:0;opacity:0;overflow-anchor:none}
+/* body starts hidden and is revealed by main.js. `reveal` is a failsafe for
+   main.js never running at all (network failure, script error): without it the
+   page would stay black forever. .fade-in replaces it on the normal path. */
+body{background:#000;margin:0;opacity:0;overflow-anchor:none;animation:reveal 0s linear 7s forwards}
 body.fade-in{animation:fadeIn 1s cubic-bezier(0.16,1,0.3,1) both}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes reveal{to{opacity:1}}
 h2{font-size:20px}
 p{font-size:16px}
+.visually-hidden{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
 
 /* ===== Layout ===== */
 .header{width:185px;margin-left:clamp(32px,3.9vw,100px);padding-top:clamp(48px,3.9vw,100px);position:sticky;top:0;height:100%}
 .body{margin-top:clamp(48px,3.9vw,100px);margin-right:clamp(32px,3.9vw,100px);margin-left:clamp(40px,5.86vw,150px);position:relative}
-.logo-box .name{font-weight:600;font-size:20px}
+.logo-box .name{margin:0;font-weight:600;font-size:20px}
 .logo-box{margin-bottom:89px;width:fit-content}
 .logo{margin-bottom:44px;width:155px}
 .flex{display:flex}
@@ -171,6 +176,9 @@ body:has(#lightbox.lb-visible){overflow:hidden}
   .work-desc{max-width:none;margin-top:12px;font-size:13px;line-height:1.55}
   .duties{grid-template-columns:none;display:flex;flex-direction:column;margin-top:18px;gap:11px}
   .duty-col{display:contents}
+  /* Two columns interleave into one list. An li past the last rule here would
+     fall back to order:0 and jump ahead of everything, so both columns are
+     covered one item past the longest list in the page. */
   .duty-col:first-child li:nth-child(1){order:1}
   .duty-col:first-child li:nth-child(2){order:3}
   .duty-col:first-child li:nth-child(3){order:5}
@@ -182,5 +190,16 @@ body:has(#lightbox.lb-visible){overflow:hidden}
   .duty-col:last-child li:nth-child(3){order:6}
   .duty-col:last-child li:nth-child(4){order:8}
   .duty-col:last-child li:nth-child(5){order:10}
+  .duty-col:last-child li:nth-child(6){order:12}
   .duties li{font-size:13px;padding-left:18px;margin:0;line-height:1.5}
+}
+
+@media(prefers-reduced-motion:reduce){
+  body.fade-in{animation-duration:0.01ms}
+  /* 0.01ms rather than `none`: the open/close handlers wait on transitionend,
+     which never fires for a transition that was removed outright. */
+  #lightbox,.mobile-nav,.mobile-bar-logo,.mobile-bar-btn,
+  .design img,.photos-row img,.btn,
+  #lb-prev,#lb-next,#lb-close,
+  .work-role a,.work-desc a{transition-duration:0.01ms}
 }
