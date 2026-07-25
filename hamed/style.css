@@ -144,6 +144,8 @@ body:has(#lightbox.lb-visible){overflow:hidden}
 #section-work .exp-group{margin:56px 0 21px;padding:0;font-size:20px;font-weight:600;letter-spacing:.015em}
 #section-work .exp-group:first-child{margin-top:-6px}
 #section-work .exp-group+.work{padding-top:0}
+/* The logo is the entry's title, so it carries the heading and the name. */
+.entry-name{margin:0}
 .entry-logo{display:block;width:auto;height:32px;max-width:100%;margin:0 0 16px}
 .entry-logo[src*="roblox.svg"]{height:36px}
 .entry-logo[src*="saint-martins.svg"]{height:42px}
@@ -195,6 +197,23 @@ body:has(#lightbox.lb-visible){overflow:hidden}
   .duty-col:last-child li:nth-child(5){order:10}
   .duty-col:last-child li:nth-child(6){order:12}
   .duties li{font-size:13px;padding-left:18px;margin:0;line-height:1.5}
+}
+
+/* Everything on screen is white on a black background that browsers don't
+   print, so the default printout is a blank sheet. Invert it instead. The
+   entry logos are uniformly fill:#fff, so a flat invert is exact.
+   body.fade-in is matched explicitly because it sets `animation` at the same
+   specificity and would otherwise keep winning here. */
+@media print{
+  html{color:#000}
+  body,body.fade-in{background:#fff;opacity:1;animation:none}
+  .mobile-bar,.mobile-nav,.header,#site-lock,#lightbox{display:none}
+  .site-root{display:block;max-width:none}
+  .body{margin:0;padding:0}
+  .entry-logo{filter:invert(1)}
+  .work-role,.work-desc,.work-role a,.work-desc a,.duties li,.duties li::before{color:#000}
+  .work,.duties li{break-inside:avoid}
+  .exp-group{break-after:avoid}
 }
 
 @media(prefers-reduced-motion:reduce){
