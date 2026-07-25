@@ -15,7 +15,10 @@ function _tick(){
 }
 requestAnimationFrame(_tick);
 
-window.addEventListener('load',()=>{
+// Runs as soon as the deferred script executes rather than on window.load.
+// The logo is the entire page; waiting for load meant not even starting its
+// fetch until the Google Fonts stylesheet and font files had finished.
+(()=>{
 	// localStorage can throw outright (Safari Lockdown Mode, blocked storage).
 	// Nothing below may depend on it: a throw here would leave body at opacity 0.
 	let last=0;
@@ -23,8 +26,16 @@ window.addEventListener('load',()=>{
 	const choices=[1,2,3].filter(n=>n!==last);
 	const n=choices[Math.floor(Math.random()*choices.length)];
 	try{localStorage.setItem('lastLogo',n);}catch{}
+	let faded=false;
 	const startFade=()=>{
-		document.body.classList.add('fade-in');
+		if(faded)return;
+		faded=true;
+		// The stylesheet reveals body on a delay as a failsafe for this script
+		// never running. If that already fired, replaying the fade would flash
+		// the page back to transparent first.
+		if(parseFloat(getComputedStyle(document.body).opacity)<1){
+			document.body.classList.add('fade-in');
+		}
 		document.body.addEventListener('animationend',()=>{document.body.style.opacity='1';},{once:true});
 		setTimeout(()=>{document.body.style.opacity='1';},1500);
 	};
@@ -42,4 +53,4 @@ window.addEventListener('load',()=>{
 	}else{
 		loadLogo();
 	}
-});
+})();

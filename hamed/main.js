@@ -403,11 +403,16 @@
 
   /* --------------------------------------------------------- navigation */
 
+  const _reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
   function scrollToId(id) {
     const el = document.getElementById(id);
     if (!el) return;
     const offset = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
-    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' });
+    window.scrollTo({
+      top: el.getBoundingClientRect().top + window.scrollY - offset,
+      behavior: _reducedMotion.matches ? 'auto' : 'smooth'
+    });
   }
 
   function showSection(name) {
@@ -601,14 +606,23 @@
   // Once the page is up, quietly pull in the images the hidden sections will
   // need. Flipping loading from "lazy" to "eager" starts the fetch a deferred
   // image was holding off on, so opening Pictures or Design is instant without
-  // any of it having blocked first paint.
+  // any of it having blocked first paint. Skipped on metered or slow links,
+  // where speculatively fetching ~48 images the visitor may never look at
+  // costs them more than it saves.
   const warmDeferredImages = () => {
+    const conn = navigator.connection;
+    if (conn && (conn.saveData || /(^|-)2g$/.test(conn.effectiveType || ''))) return;
     document.querySelectorAll('.design img,.photos-row img,.video-facade img')
       .forEach(img => { img.loading = 'eager'; });
   };
 
   const startFade = () => {
-    document.body.classList.add('fade-in');
+    // The stylesheet reveals body on a delay as a failsafe for main.js never
+    // running. If that already fired (tab was backgrounded past the delay),
+    // replaying the fade would flash the page back to transparent first.
+    if (parseFloat(getComputedStyle(document.body).opacity) < 1) {
+      document.body.classList.add('fade-in');
+    }
     // fadeIn runs 1s but on an expo-out curve, so the page is ~85% opaque by
     // 300ms. Input is released there rather than at animationend, which would
     // leave the site feeling locked long after it looks ready.
