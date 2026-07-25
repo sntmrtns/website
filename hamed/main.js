@@ -603,17 +603,18 @@
     document.body.style.opacity = '1';
   };
 
-  // Once the page is up, quietly pull in the images the hidden sections will
-  // need. Flipping loading from "lazy" to "eager" starts the fetch a deferred
-  // image was holding off on, so opening Pictures or Design is instant without
-  // any of it having blocked first paint. Skipped on metered or slow links,
-  // where speculatively fetching ~48 images the visitor may never look at
-  // costs them more than it saves.
-  const warmDeferredImages = () => {
+  // Once the page is up, pull in the video thumbnails so opening Videos shows
+  // a full grid rather than nine empty boxes. Flipping loading from "lazy" to
+  // "eager" starts the fetch a deferred image was holding off on.
+  //
+  // Deliberately limited to the YouTube thumbnails, which are ~30KB each and
+  // all on screen at once. The design and photo sets are ~44MB between them,
+  // far too much to pull speculatively for a visitor who may never open those
+  // sections; those stay lazy and load when the section is actually shown.
+  const warmVideoThumbnails = () => {
     const conn = navigator.connection;
     if (conn && (conn.saveData || /(^|-)2g$/.test(conn.effectiveType || ''))) return;
-    document.querySelectorAll('.design img,.photos-row img,.video-facade img')
-      .forEach(img => { img.loading = 'eager'; });
+    document.querySelectorAll('.video-facade img').forEach(img => { img.loading = 'eager'; });
   };
 
   const startFade = () => {
@@ -627,8 +628,8 @@
     // 300ms. Input is released there rather than at animationend, which would
     // leave the site feeling locked long after it looks ready.
     setTimeout(_unlock, 300);
-    if ('requestIdleCallback' in window) requestIdleCallback(warmDeferredImages, { timeout: 3000 });
-    else setTimeout(warmDeferredImages, 1500);
+    if ('requestIdleCallback' in window) requestIdleCallback(warmVideoThumbnails, { timeout: 3000 });
+    else setTimeout(warmVideoThumbnails, 1500);
   };
 
   let _faded = false;
