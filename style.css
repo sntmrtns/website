@@ -29,3 +29,12 @@ body{background:#000;margin:0;overflow:hidden;opacity:0;animation:reveal 0s line
 @media(prefers-reduced-motion:reduce){
   .fade-in{animation-duration:0.01ms;animation-delay:0ms}
 }
+
+/* White artwork on a background browsers don't print would come out blank. */
+@media print{
+  body,body.fade-in{background:#fff;opacity:1;animation:none;overflow:visible}
+  .zoom-wrap,.page-container{position:static}
+  .image-container img{filter:invert(1)}
+  .page-footer{position:static;margin-top:40px}
+  .page-footer-timer-text{color:#000}
+}
