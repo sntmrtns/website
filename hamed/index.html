@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Hamed Tahiri</title>
 <link rel="icon" type="image/png" href="/favicon.png">
 <meta name="robots" content="noindex, nosnippet">
-<link rel="stylesheet" href="style.css?v=253">
+<link rel="stylesheet" href="style.css?v=254">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;600&amp;display=swap" rel="stylesheet">
-<script src="main.js?v=72" defer></script>
+<script src="main.js?v=73" defer></script>
 </head>
 
 <body>
@@ -25,11 +25,11 @@
       <span></span><span></span>
     </button>
     <nav class="mobile-nav-links" aria-label="Mobile navigation">
-      <button type="button" class="mobile-nav-btn" id="mobile-btn-work" onclick="mobileShowSection('work')">Experience</button>
-      <button type="button" class="mobile-nav-btn" id="mobile-btn-design" onclick="mobileShowSection('design')">Design</button>
-      <button type="button" class="mobile-nav-btn" id="mobile-btn-photos" onclick="mobileShowSection('photos')">Pictures</button>
-      <button type="button" class="mobile-nav-btn" id="mobile-btn-videos" onclick="mobileShowSection('videos')">Videos</button>
-      <button type="button" class="mobile-nav-btn" id="mobile-btn-music" onclick="mobileShowSection('music')">Music</button>
+      <button type="button" class="mobile-nav-btn" id="mobile-btn-work" data-section="work">Experience</button>
+      <button type="button" class="mobile-nav-btn" id="mobile-btn-design" data-section="design">Design</button>
+      <button type="button" class="mobile-nav-btn" id="mobile-btn-photos" data-section="photos">Pictures</button>
+      <button type="button" class="mobile-nav-btn" id="mobile-btn-videos" data-section="videos">Videos</button>
+      <button type="button" class="mobile-nav-btn" id="mobile-btn-music" data-section="music">Music</button>
     </nav>
   </div>
   <div class="flex site-root">
@@ -41,26 +41,26 @@
       </div>
 
       <nav class="flex column" aria-label="Main navigation">
-        <button type="button" onclick="showSection('work')" class="btn btn-active" id="btn-work" aria-current="page">Experience</button>
+        <button type="button" data-section="work" class="btn btn-active" id="btn-work" aria-current="page">Experience</button>
         <div class="flex column sub-btns" id="sub-work">
-          <button type="button" onclick="scrollToId('grp-work')" class="btn">Work</button>
-          <button type="button" onclick="scrollToId('grp-projects')" class="btn">Projects</button>
+          <button type="button" data-scroll="grp-work" class="btn">Work</button>
+          <button type="button" data-scroll="grp-projects" class="btn">Projects</button>
         </div>
-        <button type="button" onclick="showSection('design')" class="btn" id="btn-design" aria-current="false">Design</button>
+        <button type="button" data-section="design" class="btn" id="btn-design" aria-current="false">Design</button>
         <div class="flex column sub-btns" id="sub-design" style="display:none">
-          <button type="button" onclick="scrollToId('d-2-20-03')" class="btn">2.20.03</button>
-          <button type="button" onclick="scrollToId('d-notahuman')" class="btn">NOT A HUMAN</button>
-          <button type="button" onclick="scrollToId('d-saintmartins')" class="btn">Saint Martins</button>
-          <button type="button" onclick="scrollToId('d-sneak')" class="btn">sneak</button>
-          <button type="button" onclick="scrollToId('d-soufpaw')" class="btn">SOUFPAW</button>
+          <button type="button" data-scroll="d-2-20-03" class="btn">2.20.03</button>
+          <button type="button" data-scroll="d-notahuman" class="btn">NOT A HUMAN</button>
+          <button type="button" data-scroll="d-saintmartins" class="btn">Saint Martins</button>
+          <button type="button" data-scroll="d-sneak" class="btn">sneak</button>
+          <button type="button" data-scroll="d-soufpaw" class="btn">SOUFPAW</button>
         </div>
-        <button type="button" onclick="showSection('photos')" class="btn" id="btn-photos" aria-current="false">Pictures</button>
-        <button type="button" onclick="showSection('videos')" class="btn" id="btn-videos" aria-current="false">Videos</button>
-        <button type="button" onclick="showSection('music')" class="btn" id="btn-music" aria-current="false">Music</button>
+        <button type="button" data-section="photos" class="btn" id="btn-photos" aria-current="false">Pictures</button>
+        <button type="button" data-section="videos" class="btn" id="btn-videos" aria-current="false">Videos</button>
+        <button type="button" data-section="music" class="btn" id="btn-music" aria-current="false">Music</button>
         <div class="flex column sub-btns" id="sub-music" style="display:none">
-          <button type="button" onclick="scrollToId('personal')" class="btn">Personal</button>
-          <button type="button" onclick="scrollToId('production')" class="btn">Production</button>
-          <button type="button" onclick="scrollToId('mixing')" class="btn">Mixing</button>
+          <button type="button" data-scroll="personal" class="btn">Personal</button>
+          <button type="button" data-scroll="production" class="btn">Production</button>
+          <button type="button" data-scroll="mixing" class="btn">Mixing</button>
         </div>
       </nav>
     </header>
@@ -276,281 +276,6 @@
   </main>
   </div>
 
-  <script>
-    const _blockScroll=(e)=>{e.preventDefault();};
-    const _blockKeys=(e)=>{if([' ','PageUp','PageDown','End','Home','ArrowLeft','ArrowUp','ArrowRight','ArrowDown'].includes(e.key))e.preventDefault();};
-    document.addEventListener('wheel', _blockScroll, {passive:false});
-    document.addEventListener('keydown', _blockKeys);
-    const _loadPromises=[];
-
-    const videos = [
-      { title: "Roxie - LostFile", url: "https://www.youtube.com/watch?v=dGoCrnsbVeU" },
-      { title: "NOT A HUMAN - 2025-12-17",  url: "https://www.youtube.com/watch?v=yUb7Py19bfM" },
-      { title: "sneak - THEY NEVER COMING BACK", url: "https://www.youtube.com/watch?v=RZ7iZbF2BtQ" },
-      { title: "sneak - OK BOOL", url: "https://www.youtube.com/watch?v=RGavUVuHw20" },
-      { title: "sneak - OK WITH IT", url: "https://www.youtube.com/watch?v=qQ57vtbpJLw" },
-      { title: "sneak - PUT DA CUP DOWN", url: "https://www.youtube.com/watch?v=wTvThmhuT9k" },
-      { title: "sneak - LET ME KNOW", url: "https://www.youtube.com/watch?v=gVdQ4hNLcPA" },
-      { title: "sneak - VOORHEES", url: "https://www.youtube.com/watch?v=h1lCqAssywg" },
-      { title: "sneak - HEAVEN ABOVE ME", url: "https://www.youtube.com/watch?v=0q0bmCZTVdM" },
-    ];
-
-    (()=>{
-      const ytId=url=>{const m=url.match(/(?:v=|youtu\.be\/|embed\/)([^&?/]+)/);return m?m[1]:null;};
-      const box=document.getElementById("videobox");
-      videos.forEach(v=>{
-        const id=ytId(v.url);
-        if(!id)return;
-        const facade=document.createElement("div");
-        facade.className="video-facade";
-        facade.setAttribute("data-src","https://www.youtube.com/embed/"+id+"?enablejsapi=1");
-        facade.addEventListener('click',()=>{loadVideo(facade);});facade.setAttribute("tabindex","0");facade.setAttribute("role","button");facade.setAttribute("aria-label",v.title);facade.addEventListener("keydown",(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();loadVideo(facade);}});
-        const _thumb=new Image();_thumb.alt='';
-        _loadPromises.push(new Promise(r=>{let _tried=false;_thumb.onload=r;_thumb.onerror=()=>{if(!_tried){_tried=true;_thumb.src='https://img.youtube.com/vi/'+id+'/hqdefault.jpg';}else r();};}));
-        _thumb.src='https://img.youtube.com/vi/'+id+'/maxresdefault.jpg';
-        const _playBtn=document.createElement('span');_playBtn.className='play-btn';_playBtn.innerHTML='&#9654;';
-        facade.appendChild(_thumb);facade.appendChild(_playBtn);
-        const videoWrap=document.createElement("div");
-        videoWrap.className="videobox-video";
-        videoWrap.appendChild(facade);
-        const p=document.createElement("p");
-        p.textContent=v.title;
-        const cell=document.createElement("div");
-        cell.appendChild(videoWrap);
-        cell.appendChild(p);
-        box.appendChild(cell);
-      });
-    })();
-
-    const photos = [
-      "DSC03137.webp","DSC03145.webp","DSC03148.webp","DSC03154.webp","DSC03155.webp",
-      "DSC03156.webp","DSC03237.webp","DSC03293.webp","DSC03296.webp","DSC03556.webp",
-      "DSC03582.webp","DSC03603.webp","DSC03622.webp","DSC03642.webp","DSC03659.webp",
-      "DSC03885.webp","DSC04300.webp","DSC04340.webp","DSC04431.webp","DSC04456.webp",
-      "DSC04471.webp"
-    ];
-    const _photoRows=(()=>{
-      const box=document.getElementById("photobox");
-      const rows=[];
-      photos.forEach((_,i)=>{
-        if(i%3===0){
-          const n=Math.min(3,photos.length-i);
-          const rowEl=document.createElement("div");
-          rowEl.className="photos-row";
-          rowEl.style.aspectRatio=n*1.5;
-          const cells=[];
-          for(let j=0;j<n;j++){
-            const cell=document.createElement("div");
-            cell.style.flex=1.5;
-            rowEl.appendChild(cell);
-            cells.push(cell);
-          }
-          box.appendChild(rowEl);
-          rows.push({el:rowEl,cells});
-        }
-      });
-      return rows;
-    })();
-    photos.forEach((name,i)=>{
-      const img=new Image();
-      img.alt='';
-      img.tabIndex=0;
-      img.setAttribute('role','button');
-      img.setAttribute('aria-label','Photo '+(i+1)+' of '+photos.length);
-      _loadPromises.push(new Promise(r=>{img.onload=img.onerror=()=>{
-        const rowIdx=Math.floor(i/3),posInRow=i%3;
-        const ar=(img.naturalWidth||3)/(img.naturalHeight||2);
-        const{el:rowEl,cells}=_photoRows[rowIdx];
-        const cell=cells[posInRow];
-        cell.style.flex=ar;
-        cell.appendChild(img);
-        requestAnimationFrame(()=>img.classList.add('loaded'));
-        let totalAR=0;
-        for(const c of cells)totalAR+=parseFloat(c.style.flex)||1.5;
-        rowEl.style.aspectRatio=totalAR;
-        r();
-      };}));
-      img.src="photos/"+name;
-    });
-
-    const design = {
-      'd-2-20-03':     ['design/2-20-03/fashion-week-cover.jpg','design/2-20-03/profile-picture-1.jpg','design/2-20-03/profile-picture-2.jpg'],
-      'd-notahuman':   ['design/not-a-human/version-1.png','design/not-a-human/version-2.png','design/not-a-human/profile-picture.png'],
-      'd-saintmartins':['design/saint-martins/logo-1.png','design/saint-martins/logo-2.png','design/saint-martins/logo-3.png'],
-      'd-sneak':       ['design/sneak/sharpshooter-tracklist-1.jpg','design/sneak/sharpshooter-tracklist-2.jpg','design/sneak/vanilla-sky-tracklist.jpg'],
-      'd-soufpaw':     ['design/tts-6200/collar-1.jpg','design/tts-6200/collar-2.jpg','design/tts-6200/collar-3.jpg','design/tts-6200/leash-1.jpg','design/tts-6200/leash-2.jpg','design/tts-6200/leash-3.jpg'],
-    };
-    (()=>{
-      Object.entries(design).forEach(([id,srcs])=>{
-        const box=document.querySelector('#'+id+' .design');
-        const cells=srcs.map(()=>{
-          const cell=document.createElement('div');
-          cell.style.aspectRatio='4/3';
-          box.appendChild(cell);
-          return cell;
-        });
-        srcs.forEach((src,i)=>{
-          const img=new Image();
-          img.alt='';
-          img.tabIndex=0;
-          img.setAttribute('role','button');
-          img.setAttribute('aria-label','Image '+(i+1)+' of '+srcs.length);
-          _loadPromises.push(new Promise(r=>{img.onload=img.onerror=()=>{
-            cells[i].style.aspectRatio='';
-            cells[i].appendChild(img);
-            requestAnimationFrame(()=>img.classList.add('loaded'));
-            r();
-          };}));
-          img.src=src;
-        });
-      });
-    })();
-
-    const music = {
-      personal: [
-        { title: "hamed, ARKMAN, legion, skai & yugen - fashion week", sc: "https://soundcloud.com/2-20-03/fashion-week" },
-        { title: "hamed, Cargo, legion, Lucid & skai - october",        sc: "https://soundcloud.com/2-20-03/october" },
-        { title: "hamed & Luca Malaspina - down",                       sc: "https://soundcloud.com/2-20-03/down" },
-      ],
-      production: [
-        { title: "one2nine3 - MIME",      sc: "https://soundcloud.com/onetwoninethree/mime" },
-        { title: "one2nine3 - fell in <3",sc: "https://soundcloud.com/onetwoninethree/fell-in-love" },
-        { title: "TyFontaine - downer",   sc: "https://soundcloud.com/1800tyfontaine/downer" },
-        { title: "Destroy Lonely - Okay", sc: "https://soundcloud.com/cantmockit/destroy-lonely-okay" },
-        { title: "Vagex - Long Time",     sc: "https://soundcloud.com/vagexsm/long-time-prod-hamed-cargo" },
-        { title: "FaZe Clan - Introducing FaZe Kaysan Trailer", video: "music/faze-kaysan-trailer.mp4", poster: "music/faze-kaysan-trailer.png" },
-      ],
-      mixing: [
-        { title: "sneak - BOOTED & SANE",      sc: "https://soundcloud.com/sneakties/booted-sane" },
-        { title: "sneak - ADD IT UP",          sc: "https://soundcloud.com/sneakties/add-it-up" },
-        { title: "sneak - COSMO",              sc: "https://soundcloud.com/sneakties/cosmo" },
-        { title: "sneak - WHITE STUFF",        sc: "https://soundcloud.com/sneakties/white-stuff" },
-        { title: "kels! - ALL ALONE",          sc: "https://soundcloud.com/gamerboii-kels/all-alone" },
-        { title: "sneak - FLORIDA BEACH",      sc: "https://soundcloud.com/sneakties/florida-beach" },
-        { title: "sneak - JUNYA ON ME",        sc: "https://soundcloud.com/sneakties/junya-on-me" },
-        { title: "sneak - THERE WILL BE BLOOD",sc: "https://soundcloud.com/sneakties/there-will-be-blood" },
-        { title: "sneak - ARRANCAR",           sc: "https://soundcloud.com/sneakties/arrancar" },
-        { title: "sneak - BETTER LIES",        sc: "https://soundcloud.com/sneakties/better-lies" },
-        { title: "sneak - GRANDMASTER",        sc: "https://soundcloud.com/sneakties/grandmaster" },
-        { title: "sneak - CHEAP THRILLS",      sc: "https://soundcloud.com/sneakties/cheap-thrills" },
-        { title: "sneak - CASE CLOSED",        sc: "https://soundcloud.com/sneakties/case-closed" },
-        { title: "sneak - SCORPIO",            sc: "https://soundcloud.com/sneakties/scorpio" },
-        { title: "sneak - TYSON",              sc: "https://soundcloud.com/sneakties/tyson" },
-        { title: "sneak - SLADE",              sc: "https://soundcloud.com/sneakties/slade" },
-        { title: "sneak - ZEROEZ",             sc: "https://soundcloud.com/sneakties/zeroez" },
-        { title: "sneak - BEAUTY:BEAST",       sc: "https://soundcloud.com/sneakties/beauty-beast" },
-        { title: "sneak - WNBA",               sc: "https://soundcloud.com/sneakties/wnba" },
-        { title: "sneak - ALMIGHTY SNEAK",     sc: "https://soundcloud.com/sneakties/almighty-sneak" },
-        { title: "sneak - ED & RUMMY",         sc: "https://soundcloud.com/sneakties/ed-rummy" },
-        { title: "sneak - GOOD TIME",          sc: "https://soundcloud.com/sneakties/good-time" },
-        { title: "sneak - G NIKES",            sc: "https://soundcloud.com/sneakties/g-nikes" },
-        { title: "sneak - SHIT GET REAL",      sc: "https://soundcloud.com/sneakties/shit-get-real" },
-        { title: "sneak - PRAGUE",             sc: "https://soundcloud.com/sneakties/prague" },
-        { title: "sneak - THUMBS MISSING",     sc: "https://soundcloud.com/sneakties/thumbs-missing" },
-        { title: "sneak - CRY ABOUT IT",       sc: "https://soundcloud.com/sneakties/cry-about-it" },
-        { title: "sneak - NICKELODEON",        sc: "https://soundcloud.com/sneakties/nickelodeon" },
-        { title: "sneak - FREELOADING",        sc: "https://soundcloud.com/sneakties/freeloading" },
-        { title: "sneak - HIGH FIVE GHOST",    sc: "https://soundcloud.com/sneakties/high-five-ghost" },
-        { title: "sneak - HAVE IT YO WAY",     sc: "https://soundcloud.com/sneakties/have-it-yo-way" },
-        { title: "sneak - PUT DA CUP DOWN",    sc: "https://soundcloud.com/sneakties/put-da-cup-down" },
-      ]
-    };
-
-    (()=>{
-      function scSrc(sc) {
-        return "https://w.soundcloud.com/player/?url=" + encodeURIComponent(sc) + "&color=%23000000&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true&sharing=false";
-      }
-      function buildGridbox(tracks, boxId) {
-        const box = document.getElementById(boxId);
-        tracks.forEach(t=>{
-          const cell = document.createElement("div");
-          if (t.sc) {
-            const iframe = document.createElement("iframe");
-            iframe.title = t.title;
-            iframe.allow = "autoplay";
-            iframe.dataset.src = scSrc(t.sc);
-            cell.appendChild(iframe);
-            const p = document.createElement("p");
-            p.textContent = t.title;
-            cell.appendChild(p);
-          } else if (t.video) {
-            const video = document.createElement("video");
-            video.preload="none";
-            video.poster=t.poster;
-            if(t.poster){const _pi=new Image();_loadPromises.push(new Promise(r=>{_pi.onload=_pi.onerror=r;}));_pi.src=t.poster;}
-            video.controls=true;
-            video.setAttribute('aria-label',t.title);
-            const source = document.createElement("source");
-            source.src = t.video;
-            source.type = "video/mp4";
-            video.appendChild(source);
-            cell.appendChild(video);
-            const p = document.createElement("p");
-            p.textContent = t.title;
-            cell.appendChild(p);
-          }
-          box.appendChild(cell);
-        });
-      }
-      buildGridbox(music.personal, "gridbox-personal");
-      buildGridbox(music.production, "gridbox-production");
-      buildGridbox(music.mixing, "gridbox-mixing");
-    })();
-
-    (()=>{
-      // Load each SoundCloud iframe only once it actually becomes visible.
-      // iOS Safari refuses to load an iframe whose src is set while it (or an
-      // ancestor, e.g. the hidden #section-music) is display:none, and leaves
-      // it blank even after the section is later shown. A display:none element
-      // never intersects, so the observer fires the moment Music is revealed.
-      const load=f=>{if(f.dataset.src){f.src=f.dataset.src;f.removeAttribute('data-src');}};
-      const frames=Array.from(document.querySelectorAll('.gridbox iframe[data-src]'));
-      if('IntersectionObserver' in window){
-        const io=new IntersectionObserver((entries,obs)=>{
-          entries.forEach(e=>{if(e.isIntersecting){load(e.target);obs.unobserve(e.target);}});
-        },{rootMargin:'300px'});
-        frames.forEach(f=>io.observe(f));
-      }else{
-        frames.forEach(load);
-      }
-    })();
-
-    const _unlock=()=>{
-      const lock=document.getElementById('site-lock');
-      if(lock)lock.remove();
-      document.removeEventListener('wheel',_blockScroll);
-      document.removeEventListener('keydown',_blockKeys);
-      document.body.style.opacity='1';
-    };
-    const startFade=()=>{
-      document.body.classList.add("fade-in");
-      setTimeout(_unlock,300);
-    };
-    let _faded=false;
-    const doStart=()=>{
-      if(_faded)return;_faded=true;
-      if(document.hidden){
-        document.addEventListener('visibilitychange',function h(){
-          if(!document.hidden){document.removeEventListener('visibilitychange',h);startFade();}
-        });
-      }else{
-        startFade();
-      }
-      _updateMobileNavActive('work');
-    };
-    Promise.race([Promise.all(_loadPromises),new Promise(r=>setTimeout(r,15000))]).then(doStart);
-
-    function _updateMobileNavActive(name){['work','design','photos','videos','music'].forEach(s=>{const btn=document.getElementById('mobile-btn-'+s);if(btn){btn.classList.toggle('mobile-nav-active',s===name);btn.setAttribute('aria-current',s===name?'page':'false');}});}
-    let _navOpen=false,_navAnimating=false;
-    const _mobileBarBtn=document.getElementById('mobile-bar-btn');
-    function _openNav(){if(_navAnimating)return;_navOpen=true;_navAnimating=true;const n=document.getElementById('mobile-nav');n.classList.add('visible');requestAnimationFrame(()=>requestAnimationFrame(()=>{n.classList.add('open');let done=()=>{_navAnimating=false;document.getElementById('mobile-nav-close').focus();done=()=>{};};n.addEventListener('transitionend',(e)=>{if(e.target===n)done();},{once:true});setTimeout(()=>done(),250);}));_mobileBarBtn.setAttribute('aria-expanded','true');_mobileBarBtn.setAttribute('aria-label','Close menu');}
-    function _closeNav(){if(_navAnimating)return;_navOpen=false;_navAnimating=true;const n=document.getElementById('mobile-nav');n.classList.remove('open');let done=()=>{if(!_navOpen)n.classList.remove('visible');_navAnimating=false;_mobileBarBtn.focus();done=()=>{};};n.addEventListener('transitionend',(e)=>{if(e.target===n)done();},{once:true});setTimeout(()=>done(),250);_mobileBarBtn.setAttribute('aria-expanded','false');_mobileBarBtn.setAttribute('aria-label','Open menu');}
-    _mobileBarBtn.addEventListener('click',()=>{if(_navOpen)_closeNav();else _openNav();});
-    document.getElementById('mobile-nav-close').addEventListener('click',_closeNav);
-    document.getElementById('mobile-nav').addEventListener('click',(e)=>{if(e.target===document.getElementById('mobile-nav'))_closeNav();});
-    document.addEventListener('keydown',(e)=>{if(e.key==='Escape'&&_navOpen){_closeNav();return;}if(_navOpen&&e.key==='Tab'){const focusable=Array.from(document.getElementById('mobile-nav').querySelectorAll('button'));const first=focusable[0];const last=focusable[focusable.length-1];if(e.shiftKey){if(document.activeElement===first){e.preventDefault();last.focus();}}else{if(document.activeElement===last){e.preventDefault();first.focus();}}}});
-    function mobileShowSection(name){if(_navAnimating)return;_navOpen=false;_navAnimating=true;showSection(name);_mobileBarBtn.setAttribute('aria-expanded','false');_mobileBarBtn.setAttribute('aria-label','Open menu');const n=document.getElementById('mobile-nav');requestAnimationFrame(()=>{n.classList.remove('open');let done=()=>{if(!_navOpen){n.classList.remove('visible');}_navAnimating=false;_mobileBarBtn.focus();done=()=>{};};n.addEventListener('transitionend',(e)=>{if(e.target===n)done();},{once:true});setTimeout(()=>done(),250);});}
-  </script>
   <div id="lightbox" role="dialog" aria-modal="true" aria-label="Image lightbox"><button type="button" id="lb-close" aria-label="Close lightbox"><span></span><span></span></button><button type="button" id="lb-prev" aria-label="Previous image">&#8592;</button><img alt=""><button type="button" id="lb-next" aria-label="Next image">&#8594;</button><span id="lb-count" aria-live="polite"></span></div>
   <div id="site-lock"></div>
 </body>
