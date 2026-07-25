@@ -40,7 +40,7 @@
     'd-notahuman':    ['design/not-a-human/version-1.png', 'design/not-a-human/version-2.png', 'design/not-a-human/profile-picture.png'],
     'd-saintmartins': ['design/saint-martins/logo-1.png', 'design/saint-martins/logo-2.png', 'design/saint-martins/logo-3.png'],
     'd-sneak':        ['design/sneak/sharpshooter-tracklist-1.jpg', 'design/sneak/sharpshooter-tracklist-2.jpg', 'design/sneak/vanilla-sky-tracklist.jpg'],
-    'd-soufpaw':      ['design/tts-6200/collar-1.jpg', 'design/tts-6200/collar-2.jpg', 'design/tts-6200/collar-3.jpg', 'design/tts-6200/leash-1.jpg', 'design/tts-6200/leash-2.jpg', 'design/tts-6200/leash-3.jpg'],
+    'd-soufpaw':      ['design/soufpaw/collar-1.jpg', 'design/soufpaw/collar-2.jpg', 'design/soufpaw/collar-3.jpg', 'design/soufpaw/leash-1.jpg', 'design/soufpaw/leash-2.jpg', 'design/soufpaw/leash-3.jpg'],
   };
 
   const music = {
@@ -129,7 +129,9 @@
 
       const facade = document.createElement('div');
       facade.className = 'video-facade';
-      facade.setAttribute('data-src', 'https://www.youtube.com/embed/' + id + '?enablejsapi=1');
+      // youtube-nocookie serves the same player without setting tracking
+      // cookies until the visitor actually plays something.
+      facade.setAttribute('data-src', 'https://www.youtube-nocookie.com/embed/' + id + '?enablejsapi=1');
       facade.setAttribute('tabindex', '0');
       facade.setAttribute('role', 'button');
       facade.setAttribute('aria-label', v.title);
