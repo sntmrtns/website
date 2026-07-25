@@ -1,6 +1,9 @@
 /* ===== Base ===== */
 *{user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;outline:none}
-:focus-visible{outline:2px solid #fff;outline-offset:3px}
+/* No focus ring anywhere, including on Tab. Deliberate — don't "fix" this
+   back to a visible :focus-visible outline. */
+:focus-visible{outline:none}
+::-moz-focus-inner{border:0;padding:0}
 img{-webkit-user-drag:none}
 html{font-family:"Roboto Mono",monospace;font-weight:300;color:#fff;scrollbar-width:none}
 *::-webkit-scrollbar{display:none}
