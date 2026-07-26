@@ -12,11 +12,10 @@ html{font-family:"Roboto Mono",monospace;font-weight:300;color:#fff;scrollbar-wi
    page would stay black forever. .fade-in replaces it on the normal path. */
 body{background:#000;margin:0;opacity:0;overflow-anchor:none;animation:reveal 0s linear 7s forwards}
 /* `both` fills backwards through the delay, so the page holds at solid black
-   before the fade starts — on a cached refresh the class lands on the first
-   frame and without that hold the fade reads as already over. The easing is
-   symmetric on purpose: an expo-out curve puts most of the opacity in the
-   first fifth of the duration and snaps. */
-body.fade-in{animation:fadeIn 0.9s cubic-bezier(0.33,0,0.67,1) 0.35s both}
+   before the fade starts. Without that hold a cached refresh drops the class
+   on the first frame and the fade reads as already over. Same 0.5s hold the
+   root page uses. */
+body.fade-in{animation:fadeIn 1s cubic-bezier(0.16,1,0.3,1) 0.5s both}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes reveal{to{opacity:1}}
 h2{font-size:20px}
