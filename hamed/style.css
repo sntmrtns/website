@@ -11,7 +11,12 @@ html{font-family:"Roboto Mono",monospace;font-weight:300;color:#fff;scrollbar-wi
    main.js never running at all (network failure, script error): without it the
    page would stay black forever. .fade-in replaces it on the normal path. */
 body{background:#000;margin:0;opacity:0;overflow-anchor:none;animation:reveal 0s linear 7s forwards}
-body.fade-in{animation:fadeIn 1s cubic-bezier(0.16,1,0.3,1) both}
+/* `both` fills backwards through the delay, so the page holds at solid black
+   before the fade starts — on a cached refresh the class lands on the first
+   frame and without that hold the fade reads as already over. The easing is
+   symmetric on purpose: an expo-out curve puts most of the opacity in the
+   first fifth of the duration and snaps. */
+body.fade-in{animation:fadeIn 0.9s cubic-bezier(0.33,0,0.67,1) 0.35s both}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes reveal{to{opacity:1}}
 h2{font-size:20px}
@@ -220,7 +225,7 @@ body:has(#lightbox.lb-visible){overflow:hidden}
 }
 
 @media(prefers-reduced-motion:reduce){
-  body.fade-in{animation-duration:0.01ms}
+  body.fade-in{animation-duration:0.01ms;animation-delay:0ms}
   /* 0.01ms rather than `none`: the open/close handlers wait on transitionend,
      which never fires for a transition that was removed outright. */
   #lightbox,.mobile-nav,.mobile-bar-logo,.mobile-bar-btn,

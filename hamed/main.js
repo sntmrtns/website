@@ -631,10 +631,10 @@
     if (parseFloat(getComputedStyle(document.body).opacity) < 1) {
       document.body.classList.add('fade-in');
     }
-    // fadeIn runs 1s but on an expo-out curve, so the page is ~85% opaque by
-    // 300ms. Input is released there rather than at animationend, which would
-    // leave the site feeling locked long after it looks ready.
-    setTimeout(_unlock, 300);
+    // fadeIn holds black for 350ms, then runs 900ms. Input is released once
+    // the page is roughly two thirds opaque rather than at animationend, which
+    // would leave the site feeling locked after it already looks ready.
+    setTimeout(_unlock, 900);
     if ('requestIdleCallback' in window) requestIdleCallback(warmVideoThumbnails, { timeout: 3000 });
     else setTimeout(warmVideoThumbnails, 1500);
   };
