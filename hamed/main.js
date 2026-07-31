@@ -707,10 +707,13 @@
     // animationend, which would leave the site feeling locked long after it
     // looks ready.
     setTimeout(_unlock, 800);
-    // Held until the fade has finished so the warming traffic can't compete
-    // with anything the animation itself still needs.
+    // Held until the fade has finished — 500ms hold + 1s curve — so the
+    // warming traffic can't compete with anything the animation itself still
+    // needs, and started immediately after. The idle callback only buys a gap
+    // in main-thread work to kick off from; the short timeout keeps it from
+    // sitting on a busy thread rather than fetching.
     setTimeout(() => {
-      if ('requestIdleCallback' in window) requestIdleCallback(warmAssets, { timeout: 2000 });
+      if ('requestIdleCallback' in window) requestIdleCallback(warmAssets, { timeout: 300 });
       else warmAssets();
     }, 1500);
   };
