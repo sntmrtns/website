@@ -601,8 +601,9 @@
 
   // The page is held at opacity 0 behind #site-lock until the content that is
   // actually on screen at boot — the logos in Experience — has resolved.
-  // Everything else (photos, design, video thumbnails, SoundCloud players)
-  // lives in a display:none section and loads lazily when that section opens.
+  // Everything else lives in a display:none section and is warmed in the
+  // background once the fade is done (see warmAssets below), so the reveal
+  // never waits on it.
   const BOOT_TIMEOUT = 5000;
 
   const _blockScroll = (e) => { e.preventDefault(); };
