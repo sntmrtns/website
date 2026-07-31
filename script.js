@@ -38,6 +38,14 @@ requestAnimationFrame(_tick);
 		}
 		document.body.addEventListener('animationend',()=>{document.body.style.opacity='1';},{once:true});
 		setTimeout(()=>{document.body.style.opacity='1';},1500);
+		// Once the fade is done, pull in the two logos this visit didn't draw:
+		// the next load is guaranteed to be one of them, and they're the only
+		// other asset the page has.
+		setTimeout(()=>{
+			const conn=navigator.connection;
+			if(conn&&(conn.saveData||/(^|-)2g$/.test(conn.effectiveType||'')))return;
+			[1,2,3].filter(x=>x!==n).forEach(x=>{new Image().src='logo'+x+'.svg?v=2';});
+		},1500);
 	};
 	const loadLogo=()=>{
 		const l=document.getElementById('logo');

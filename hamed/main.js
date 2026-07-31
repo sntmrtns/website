@@ -292,23 +292,35 @@
     buildGridbox(music.mixing, 'gridbox-mixing');
   })();
 
-  (() => {
-    // Load each SoundCloud iframe only once it actually becomes visible.
-    // iOS Safari refuses to load an iframe whose src is set while it (or an
-    // ancestor, e.g. the hidden #section-music) is display:none, and leaves
-    // it blank even after the section is later shown. A display:none element
-    // never intersects, so the observer fires the moment Music is revealed.
-    const load = (f) => { if (f.dataset.src) { f.src = f.dataset.src; f.removeAttribute('data-src'); } };
-    const frames = Array.from(document.querySelectorAll('.gridbox iframe[data-src]'));
-    if ('IntersectionObserver' in window) {
-      const io = new IntersectionObserver((entries, obs) => {
-        entries.forEach(e => { if (e.isIntersecting) { load(e.target); obs.unobserve(e.target); } });
-      }, { rootMargin: '300px' });
-      frames.forEach(f => io.observe(f));
-    } else {
-      frames.forEach(load);
-    }
-  })();
+  // The SoundCloud players are the one set that cannot be warmed with the rest
+  // of the assets at boot: iOS Safari refuses to load an iframe whose src is
+  // set while it (or an ancestor, e.g. the hidden #section-music) is
+  // display:none, and leaves it blank even after the section is later shown.
+  // The earliest they can start is the moment Music is opened, so all of them
+  // are pulled in then — not just the ones near the viewport — four at a time
+  // so the section stays responsive while it fills in.
+  let _musicWarmed = false;
+  function warmMusicFrames() {
+    if (_musicWarmed) return;
+    _musicWarmed = true;
+    const pending = Array.from(document.querySelectorAll('.gridbox iframe[data-src]'));
+    let next = 0, live = 0;
+    const pump = () => {
+      while (live < 4 && next < pending.length) {
+        const f = pending[next++];
+        if (!f.dataset.src) continue;
+        live++;
+        let stepped = false;
+        const step = () => { if (stepped) return; stepped = true; live--; pump(); };
+        f.addEventListener('load', step, { once: true });
+        f.addEventListener('error', step, { once: true });
+        setTimeout(step, 8000); // an embed that never fires load can't stall the rest
+        f.src = f.dataset.src;
+        f.removeAttribute('data-src');
+      }
+    };
+    pump();
+  }
 
   /* ----------------------------------------------------------- lightbox */
 
@@ -438,6 +450,7 @@
       const sub = document.getElementById('sub-' + s);
       if (sub) sub.style.display = s === name ? '' : 'none';
     });
+    if (name === 'music') warmMusicFrames();
     window.scrollTo({ top: 0, behavior: 'instant' });
     _updateMobileNavActive(name);
   }
@@ -610,18 +623,75 @@
     document.body.style.opacity = '1';
   };
 
-  // Once the page is up, pull in the video thumbnails so opening Videos shows
-  // a full grid rather than nine empty boxes. Flipping loading from "lazy" to
-  // "eager" starts the fetch a deferred image was holding off on.
+  // Once the page is up, pull in every remaining asset on the site so that
+  // opening a section shows a finished grid rather than empty boxes filling in.
+  // None of it is on screen at boot: the design, photo and video sets all live
+  // in a display:none section and are marked loading="lazy", so flipping
+  // loading to "eager" is what starts the fetch a deferred image was holding
+  // off on.
   //
-  // Deliberately limited to the YouTube thumbnails, which are ~30KB each and
-  // all on screen at once. The design and photo sets are ~44MB between them,
-  // far too much to pull speculatively for a visitor who may never open those
-  // sections; those stay lazy and load when the section is actually shown.
-  const warmVideoThumbnails = () => {
+  // It is ~44MB of images, so it is walked a few at a time rather than fired
+  // off at once: a hundred parallel requests would split the connection and
+  // leave the small, most-likely-to-be-seen assets arriving last. Order is
+  // cheapest first — video thumbnails (~30KB each, nine of them), then design,
+  // then photos.
+  const WARM_CONCURRENCY = 6;
+
+  const _saveData = () => {
     const conn = navigator.connection;
-    if (conn && (conn.saveData || /(^|-)2g$/.test(conn.effectiveType || ''))) return;
-    document.querySelectorAll('.video-facade img').forEach(img => { img.loading = 'eager'; });
+    return !!conn && (conn.saveData || /(^|-)2g$/.test(conn.effectiveType || ''));
+  };
+
+  // Both weights are already used by text on screen, but asking for them
+  // outright means a section whose only text is a heading can't be caught
+  // waiting on a font file.
+  const warmFonts = () => {
+    if (!document.fonts || !document.fonts.load) return;
+    ['300 1rem "Roboto Mono"', '600 1rem "Roboto Mono"']
+      .forEach(f => { document.fonts.load(f).catch(() => {}); });
+  };
+
+  // Left until the images are done, and skipped on a mid-tier connection: the
+  // trailer is a single 21MB file a visitor either plays or never touches,
+  // where the images are all seen the moment their section is opened. Its
+  // poster is a plain image and is fetched either way.
+  const warmVideoFile = () => {
+    const conn = navigator.connection;
+    const slow = conn && (conn.saveData || /(^|-)[23]g$/.test(conn.effectiveType || ''));
+    document.querySelectorAll('.gridbox video').forEach(v => {
+      if (v.poster) new Image().src = v.poster;
+      if (slow) return;
+      v.preload = 'auto';
+      v.load();
+    });
+  };
+
+  const warmImages = (done) => {
+    const queue = [
+      ...document.querySelectorAll('.video-facade img'),
+      ...document.querySelectorAll('.design img'),
+      ...document.querySelectorAll('.photos-row img'),
+    ];
+    let next = 0, live = 0, finished = false;
+    const pump = () => {
+      while (live < WARM_CONCURRENCY && next < queue.length) {
+        const img = queue[next++];
+        if (img.complete && img.naturalWidth) continue;
+        live++;
+        const step = () => { live--; pump(); };
+        img.addEventListener('load', step, { once: true });
+        img.addEventListener('error', step, { once: true });
+        img.loading = 'eager';
+      }
+      if (!finished && live === 0 && next >= queue.length) { finished = true; done(); }
+    };
+    pump();
+  };
+
+  const warmAssets = () => {
+    warmFonts();
+    if (_saveData()) return;
+    warmImages(warmVideoFile);
   };
 
   const startFade = () => {
@@ -636,8 +706,12 @@
     // animationend, which would leave the site feeling locked long after it
     // looks ready.
     setTimeout(_unlock, 800);
-    if ('requestIdleCallback' in window) requestIdleCallback(warmVideoThumbnails, { timeout: 3000 });
-    else setTimeout(warmVideoThumbnails, 1500);
+    // Held until the fade has finished so the warming traffic can't compete
+    // with anything the animation itself still needs.
+    setTimeout(() => {
+      if ('requestIdleCallback' in window) requestIdleCallback(warmAssets, { timeout: 2000 });
+      else warmAssets();
+    }, 1500);
   };
 
   let _faded = false;
