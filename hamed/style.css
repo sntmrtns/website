@@ -154,6 +154,7 @@ body:has(#lightbox.lb-visible){overflow:hidden}
 /* The logo is the entry's title, so it carries the heading and the name. */
 .entry-name{margin:0}
 .entry-logo{display:block;width:auto;height:32px;max-width:100%;margin:0 0 16px}
+.entry-logo[src*="redda.svg"]{height:46px}
 .entry-logo[src*="saint-martins.svg"]{height:42px}
 .entry-logo[src*="schwifty-studios.svg"]{height:46px}
 .work{display:grid;grid-template-columns:1fr 2fr;column-gap:50px;align-items:start;margin:0;padding:44px 0}
@@ -175,6 +176,7 @@ body:has(#lightbox.lb-visible){overflow:hidden}
   #section-work .exp-group:first-child{margin-top:0}
   #section-work .work{display:block;padding:40px 0 0;margin:0;column-gap:0}
   #section-work .entry-logo{height:16px}
+  #section-work .entry-logo[src*="redda.svg"]{height:23px}
   #section-work .entry-logo[src*="saint-martins.svg"]{height:21px}
   #section-work .entry-logo[src*="schwifty-studios.svg"]{height:23px}
   .work-role{margin-top:8px;font-size:13px;line-height:1.55}
