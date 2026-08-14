@@ -156,7 +156,7 @@ body:has(#lightbox.lb-visible){overflow:hidden}
 .entry-logo{display:block;width:auto;height:32px;max-width:100%;margin:0 0 16px}
 /* Entries with no logo to claim — independent projects — set the title in
    type instead, matched to the group heading and to the logo's baseline gap. */
-.entry-name-text{font-size:20px;font-weight:600;letter-spacing:.015em;line-height:1.3;color:#fff;margin:0 0 16px}
+.entry-name-text{font-size:24px;font-weight:600;letter-spacing:.015em;line-height:32px;color:#fff;margin:0 0 16px}
 /* Compact 1.6:1 mark among 6-9:1 wordmarks, so it is sized on visual mass
    rather than letter height — at a matched 46px it reads half their weight. */
 .entry-logo[src*="redda.svg"]{height:60px}
@@ -181,7 +181,7 @@ body:has(#lightbox.lb-visible){overflow:hidden}
   #section-work .exp-group:first-child{margin-top:0}
   #section-work .work{display:block;padding:40px 0 0;margin:0;column-gap:0}
   #section-work .entry-logo{height:16px}
-  #section-work .entry-name-text{font-size:15px}
+  #section-work .entry-name-text{font-size:14px;line-height:16px}
   #section-work .entry-logo[src*="redda.svg"]{height:30px}
   #section-work .entry-logo[src*="saint-martins.svg"]{height:21px}
   #section-work .entry-logo[src*="schwifty-studios.svg"]{height:23px}
