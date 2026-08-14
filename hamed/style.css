@@ -154,10 +154,13 @@ body:has(#lightbox.lb-visible){overflow:hidden}
 /* The logo is the entry's title, so it carries the heading and the name. */
 .entry-name{margin:0}
 .entry-logo{display:block;width:auto;height:32px;max-width:100%;margin:0 0 16px}
-/* 14:1 against the other marks' 3-9:1, so it keeps the shared height but
-   runs 453px wide — past a single column below a ~1900px viewport. This
-   heading spans the entry rather than sitting in the info column. */
+/* Alone among these marks it carries a descender, so a shared 32px box puts
+   its lowercase below everyone else's. 36px levels the x-heights by eye —
+   short of the 39px that matches them by measurement, since the heavier face
+   reads larger at a given size. At 510px wide it is past a single column, so
+   this heading spans the entry rather than sitting in the info column. */
 .entry-name-full{grid-column:1/-1}
+.entry-logo[src*="fan-engagement-dashboard.svg"]{height:36px}
 /* Compact 1.6:1 mark among 6-9:1 wordmarks, so it is sized on visual mass
    rather than letter height — at a matched 46px it reads half their weight. */
 .entry-logo[src*="redda.svg"]{height:60px}
@@ -185,6 +188,7 @@ body:has(#lightbox.lb-visible){overflow:hidden}
   #section-work .entry-logo[src*="redda.svg"]{height:30px}
   #section-work .entry-logo[src*="saint-martins.svg"]{height:21px}
   #section-work .entry-logo[src*="schwifty-studios.svg"]{height:23px}
+  #section-work .entry-logo[src*="fan-engagement-dashboard.svg"]{height:18px}
   .work-role{margin-top:8px;font-size:13px;line-height:1.55}
   .work-desc{max-width:none;margin-top:12px;font-size:13px;line-height:1.55}
   .duties{grid-template-columns:none;display:flex;flex-direction:column;margin-top:18px;gap:11px}
