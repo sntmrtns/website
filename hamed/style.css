@@ -154,9 +154,12 @@ body:has(#lightbox.lb-visible){overflow:hidden}
 /* The logo is the entry's title, so it carries the heading and the name. */
 .entry-name{margin:0}
 .entry-logo{display:block;width:auto;height:32px;max-width:100%;margin:0 0 16px}
-/* A 14:1 wordmark — at a matched 32px it would run 453px wide against a
-   column that is 239-658px, so it is sized to sit inside the narrow end. */
-.entry-logo[src*="fan-engagement-dashboard.svg"]{height:20px}
+/* Mixed case among all-caps wordmarks: its box runs ascender to descender,
+   so the capitals are 78.8% of it where the others fill theirs. 40.6px puts
+   the capitals on the same 32px. That is 575px wide — past a single column
+   until ~2270px viewport — so this heading spans the entry instead. */
+.entry-name-full{grid-column:1/-1}
+.entry-logo[src*="fan-engagement-dashboard.svg"]{height:40.6px}
 /* Compact 1.6:1 mark among 6-9:1 wordmarks, so it is sized on visual mass
    rather than letter height — at a matched 46px it reads half their weight. */
 .entry-logo[src*="redda.svg"]{height:60px}
@@ -181,7 +184,7 @@ body:has(#lightbox.lb-visible){overflow:hidden}
   #section-work .exp-group:first-child{margin-top:0}
   #section-work .work{display:block;padding:40px 0 0;margin:0;column-gap:0}
   #section-work .entry-logo{height:16px}
-  #section-work .entry-logo[src*="fan-engagement-dashboard.svg"]{height:11px}
+  #section-work .entry-logo[src*="fan-engagement-dashboard.svg"]{height:20.3px}
   #section-work .entry-logo[src*="redda.svg"]{height:30px}
   #section-work .entry-logo[src*="saint-martins.svg"]{height:21px}
   #section-work .entry-logo[src*="schwifty-studios.svg"]{height:23px}
