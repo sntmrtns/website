@@ -154,13 +154,14 @@ body:has(#lightbox.lb-visible){overflow:hidden}
 /* The logo is the entry's title, so it carries the heading and the name. */
 .entry-name{margin:0}
 .entry-logo{display:block;width:auto;height:32px;max-width:100%;margin:0 0 16px}
-/* Alone among these marks it carries a descender, so its box is taller than
-   its letters: caps fill 23.864 of the 30-unit viewBox. Height is set so the
-   cap height lands on Warrlock's 32px rather than the box doing so. At 562px
-   wide it is past a single column, so this heading spans the entry rather
-   than sitting in the info column. */
+/* Sized on x-height, not on its box or its caps. Warrlock is lowercase with a
+   small x-height, so matching its ascenders would leave this face's much
+   larger x-height reading oversized against the whole set. 35.38px puts the
+   x-height at 21.1px, where the previous wordmark sat. At 494px wide it is
+   past a single column, so this heading spans the entry rather than sitting
+   in the info column. */
 .entry-name-full{grid-column:1/-1}
-.entry-logo[src*="fan-engagement-dashboard.svg"]{height:40.23px}
+.entry-logo[src*="fan-engagement-dashboard.svg"]{height:35.38px}
 /* Compact 1.6:1 mark among 6-9:1 wordmarks, so it is sized on visual mass
    rather than letter height — at a matched 46px it reads half their weight. */
 .entry-logo[src*="redda.svg"]{height:60px}
@@ -188,7 +189,7 @@ body:has(#lightbox.lb-visible){overflow:hidden}
   #section-work .entry-logo[src*="redda.svg"]{height:30px}
   #section-work .entry-logo[src*="saint-martins.svg"]{height:21px}
   #section-work .entry-logo[src*="schwifty-studios.svg"]{height:23px}
-  #section-work .entry-logo[src*="fan-engagement-dashboard.svg"]{height:20.11px}
+  #section-work .entry-logo[src*="fan-engagement-dashboard.svg"]{height:17.69px}
   .work-role{margin-top:8px;font-size:13px;line-height:1.55}
   .work-desc{max-width:none;margin-top:12px;font-size:13px;line-height:1.55}
   .duties{grid-template-columns:none;display:flex;flex-direction:column;margin-top:18px;gap:11px}
