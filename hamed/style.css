@@ -167,14 +167,17 @@ body:has(#lightbox.lb-visible){overflow:hidden}
 .entry-logo[src*="redda.svg"]{height:60px}
 .entry-logo[src*="saint-martins.svg"]{height:42px}
 .entry-logo[src*="schwifty-studios.svg"]{height:46px}
-.work{display:grid;grid-template-columns:1fr 2fr;column-gap:50px;align-items:start;margin:0;padding:44px 0}
+.work{display:grid;grid-template-columns:repeat(3,1fr);column-gap:50px;align-items:start;margin:0;padding:44px 0}
 .work:last-child{padding-bottom:0}
 .work-info{grid-column:1}
 .work-role{margin:0;font-size:16px;font-weight:300;line-height:1.6;color:#fff}
 .work-desc{max-width:none;margin:13px 0 0;font-size:16px;font-weight:300;line-height:1.6;color:#fff;text-wrap:pretty}
 .work-role a,.work-desc a{color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px;transition:opacity 0.15s cubic-bezier(0.16,1,0.3,1)}
 .work-role a:hover,.work-desc a:hover{opacity:0.6}
-.duties{grid-column:2;align-self:start;display:grid;grid-template-columns:1fr;row-gap:13px}
+/* Spans the last two of the entry's three equal tracks, and repeats their 50px
+   gap internally so the two point columns sit on the same rhythm as the info
+   column beside them. */
+.duties{grid-column:2/-1;align-self:start;display:grid;grid-template-columns:1fr 1fr;column-gap:50px;row-gap:13px}
 .duty-col{margin:0;padding:0;list-style:none;align-self:start}
 .duties li{position:relative;display:block;margin:0 0 13px;padding-left:25px;font-size:16px;font-weight:300;line-height:1.55;color:#fff;text-wrap:pretty}
 .duty-col li:last-child{margin-bottom:0}
