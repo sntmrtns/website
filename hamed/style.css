@@ -208,7 +208,9 @@ body:has(#lightbox.lb-visible){overflow:hidden}
   #section-work .entry-logo[src*="redda.svg"]{height:30px}
   #section-work .entry-logo[src*="saint-martins.svg"]{height:21px}
   #section-work .entry-logo[src*="schwifty-studios.svg"]{height:23px}
-  #section-work .entry-logo[src*="fan-engagement-dashboard.svg"]{height:17.69px}
+  /* Half of desktop, like every logo here — but off the two-line height, so a
+     line's x-height lands at 10.56px, exactly where the one-line mark sat. */
+  #section-work .entry-logo[src*="fan-engagement-dashboard.svg"]{height:38.26px}
   .work-role{margin-top:8px;font-size:13px;line-height:1.55}
   .work-desc{max-width:none;margin-top:12px;font-size:13px;line-height:1.55}
   .duties{grid-template-columns:none;display:flex;flex-direction:column;margin-top:18px;gap:11px}
