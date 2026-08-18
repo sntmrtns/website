@@ -156,17 +156,19 @@ body:has(#lightbox.lb-visible){overflow:hidden}
 .entry-logo{display:block;width:auto;height:32px;max-width:100%;margin:0 0 16px}
 /* Sized on x-height, not on its box or its caps. Warrlock is lowercase with a
    small x-height, so matching its ascenders would leave this face's much
-   larger x-height reading oversized against the whole set. 35.38px puts the
-   x-height at 21.1px, where the previous wordmark sat. */
-.entry-logo[src*="fan-engagement-dashboard.svg"]{height:35.38px}
-/* At that height the wordmark is 494px wide, and a column is
-   (.8634vw - 285)/3, so it only clears 494px past a ~2047px viewport. Below
-   that the fixed height plus max-width:100% would squash it, so the heading
-   spans the entry and the points drop to a second row beneath it. From 2060px
-   it fits column 1 like every other entry, so it moves back there and the
-   points sit beside it. */
+   larger x-height reading oversized against the whole set. This mark is two
+   lines, so it is the x-height of a line that has to match the one-line
+   wordmarks, not the height of the block: its `n` is 6.34 of 22.98 viewBox
+   units, and 76.52px puts that at the 21.1px the rest of the set sits at. */
+.entry-logo[src*="fan-engagement-dashboard.svg"]{height:76.52px}
+/* At that height the mark is 293px wide against a column of (.8634vw - 285)/3,
+   so it only clears the column past a ~1348px viewport. Below that the fixed
+   height plus max-width:100% would squash it, so the heading spans the entry
+   and the points drop to a second row beneath it. From 1360px it fits column 1
+   like every other entry, so it moves back there and the points sit beside
+   it. */
 .entry-name-full{grid-column:1/-1}
-@media(min-width:2060px){
+@media(min-width:1360px){
   /* The points span both rows, and they are far taller than the heading and
      the info stacked together, so the leftover has to land on the second row
      rather than being split between them — otherwise it pads the heading row
