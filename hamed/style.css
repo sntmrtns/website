@@ -204,13 +204,15 @@ body:has(#lightbox.lb-visible){overflow:hidden}
   #section-work .exp-group{font-size:17px;margin:44px 0 12px}
   #section-work .exp-group:first-child{margin-top:0}
   #section-work .work{display:block;padding:40px 0 0;margin:0;column-gap:0}
-  #section-work .entry-logo{height:16px}
-  #section-work .entry-logo[src*="redda.svg"]{height:30px}
-  #section-work .entry-logo[src*="saint-martins.svg"]{height:21px}
-  #section-work .entry-logo[src*="schwifty-studios.svg"]{height:23px}
-  /* Half of desktop, like every logo here — but off the two-line height, so a
-     line's x-height lands at 10.56px, exactly where the one-line mark sat. */
-  #section-work .entry-logo[src*="fan-engagement-dashboard.svg"]{height:38.26px}
+  /* Three fifths of each desktop height. The ratio is uniform across the set so
+     the marks stay sized against each other; change it here and every logo
+     moves together. The two-line mark takes the same fraction of its two-line
+     height, which keeps a line's x-height on the one-line marks. */
+  #section-work .entry-logo{height:19.2px}
+  #section-work .entry-logo[src*="redda.svg"]{height:36px}
+  #section-work .entry-logo[src*="saint-martins.svg"]{height:25.2px}
+  #section-work .entry-logo[src*="schwifty-studios.svg"]{height:27.6px}
+  #section-work .entry-logo[src*="fan-engagement-dashboard.svg"]{height:45.91px}
   .work-role{margin-top:8px;font-size:13px;line-height:1.55}
   .work-desc{max-width:none;margin-top:12px;font-size:13px;line-height:1.55}
   .duties{grid-template-columns:none;display:flex;flex-direction:column;margin-top:18px;gap:11px}
