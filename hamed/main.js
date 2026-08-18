@@ -27,12 +27,21 @@
     { title: "sneak - HEAVEN ABOVE ME", url: "https://www.youtube.com/watch?v=0q0bmCZTVdM" },
   ];
 
+  // Each cell's width comes from its image's aspect ratio and the row's height
+  // from the sum of them, so a row cannot be laid out correctly until every
+  // image in it has arrived. Carrying the ratios here lets the row be built
+  // right on the first frame instead of assembling itself under the reader.
+  // These are the files' own: 3:2 for the landscape frames, 4:5 and 2:3 for the
+  // portrait ones. A name with no ratio still works — it falls back to the
+  // guess and re-flexes on load, same as before.
   const photos = [
-    "DSC03137.webp", "DSC03145.webp", "DSC03148.webp", "DSC03154.webp", "DSC03155.webp",
-    "DSC03156.webp", "DSC03237.webp", "DSC03293.webp", "DSC03296.webp", "DSC03556.webp",
-    "DSC03582.webp", "DSC03603.webp", "DSC03622.webp", "DSC03642.webp", "DSC03659.webp",
-    "DSC03885.webp", "DSC04300.webp", "DSC04340.webp", "DSC04431.webp", "DSC04456.webp",
-    "DSC04471.webp"
+    ["DSC03137.webp", 4 / 5], ["DSC03145.webp", 3 / 2], ["DSC03148.webp", 4 / 5],
+    ["DSC03154.webp", 3 / 2], ["DSC03155.webp", 3 / 2], ["DSC03156.webp", 3 / 2],
+    ["DSC03237.webp", 2 / 3], ["DSC03293.webp", 3 / 2], ["DSC03296.webp", 2 / 3],
+    ["DSC03556.webp", 3 / 2], ["DSC03582.webp", 2 / 3], ["DSC03603.webp", 3 / 2],
+    ["DSC03622.webp", 3 / 2], ["DSC03642.webp", 2 / 3], ["DSC03659.webp", 2 / 3],
+    ["DSC03885.webp", 4 / 5], ["DSC04300.webp", 4 / 5], ["DSC04340.webp", 4 / 5],
+    ["DSC04431.webp", 2 / 3], ["DSC04456.webp", 2 / 3], ["DSC04471.webp", 3 / 2],
   ];
 
   const design = {
@@ -173,8 +182,9 @@
   })();
 
   (() => {
-    // Rows of three. Each cell starts at a 3:2 guess and is re-flexed to the
-    // image's true aspect ratio once it loads, so the row keeps a flush edge.
+    // Rows of three, flexed on aspect ratio so the row keeps a flush edge. The
+    // ratios come from the table above; anything listed without one falls back
+    // to a 3:2 guess and is re-flexed once the image loads.
     const DEFAULT_AR = 1.5;
     const box = document.getElementById('photobox');
     const rows = [];
@@ -183,19 +193,21 @@
       const n = Math.min(3, photos.length - i);
       const rowEl = document.createElement('div');
       rowEl.className = 'photos-row';
-      rowEl.style.aspectRatio = n * DEFAULT_AR;
       const cells = [];
+      let totalAR = 0;
       for (let j = 0; j < n; j++) {
         const cell = document.createElement('div');
-        cell.style.flex = DEFAULT_AR;
+        cell.style.flex = photos[i + j][1] || DEFAULT_AR;
+        totalAR += parseFloat(cell.style.flex);
         rowEl.appendChild(cell);
         cells.push(cell);
       }
+      rowEl.style.aspectRatio = totalAR;
       box.appendChild(rowEl);
       rows.push({ el: rowEl, cells });
     }
 
-    photos.forEach((name, i) => {
+    photos.forEach(([name], i) => {
       const { el: rowEl, cells } = rows[Math.floor(i / 3)];
       const cell = cells[i % 3];
 
@@ -230,7 +242,10 @@
       const box = document.querySelector('#' + id + ' .design');
       srcs.forEach((src, i) => {
         const cell = document.createElement('div');
-        cell.style.aspectRatio = '4/3'; // placeholder until the real ratio is known
+        // Every image in this section is square, so the cell can be laid out
+        // before the file arrives instead of settling once it does. Still
+        // cleared on load, so a non-square addition corrects itself.
+        cell.style.aspectRatio = '1/1';
 
         const img = new Image();
         img.alt = '';
