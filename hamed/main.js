@@ -17,7 +17,7 @@
 
   const videos = [
     { title: "Roxie - LostFile", url: "https://www.youtube.com/watch?v=NVAbdaUk4PQ" },
-    { title: "NOT A HUMAN - 2025-12-17", url: "https://www.youtube.com/watch?v=yUb7Py19bfM" },
+    { title: "NOT A HUMAN - 2025-12-17", url: "https://www.youtube.com/watch?v=H-WfeQ_srrU" },
     { title: "sneak - THEY NEVER COMING BACK", url: "https://www.youtube.com/watch?v=RZ7iZbF2BtQ" },
     { title: "sneak - OK BOOL", url: "https://www.youtube.com/watch?v=RGavUVuHw20" },
     { title: "sneak - OK WITH IT", url: "https://www.youtube.com/watch?v=qQ57vtbpJLw" },
