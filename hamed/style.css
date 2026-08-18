@@ -113,11 +113,14 @@ body:has(#lightbox.lb-visible){overflow:hidden}
 .mobile-nav-links button{background:none;border:none;border-bottom:1px solid #1c1c1c;color:#fff;font-family:'Roboto Mono',monospace;font-size:17px;font-weight:300;text-align:left;padding:20px 0;cursor:pointer}
 .mobile-nav-btn.mobile-nav-active{text-transform:uppercase;font-weight:600}
 
-/* 2560 / 1.75. The sidebar layout is built for a 1440p screen, so the cutover is
-   set where 175% browser zoom lands on one: past that the three-column grid is
-   being read at a size nobody zoomed in for, and the single column serves it
-   better. Phones clear it by a wide margin either way. */
-@media(max-width:1463px){
+/* The sidebar layout is built for a 1440p screen, and it should survive 175%
+   browser zoom on one but not the step past it. Those two land at 2560/1.75 =
+   1463px and 2560/2 = 1280px, so the cutover sits between them rather than
+   against either edge — 2560/1.875 = 1365px, which leaves ~90px of slack on
+   both sides so neither step is decided by a rounding pixel or by the few
+   pixels of window border a maximized window costs. Phones clear it by a wide
+   margin either way. */
+@media(max-width:1365px){
   .site-root{max-width:none;margin:0}
   .mobile-bar{display:flex}
   .header{display:none}
@@ -142,7 +145,7 @@ body:has(#lightbox.lb-visible){overflow:hidden}
   .gridbox iframe{height:120px}
 }
 
-@media(max-width:1463px) and (pointer:coarse){
+@media(max-width:1365px) and (pointer:coarse){
   #lightbox img{width:80vw;height:auto;max-height:90vh}
   #lb-prev,#lb-next{font-size:17px;padding:12px;justify-self:auto;transform:none;margin:0}
   #lb-count{font-size:11px;top:auto;bottom:calc(28px + env(safe-area-inset-bottom,0px));transform:translateX(-50%)}
@@ -164,9 +167,10 @@ body:has(#lightbox.lb-visible){overflow:hidden}
    lines, so it is the x-height of a line that has to match the one-line
    wordmarks, not the height of the block: its `n` is 6.34 of 22.98 viewBox
    units, and 76.52px puts that at the 21.1px the rest of the set sits at. */
-/* At that height it is 293px wide, and the grid only exists past 1463px, where
-   a column is already 326px — so it sits in the info column like every other
-   entry and needs no special case. */
+/* At that height it is 293px wide. The narrowest column the grid ever has is
+   298px, at the 1366px viewport just above the mobile cutover, so it clears —
+   but by 5px, and it is the only logo here that comes close. Widen the mark or
+   lower the cutover and this is what gives first. */
 .entry-logo[src*="fan-engagement-dashboard.svg"]{height:76.52px}
 /* Compact 1.6:1 mark among 6-9:1 wordmarks, so it is sized on visual mass
    rather than letter height — at a matched 46px it reads half their weight. */
@@ -189,7 +193,7 @@ body:has(#lightbox.lb-visible){overflow:hidden}
 .duty-col li:last-child{margin-bottom:0}
 .duties li::before{content:"\2014";position:absolute;left:0;top:0;color:#fff}
 
-@media(max-width:1463px){
+@media(max-width:1365px){
   #section-work{margin-top:0;padding-top:0;padding-bottom:0}
   #section-work .exp-group{font-size:17px;margin:44px 0 12px}
   #section-work .exp-group:first-child{margin-top:0}
