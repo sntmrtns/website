@@ -157,11 +157,25 @@ body:has(#lightbox.lb-visible){overflow:hidden}
 /* Sized on x-height, not on its box or its caps. Warrlock is lowercase with a
    small x-height, so matching its ascenders would leave this face's much
    larger x-height reading oversized against the whole set. 35.38px puts the
-   x-height at 21.1px, where the previous wordmark sat. At 494px wide it is
-   past a single column, so this heading spans the entry rather than sitting
-   in the info column. */
-.entry-name-full{grid-column:1/-1}
+   x-height at 21.1px, where the previous wordmark sat. */
 .entry-logo[src*="fan-engagement-dashboard.svg"]{height:35.38px}
+/* At that height the wordmark is 494px wide, and a column is
+   (.8634vw - 285)/3, so it only clears 494px past a ~2047px viewport. Below
+   that the fixed height plus max-width:100% would squash it, so the heading
+   spans the entry and the points drop to a second row beneath it. From 2060px
+   it fits column 1 like every other entry, so it moves back there and the
+   points sit beside it. */
+.entry-name-full{grid-column:1/-1}
+@media(min-width:2060px){
+  /* The points span both rows, and they are far taller than the heading and
+     the info stacked together, so the leftover has to land on the second row
+     rather than being split between them — otherwise it pads the heading row
+     and the role text drops away from the logo. */
+  .work:has(>.entry-name-full){grid-template-rows:auto 1fr}
+  .entry-name-full{grid-column:1;grid-row:1}
+  .entry-name-full~.work-info{grid-row:2}
+  .entry-name-full~.duties{grid-row:1/3}
+}
 /* Compact 1.6:1 mark among 6-9:1 wordmarks, so it is sized on visual mass
    rather than letter height — at a matched 46px it reads half their weight. */
 .entry-logo[src*="redda.svg"]{height:60px}
