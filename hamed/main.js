@@ -45,11 +45,11 @@
   ];
 
   const design = {
-    'd-2-20-03':      ['design/2-20-03/fashion-week-cover.jpg', 'design/2-20-03/profile-picture-1.jpg', 'design/2-20-03/profile-picture-2.jpg'],
+    'd-2-20-03':      ['design/2-20-03/fashion-week-cover.webp', 'design/2-20-03/profile-picture-1.webp', 'design/2-20-03/profile-picture-2.webp'],
     'd-notahuman':    ['design/not-a-human/version-1.png', 'design/not-a-human/version-2.png', 'design/not-a-human/profile-picture.png'],
     'd-saintmartins': ['design/saint-martins/logo-1.png', 'design/saint-martins/logo-2.png', 'design/saint-martins/logo-3.png'],
-    'd-sneak':        ['design/sneak/ok-with-it-cover.jpg', 'design/sneak/sharpshooter-tracklist-1.jpg', 'design/sneak/sharpshooter-tracklist-2.jpg', 'design/sneak/vanilla-sky-tracklist.jpg'],
-    'd-soufpaw':      ['design/soufpaw/collar-1.jpg', 'design/soufpaw/collar-2.jpg', 'design/soufpaw/collar-3.jpg', 'design/soufpaw/leash-1.jpg', 'design/soufpaw/leash-2.jpg', 'design/soufpaw/leash-3.jpg'],
+    'd-sneak':        ['design/sneak/ok-with-it-cover.webp', 'design/sneak/sharpshooter-tracklist-1.webp', 'design/sneak/sharpshooter-tracklist-2.webp', 'design/sneak/vanilla-sky-tracklist.webp'],
+    'd-soufpaw':      ['design/soufpaw/collar-1.webp', 'design/soufpaw/collar-2.webp', 'design/soufpaw/collar-3.webp', 'design/soufpaw/leash-1.webp', 'design/soufpaw/leash-2.webp', 'design/soufpaw/leash-3.webp'],
   };
 
   const music = {
