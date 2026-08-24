@@ -55,7 +55,7 @@
   const music = {
     personal: [
       { title: "hamed, ARKMAN, legion, skai & yugen - fashion week", sc: "https://soundcloud.com/2-20-03/fashion-week" },
-      { title: "hamed, Cargo, legion, Lucid & skai - october",       sc: "https://soundcloud.com/2-20-03/october" },
+      { title: "hamed, cargo, legion, Lucid & skai - october",       sc: "https://soundcloud.com/2-20-03/october" },
       { title: "hamed & Luca Malaspina - down",                      sc: "https://soundcloud.com/2-20-03/down" },
     ],
     production: [
