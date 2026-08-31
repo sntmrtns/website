@@ -60,11 +60,11 @@
       { title: "hamed & Luca Malaspina - down",                      sc: "https://soundcloud.com/2-20-03/down" },
     ],
     production: [
-      { title: "one2nine3 - MIME",       sc: "https://soundcloud.com/onetwoninethree/mime" },
-      { title: "one2nine3 - fell in <3", sc: "https://soundcloud.com/onetwoninethree/fell-in-love" },
-      { title: "TyFontaine - downer",    sc: "https://soundcloud.com/1800tyfontaine/downer" },
-      { title: "Destroy Lonely - Okay",  sc: "https://soundcloud.com/cantmockit/destroy-lonely-okay" },
-      { title: "Vagex - Long Time",      sc: "https://soundcloud.com/vagexsm/long-time-prod-hamed-cargo" },
+      { title: "one2nine3 - MIME",        sc: "https://soundcloud.com/onetwoninethree/mime" },
+      { title: "one2nine3 - fell in <3",  sc: "https://soundcloud.com/onetwoninethree/fell-in-love" },
+      { title: "TyFontaine - downer",     sc: "https://soundcloud.com/1800tyfontaine/downer" },
+      { title: "Destroy Lonely - Not Ok", sc: "https://soundcloud.com/cantmockit/destroy-lonely-okay" },
+      { title: "Vagex - Long Time",       sc: "https://soundcloud.com/vagexsm/long-time-prod-hamed-cargo" },
       { title: "FaZe Clan - Introducing FaZe Kaysan Trailer", video: "music/faze-kaysan-trailer.mp4", poster: "music/faze-kaysan-trailer.png" },
     ],
     mixing: [
