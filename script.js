@@ -15,12 +15,7 @@ function _tick(){
 }
 requestAnimationFrame(_tick);
 
-// Runs as soon as the deferred script executes rather than on window.load.
-// The logo is the entire page; waiting for load meant not even starting its
-// fetch until the Google Fonts stylesheet and font files had finished.
 (()=>{
-	// localStorage can throw outright (Safari Lockdown Mode, blocked storage).
-	// Nothing below may depend on it: a throw here would leave body at opacity 0.
 	let last=0;
 	try{last=parseInt(localStorage.getItem('lastLogo'),10)||0;}catch{}
 	const choices=[1,2,3].filter(n=>n!==last);
@@ -30,17 +25,11 @@ requestAnimationFrame(_tick);
 	const startFade=()=>{
 		if(faded)return;
 		faded=true;
-		// The stylesheet reveals body on a delay as a failsafe for this script
-		// never running. If that already fired, replaying the fade would flash
-		// the page back to transparent first.
 		if(parseFloat(getComputedStyle(document.body).opacity)<1){
 			document.body.classList.add('fade-in');
 		}
 		document.body.addEventListener('animationend',()=>{document.body.style.opacity='1';},{once:true});
 		setTimeout(()=>{document.body.style.opacity='1';},1500);
-		// Once the fade is done, pull in the two logos this visit didn't draw:
-		// the next load is guaranteed to be one of them, and they're the only
-		// other asset the page has.
 		setTimeout(()=>{
 			const conn=navigator.connection;
 			if(conn&&(conn.saveData||/(^|-)2g$/.test(conn.effectiveType||'')))return;

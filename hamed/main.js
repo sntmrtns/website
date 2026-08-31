@@ -1,9 +1,6 @@
 (() => {
   'use strict';
 
-  // Serve /hamed as /hamed (no trailing slash) while keeping relative URLs
-  // resolving against /hamed/ — the <base> must be installed before any
-  // relative URL is built in JS below.
   if (location.pathname.endsWith('/') && location.pathname !== '/') {
     const base = document.createElement('base');
     base.href = location.href;
@@ -12,8 +9,6 @@
   }
 
   document.addEventListener('contextmenu', (e) => { e.preventDefault(); });
-
-  /* ---------------------------------------------------------------- data */
 
   const videos = [
     { title: "Roxie - LostFile", url: "https://www.youtube.com/watch?v=NVAbdaUk4PQ" },
@@ -27,13 +22,6 @@
     { title: "sneak - HEAVEN ABOVE ME", url: "https://www.youtube.com/watch?v=0q0bmCZTVdM" },
   ];
 
-  // Each cell's width comes from its image's aspect ratio and the row's height
-  // from the sum of them, so a row cannot be laid out correctly until every
-  // image in it has arrived. Carrying the ratios here lets the row be built
-  // right on the first frame instead of assembling itself under the reader.
-  // These are the files' own: 3:2 for the landscape frames, 4:5 and 2:3 for the
-  // portrait ones. A name with no ratio still works — it falls back to the
-  // guess and re-flexes on load, same as before.
   const photos = [
     ["DSC03137.webp", 4 / 5], ["DSC03145.webp", 3 / 2], ["DSC03148.webp", 4 / 5],
     ["DSC03154.webp", 3 / 2], ["DSC03155.webp", 3 / 2], ["DSC03156.webp", 3 / 2],
@@ -114,12 +102,10 @@
 
   const SECTIONS = ['work', 'design', 'photos', 'videos', 'music'];
 
-  /* --------------------------------------------------------------- media */
-
   function pauseAllMedia() {
     document.querySelectorAll('video').forEach(v => { v.pause(); });
     document.querySelectorAll('iframe').forEach(f => {
-      if (f.dataset.src) return; // never loaded, nothing to pause
+      if (f.dataset.src) return;
       try { f.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*'); } catch {}
       try { f.contentWindow.postMessage(JSON.stringify({ method: 'pause' }), '*'); } catch {}
     });
@@ -137,8 +123,6 @@
     iframe.focus();
   }
 
-  /* ------------------------------------------------------------ building */
-
   (() => {
     const ytId = (url) => { const m = url.match(/(?:v=|youtu\.be\/|embed\/)([^&?/]+)/); return m ? m[1] : null; };
     const box = document.getElementById('videobox');
@@ -148,8 +132,6 @@
 
       const facade = document.createElement('div');
       facade.className = 'video-facade';
-      // youtube-nocookie serves the same player without setting tracking
-      // cookies until the visitor actually plays something.
       facade.setAttribute('data-src', 'https://www.youtube-nocookie.com/embed/' + id + '?enablejsapi=1');
       facade.setAttribute('tabindex', '0');
       facade.setAttribute('role', 'button');
@@ -192,9 +174,6 @@
   })();
 
   (() => {
-    // Rows of three, flexed on aspect ratio so the row keeps a flush edge. The
-    // ratios come from the table above; anything listed without one falls back
-    // to a 3:2 guess and is re-flexed once the image loads.
     const DEFAULT_AR = 1.5;
     const box = document.getElementById('photobox');
     const rows = [];
@@ -224,9 +203,6 @@
       const img = new Image();
       img.alt = '';
       img.loading = 'lazy';
-      // Not interactive until it has actually arrived: an unloaded image is a
-      // transparent box, and making it clickable/tabbable would put 21 invisible
-      // buttons in the tab order and let the lightbox open on nothing.
       img.tabIndex = -1;
       img.setAttribute('role', 'button');
       img.setAttribute('aria-label', 'Photo ' + (i + 1) + ' of ' + photos.length);
@@ -239,9 +215,6 @@
         img.tabIndex = 0;
       });
 
-      // Append before setting src so loading="lazy" applies: the photos
-      // section is display:none at boot, so nothing here is fetched until
-      // Pictures is actually opened.
       cell.appendChild(img);
       img.src = 'photos/' + name;
     });
@@ -252,15 +225,12 @@
       const box = document.querySelector('#' + id + ' .design');
       srcs.forEach((src, i) => {
         const cell = document.createElement('div');
-        // Every image in this section is square, so the cell can be laid out
-        // before the file arrives instead of settling once it does. Still
-        // cleared on load, so a non-square addition corrects itself.
         cell.style.aspectRatio = '1/1';
 
         const img = new Image();
         img.alt = '';
         img.loading = 'lazy';
-        img.tabIndex = -1; // see the photos builder above
+        img.tabIndex = -1;
         img.setAttribute('role', 'button');
         img.setAttribute('aria-label', 'Image ' + (i + 1) + ' of ' + srcs.length);
         img.addEventListener('load', () => {
@@ -317,13 +287,6 @@
     buildGridbox(music.mixing, 'gridbox-mixing');
   })();
 
-  // The SoundCloud players are the one set that cannot be warmed with the rest
-  // of the assets at boot: iOS Safari refuses to load an iframe whose src is
-  // set while it (or an ancestor, e.g. the hidden #section-music) is
-  // display:none, and leaves it blank even after the section is later shown.
-  // The earliest they can start is the moment Music is opened, so all of them
-  // are pulled in then — not just the ones near the viewport — four at a time
-  // so the section stays responsive while it fills in.
   let _musicWarmed = false;
   function warmMusicFrames() {
     if (_musicWarmed) return;
@@ -339,15 +302,13 @@
         const step = () => { if (stepped) return; stepped = true; live--; pump(); };
         f.addEventListener('load', step, { once: true });
         f.addEventListener('error', step, { once: true });
-        setTimeout(step, 8000); // an embed that never fires load can't stall the rest
+        setTimeout(step, 8000);
         f.src = f.dataset.src;
         f.removeAttribute('data-src');
       }
     };
     pump();
   }
-
-  /* ----------------------------------------------------------- lightbox */
 
   let _lb = null, _lbImgs = [], _lbIdx = 0, _lbAnimating = false, _lbTrigger = null;
   let _lbTouchX = null, _lbTouchY = null, _lbSwiped = false;
@@ -376,7 +337,6 @@
     _lbPreload(_lbIdx);
   }
 
-  // The mobile bar sits above the lightbox backdrop; hide it while open.
   function _toggleMobileBar(hidden) {
     ['.mobile-bar-logo', '.mobile-bar-btn'].forEach(sel => {
       const el = document.querySelector(sel);
@@ -387,8 +347,6 @@
     });
   }
 
-  // Run `fn` when the lightbox finishes transitioning, or after `ms` if the
-  // transitionend never arrives (interrupted transition, reduced motion).
   function _afterTransition(el, ms, fn) {
     let done = () => { fn(); done = () => {}; };
     el.addEventListener('transitionend', (e) => { if (e.target === el) done(); }, { once: true });
@@ -435,7 +393,6 @@
     }));
   }
 
-  // Shared by the click and Enter/Space paths.
   function _openFromImage(el) {
     const group = el.closest('.design');
     const siblings = group
@@ -444,8 +401,6 @@
     _lbTrigger = el;
     _openLightbox(siblings.map(i => i.src), Math.max(0, siblings.indexOf(el)));
   }
-
-  /* --------------------------------------------------------- navigation */
 
   const _reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -547,8 +502,6 @@
   document.getElementById('mobile-nav-close').addEventListener('click', _closeNav);
   _mobileNav.addEventListener('click', (e) => { if (e.target === _mobileNav) _closeNav(); });
 
-  /* ------------------------------------------------------------- events */
-
   document.addEventListener('click', (e) => {
     if (_lbOpen()) {
       if (_lbSwiped) { _lbSwiped = false; return; }
@@ -622,13 +575,6 @@
     }, { passive: true });
   })();
 
-  /* --------------------------------------------------------------- boot */
-
-  // The page is held at opacity 0 behind #site-lock until the content that is
-  // actually on screen at boot — the logos in Experience — has resolved.
-  // Everything else lives in a display:none section and is warmed in the
-  // background once the fade is done (see warmAssets below), so the reveal
-  // never waits on it.
   const BOOT_TIMEOUT = 5000;
 
   const _blockScroll = (e) => { e.preventDefault(); };
@@ -649,18 +595,6 @@
     document.body.style.opacity = '1';
   };
 
-  // Once the page is up, pull in every remaining asset on the site so that
-  // opening a section shows a finished grid rather than empty boxes filling in.
-  // None of it is on screen at boot: the design, photo and video sets all live
-  // in a display:none section and are marked loading="lazy", so flipping
-  // loading to "eager" is what starts the fetch a deferred image was holding
-  // off on.
-  //
-  // It is ~44MB of images, so it is walked a few at a time rather than fired
-  // off at once: a hundred parallel requests would split the connection and
-  // leave the small, most-likely-to-be-seen assets arriving last. Order is
-  // cheapest first — video thumbnails (~30KB each, nine of them), then design,
-  // then photos.
   const WARM_CONCURRENCY = 6;
 
   const _saveData = () => {
@@ -668,19 +602,12 @@
     return !!conn && (conn.saveData || /(^|-)2g$/.test(conn.effectiveType || ''));
   };
 
-  // Both weights are already used by text on screen, but asking for them
-  // outright means a section whose only text is a heading can't be caught
-  // waiting on a font file.
   const warmFonts = () => {
     if (!document.fonts || !document.fonts.load) return;
     ['300 1rem "Roboto Mono"', '600 1rem "Roboto Mono"']
       .forEach(f => { document.fonts.load(f).catch(() => {}); });
   };
 
-  // Left until the images are done, and skipped on a mid-tier connection: the
-  // trailer is a single 21MB file a visitor either plays or never touches,
-  // where the images are all seen the moment their section is opened. Its
-  // poster is a plain image and is fetched either way.
   const warmVideoFile = () => {
     const conn = navigator.connection;
     const slow = conn && (conn.saveData || /(^|-)[23]g$/.test(conn.effectiveType || ''));
@@ -721,22 +648,10 @@
   };
 
   const startFade = () => {
-    // The stylesheet reveals body on a delay as a failsafe for main.js never
-    // running. If that already fired (tab was backgrounded past the delay),
-    // replaying the fade would flash the page back to transparent first.
     if (parseFloat(getComputedStyle(document.body).opacity) < 1) {
       document.body.classList.add('fade-in');
     }
-    // fadeIn holds black for 500ms, then runs 1s on an expo-out curve, so the
-    // page is ~85% opaque 300ms in. Input is released there rather than at
-    // animationend, which would leave the site feeling locked long after it
-    // looks ready.
     setTimeout(_unlock, 800);
-    // Held until the fade has finished — 500ms hold + 1s curve — so the
-    // warming traffic can't compete with anything the animation itself still
-    // needs, and started immediately after. The idle callback only buys a gap
-    // in main-thread work to kick off from; the short timeout keeps it from
-    // sitting on a busy thread rather than fetching.
     setTimeout(() => {
       if ('requestIdleCallback' in window) requestIdleCallback(warmAssets, { timeout: 300 });
       else warmAssets();

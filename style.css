@@ -1,9 +1,6 @@
 *{user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
 img{-webkit-user-drag:none}
 
-/* body starts hidden and is revealed by script.js. `reveal` is a failsafe for
-   script.js never running at all (network failure, script error): without it
-   the page would stay black forever. .fade-in replaces it on the normal path. */
 body{background:#000;margin:0;overflow:hidden;opacity:0;animation:reveal 0s linear 7s forwards}
 .fade-in{animation:fadeIn 1s cubic-bezier(0.16,1,0.3,1) 0.5s both}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
@@ -30,7 +27,6 @@ body{background:#000;margin:0;overflow:hidden;opacity:0;animation:reveal 0s line
   .fade-in{animation-duration:0.01ms;animation-delay:0ms}
 }
 
-/* White artwork on a background browsers don't print would come out blank. */
 @media print{
   body,body.fade-in{background:#fff;opacity:1;animation:none;overflow:visible}
   .zoom-wrap,.page-container{position:static}

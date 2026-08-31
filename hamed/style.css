@@ -1,20 +1,10 @@
-/* ===== Base ===== */
 *{user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;outline:none}
-/* No focus ring anywhere, including on Tab. Deliberate — don't "fix" this
-   back to a visible :focus-visible outline. */
 :focus-visible{outline:none}
 ::-moz-focus-inner{border:0;padding:0}
 img{-webkit-user-drag:none}
 html{font-family:"Roboto Mono",monospace;font-weight:300;color:#fff;scrollbar-width:none}
 *::-webkit-scrollbar{display:none}
-/* body starts hidden and is revealed by main.js. `reveal` is a failsafe for
-   main.js never running at all (network failure, script error): without it the
-   page would stay black forever. .fade-in replaces it on the normal path. */
 body{background:#000;margin:0;opacity:0;overflow-anchor:none;animation:reveal 0s linear 7s forwards}
-/* `both` fills backwards through the delay, so the page holds at solid black
-   before the fade starts. Without that hold a cached refresh drops the class
-   on the first frame and the fade reads as already over. Same 0.5s hold the
-   root page uses. */
 body.fade-in{animation:fadeIn 1s cubic-bezier(0.16,1,0.3,1) 0.5s both}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes reveal{to{opacity:1}}
@@ -22,7 +12,6 @@ h2{font-size:20px}
 p{font-size:16px}
 .visually-hidden{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
 
-/* ===== Layout ===== */
 .header{width:185px;margin-left:clamp(32px,3.9vw,100px);padding-top:clamp(48px,3.9vw,100px);position:sticky;top:0;height:100%}
 .body{margin-top:clamp(48px,3.9vw,100px);margin-right:clamp(32px,3.9vw,100px);margin-left:clamp(40px,5.86vw,150px);position:relative}
 .logo-box .name{margin:0;font-weight:600;font-size:20px}
@@ -33,7 +22,6 @@ p{font-size:16px}
 .body-zoom{flex:1;min-width:0;align-self:flex-start}
 .column{flex-direction:column}
 
-/* ===== Sidebar navigation ===== */
 .btn{margin-bottom:28px;appearance:none;-webkit-appearance:none;background:none;border:none;padding:0;font-family:inherit;font-size:20px;text-align:left;color:#fff;cursor:pointer;transition:opacity 0.15s cubic-bezier(0.16,1,0.3,1);width:fit-content}
 .btn:not(.btn-active):hover{opacity:0.6}
 .btn-active{text-transform:uppercase;font-weight:600;pointer-events:none}
@@ -44,22 +32,17 @@ p{font-size:16px}
 #section-design .href-section{margin-top:-6px}
 .body h2{margin:0 0 21px;text-transform:uppercase}
 
-/* ===== Design ===== */
 .design{column-gap:25px;row-gap:25px;margin-bottom:100px;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,500px),1fr))}
 .design img{width:100%;height:auto;display:block;cursor:zoom-in;opacity:0;transition:opacity 0.25s cubic-bezier(0.16,1,0.3,1)}
 .design img.loaded{opacity:1}
-/* An image sits in the DOM at opacity 0 until it loads; don't let a
-   transparent box swallow clicks meant for the page behind it. */
 .design img:not(.loaded),.photos-row img:not(.loaded){pointer-events:none}
 
-/* ===== Pictures ===== */
 .photos{margin-bottom:100px}
 .photos-row{display:flex;gap:25px;margin-bottom:25px}
 .photos-row div{overflow:hidden;min-width:0}
 .photos-row img{display:block;width:100%;height:100%;object-fit:cover;cursor:zoom-in;opacity:0;transition:opacity 0.25s cubic-bezier(0.16,1,0.3,1)}
 .photos-row img.loaded{opacity:1}
 
-/* ===== Videos ===== */
 .videos{padding-bottom:100px}
 .videobox{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,500px),1fr));column-gap:25px;row-gap:33px;margin-bottom:0;width:100%;box-sizing:border-box}
 .videobox p{margin-top:10px}
@@ -69,7 +52,6 @@ p{font-size:16px}
 .play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;font-size:30px;pointer-events:none}
 .videobox-video iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0;display:block}
 
-/* ===== Music ===== */
 .gridbox{column-gap:25px;row-gap:33px;margin-bottom:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,500px),1fr))}
 .gridbox iframe{display:block;width:100%;height:178.5px;border:0;overflow:hidden}
 .gridbox video{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
@@ -79,7 +61,6 @@ p{font-size:16px}
 .mixing{margin-bottom:100px}
 .personal{margin-top:-6px}
 
-/* ===== Lightbox ===== */
 #site-lock{position:fixed;inset:0;z-index:9999}
 #lightbox{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.92);display:none;opacity:0;grid-template-columns:1fr auto 1fr;align-items:center;justify-items:center;cursor:zoom-out;transition:opacity 0.25s cubic-bezier(0.16,1,0.3,1)}
 #lightbox.lb-visible{display:grid}
@@ -97,7 +78,6 @@ p{font-size:16px}
 #lb-count{position:absolute;top:97.5vh;left:50%;transform:translate(-50%,-50%);color:#fff;opacity:0.4;font-size:0.85vh;pointer-events:none;white-space:nowrap}
 body:has(#lightbox.lb-visible){overflow:hidden}
 
-/* ===== Mobile bar and menu ===== */
 .mobile-bar{display:none;position:fixed;top:0;left:0;right:0;height:calc(84px + env(safe-area-inset-top,0px));background:#000;align-items:center;justify-content:space-between;padding:env(safe-area-inset-top,0px) 28px 0;z-index:200;box-sizing:border-box}
 .mobile-bar-logo{height:28px;width:auto;transition:opacity 0.25s cubic-bezier(0.16,1,0.3,1)}
 .mobile-bar-btn{background:none;border:none;cursor:pointer;padding:8px 0 8px 8px;display:flex;flex-direction:column;gap:6px;transition:opacity 0.25s cubic-bezier(0.16,1,0.3,1)}
@@ -113,13 +93,6 @@ body:has(#lightbox.lb-visible){overflow:hidden}
 .mobile-nav-links button{background:none;border:none;border-bottom:1px solid #1c1c1c;color:#fff;font-family:'Roboto Mono',monospace;font-size:17px;font-weight:300;text-align:left;padding:20px 0;cursor:pointer}
 .mobile-nav-btn.mobile-nav-active{text-transform:uppercase;font-weight:600}
 
-/* The sidebar layout is built for a 1440p screen, and it should survive 150%
-   browser zoom on one but not the step past it. Those two land at 2560/1.5 =
-   1707px and 2560/1.75 = 1463px, so the cutover sits between them rather than
-   against either edge — 2560/1.625 = 1575px, which leaves >110px of slack on
-   both sides so neither step is decided by a rounding pixel or by the few
-   pixels of window border a maximized window costs. Phones clear it by a wide
-   margin either way. */
 @media(max-width:1575px){
   .site-root{max-width:none;margin:0}
   .mobile-bar{display:flex}
@@ -153,26 +126,13 @@ body:has(#lightbox.lb-visible){overflow:hidden}
   #lb-close span{width:25px}
 }
 
-/* ===== Experience — full-width ledger ===== */
 #section-work{padding-bottom:100px}
 #section-work .exp-group{margin:56px 0 21px;padding:0;font-size:20px;font-weight:600;letter-spacing:.015em}
 #section-work .exp-group:first-child{margin-top:-6px}
 #section-work .exp-group+.work{padding-top:0}
-/* The logo is the entry's title, so it carries the heading and the name. */
 .entry-name{margin:0}
 .entry-logo{display:block;width:auto;height:32px;max-width:100%;margin:0 0 16px}
-/* Sized on x-height, not on its box or its caps. Warrlock is lowercase with a
-   small x-height, so matching its ascenders would leave this face's much
-   larger x-height reading oversized against the whole set. This mark is two
-   lines, so it is the x-height of a line that has to match the one-line
-   wordmarks, not the height of the block: its `n` is 6.34 of 22.98 viewBox
-   units, and 76.52px puts that at the 21.1px the rest of the set sits at. */
-/* At that height it is 293px wide against a narrowest column of 359px, at the
-   1576px viewport just above the mobile cutover. It is still the closest fit in
-   the set, so if the cutover is ever lowered again this is what gives first. */
 .entry-logo[src*="fan-engagement-dashboard.svg"]{height:76.52px}
-/* Compact 1.6:1 mark among 6-9:1 wordmarks, so it is sized on visual mass
-   rather than letter height — at a matched 46px it reads half their weight. */
 .entry-logo[src*="redda.svg"]{height:60px}
 .entry-logo[src*="saint-martins.svg"]{height:42px}
 .entry-logo[src*="schwifty-studios.svg"]{height:46px}
@@ -183,9 +143,6 @@ body:has(#lightbox.lb-visible){overflow:hidden}
 .work-desc{max-width:none;margin:13px 0 0;font-size:16px;font-weight:300;line-height:1.6;color:#fff;text-wrap:pretty}
 .work-role a,.work-desc a{color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px;transition:opacity 0.15s cubic-bezier(0.16,1,0.3,1)}
 .work-role a:hover,.work-desc a:hover{opacity:0.6}
-/* Spans the last two of the entry's three equal tracks, and repeats their 50px
-   gap internally so the two point columns sit on the same rhythm as the info
-   column beside them. */
 .duties{grid-column:2/-1;align-self:start;display:grid;grid-template-columns:1fr 1fr;column-gap:50px;row-gap:13px}
 .duty-col{margin:0;padding:0;list-style:none;align-self:start}
 .duties li{position:relative;display:block;margin:0 0 13px;padding-left:25px;font-size:16px;font-weight:300;line-height:1.55;color:#fff;text-wrap:pretty}
@@ -197,10 +154,6 @@ body:has(#lightbox.lb-visible){overflow:hidden}
   #section-work .exp-group{font-size:17px;margin:44px 0 12px}
   #section-work .exp-group:first-child{margin-top:0}
   #section-work .work{display:block;padding:40px 0 0;margin:0;column-gap:0}
-  /* Three fifths of each desktop height. The ratio is uniform across the set so
-     the marks stay sized against each other; change it here and every logo
-     moves together. The two-line mark takes the same fraction of its two-line
-     height, which keeps a line's x-height on the one-line marks. */
   #section-work .entry-logo{height:19.2px}
   #section-work .entry-logo[src*="redda.svg"]{height:36px}
   #section-work .entry-logo[src*="saint-martins.svg"]{height:25.2px}
@@ -210,9 +163,6 @@ body:has(#lightbox.lb-visible){overflow:hidden}
   .work-desc{max-width:none;margin-top:12px;font-size:13px;line-height:1.55}
   .duties{grid-template-columns:none;display:flex;flex-direction:column;margin-top:18px;gap:11px}
   .duty-col{display:contents}
-  /* Two columns interleave into one list. An li past the last rule here would
-     fall back to order:0 and jump ahead of everything, so both columns are
-     covered one item past the longest list in the page. */
   .duty-col:first-child li:nth-child(1){order:1}
   .duty-col:first-child li:nth-child(2){order:3}
   .duty-col:first-child li:nth-child(3){order:5}
@@ -228,11 +178,6 @@ body:has(#lightbox.lb-visible){overflow:hidden}
   .duties li{font-size:13px;padding-left:18px;margin:0;line-height:1.5}
 }
 
-/* Everything on screen is white on a black background that browsers don't
-   print, so the default printout is a blank sheet. Invert it instead. The
-   entry logos are uniformly fill:#fff, so a flat invert is exact.
-   body.fade-in is matched explicitly because it sets `animation` at the same
-   specificity and would otherwise keep winning here. */
 @media print{
   html{color:#000}
   body,body.fade-in{background:#fff;opacity:1;animation:none}
@@ -247,8 +192,6 @@ body:has(#lightbox.lb-visible){overflow:hidden}
 
 @media(prefers-reduced-motion:reduce){
   body.fade-in{animation-duration:0.01ms;animation-delay:0ms}
-  /* 0.01ms rather than `none`: the open/close handlers wait on transitionend,
-     which never fires for a transition that was removed outright. */
   #lightbox,.mobile-nav,.mobile-bar-logo,.mobile-bar-btn,
   .design img,.photos-row img,.btn,
   #lb-prev,#lb-next,#lb-close,
