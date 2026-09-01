@@ -298,17 +298,6 @@
     buildGridbox(music.mixing, 'gridbox-mixing');
   })();
 
-  let _workRevealed = false;
-  function revealWorkEntries() {
-    if (_workRevealed) return;
-    _workRevealed = true;
-    const entries = document.querySelectorAll('#section-work .work');
-    entries.forEach((el, i) => {
-      el.style.transitionDelay = (i * 0.25) + 's';
-      el.classList.add('loaded');
-    });
-  }
-
   let _musicWarmed = false;
   function warmMusicFrames() {
     if (_musicWarmed) return;
@@ -452,7 +441,6 @@
       const sub = document.getElementById('sub-' + s);
       if (sub) sub.style.display = s === name ? '' : 'none';
     });
-    if (name === 'work') revealWorkEntries();
     if (name === 'music') warmMusicFrames();
     window.scrollTo({ top: 0, behavior: 'instant' });
     _updateMobileNavActive(name);
@@ -674,7 +662,6 @@
     if (parseFloat(getComputedStyle(document.body).opacity) < 1) {
       document.body.classList.add('fade-in');
     }
-    setTimeout(revealWorkEntries, _reducedMotion.matches ? 0 : 1500);
     setTimeout(_unlock, 800);
     setTimeout(() => {
       if ('requestIdleCallback' in window) requestIdleCallback(warmAssets, { timeout: 300 });
