@@ -4,7 +4,7 @@
 img{-webkit-user-drag:none}
 html{font-family:"Roboto Mono",monospace;font-weight:300;color:#fff;scrollbar-width:none}
 *::-webkit-scrollbar{display:none}
-body{background:#000;margin:0;opacity:0;overflow-anchor:none;animation:reveal 0s linear 7s forwards}
+body{background:#000;margin:0;opacity:0;overflow-anchor:none;animation:reveal 0s linear 9s forwards}
 body.fade-in{animation:fadeIn 1s cubic-bezier(0.16,1,0.3,1) 0.5s both}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes reveal{to{opacity:1}}
