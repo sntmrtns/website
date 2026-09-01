@@ -159,8 +159,9 @@
       thumb.alt = '';
       thumb.loading = 'lazy';
       let triedFallback = false;
+      thumb.addEventListener('load', () => { facade.classList.add('loaded'); });
       thumb.addEventListener('error', () => {
-        if (triedFallback) return;
+        if (triedFallback) { facade.classList.add('loaded'); return; }
         triedFallback = true;
         thumb.src = 'https://img.youtube.com/vi/' + id + '/hqdefault.jpg';
       });
@@ -279,6 +280,11 @@
           source.src = t.video;
           source.type = 'video/mp4';
           video.appendChild(source);
+          const posterImg = new Image();
+          const showVideo = () => { video.classList.add('loaded'); };
+          posterImg.addEventListener('load', showVideo, { once: true });
+          posterImg.addEventListener('error', showVideo, { once: true });
+          posterImg.src = t.poster;
           cell.appendChild(video);
         } else {
           return;
@@ -304,7 +310,7 @@
         if (!f.dataset.src) continue;
         live++;
         let stepped = false;
-        const step = () => { if (stepped) return; stepped = true; live--; pump(); };
+        const step = () => { if (stepped) return; stepped = true; f.classList.add('loaded'); live--; pump(); };
         f.addEventListener('load', step, { once: true });
         f.addEventListener('error', step, { once: true });
         setTimeout(step, 8000);
