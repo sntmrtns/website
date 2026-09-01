@@ -44,7 +44,7 @@ p{font-size:16px}
 
 .videos{padding-bottom:100px}
 .videobox{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,500px),1fr));column-gap:25px;row-gap:5px;margin-bottom:0;width:100%;box-sizing:border-box}
-.videobox p{margin-top:10px}
+.videobox p{margin-top:7.5px}
 .videobox-video{position:relative;padding-top:56.25%;overflow:hidden}
 .video-facade{position:absolute;top:0;left:0;width:100%;height:100%;cursor:pointer;overflow:hidden}
 .video-facade img{width:100%;height:100%;object-fit:cover;display:block}
@@ -54,7 +54,7 @@ p{font-size:16px}
 .gridbox{column-gap:25px;row-gap:5px;margin-bottom:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,500px),1fr))}
 .gridbox iframe{display:block;width:100%;height:178.5px;border:0;overflow:hidden}
 .gridbox video{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
-.gridbox p{margin-top:10px}
+.gridbox p{margin-top:7.5px}
 .music{margin-bottom:7px}
 .personal,.production,.mixing{scroll-margin-top:94px;margin-bottom:77px}
 .mixing{margin-bottom:100px}
