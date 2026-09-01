@@ -130,7 +130,7 @@
   const _loadQueue = [];
   const _loadPending = {};
   const _loadLive = { image: 0, video: 0, audio: 0 };
-  let _loadSection = 'work', _loadStarted = false, _revealReady = false;
+  let _loadSection = 'work', _loadStarted = false;
 
   function queueLoad(section, lane, start) {
     _loadQueue.push({ section, lane, start });
@@ -150,19 +150,12 @@
       else el.setAttribute('aria-hidden', 'true');
       if (!active) el.classList.remove('section-shown');
     });
-    if (!_revealReady) return;
     const cur = document.getElementById('section-' + _loadSection);
     if (cur && !cur.classList.contains('section-shown')) {
       void cur.offsetHeight;
       void getComputedStyle(cur).opacity;
       cur.classList.add('section-shown');
     }
-  }
-
-  function allowReveal() {
-    if (_revealReady) return;
-    _revealReady = true;
-    _syncSections();
   }
 
   function _pumpLoads() {
@@ -480,7 +473,6 @@
       if (sub) sub.style.display = s === name ? '' : 'none';
     });
     _loadSection = name;
-    allowReveal();
     _syncSections();
     _pumpLoads();
     window.scrollTo({ top: 0, behavior: 'instant' });
@@ -678,10 +670,6 @@
   const startFade = () => {
     if (parseFloat(getComputedStyle(document.body).opacity) < 1) {
       document.body.classList.add('fade-in');
-      document.body.addEventListener('animationend', allowReveal, { once: true });
-      setTimeout(allowReveal, 2000);
-    } else {
-      allowReveal();
     }
     setTimeout(_unlock, 800);
     setTimeout(() => {
