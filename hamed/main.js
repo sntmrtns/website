@@ -177,12 +177,8 @@
       videoWrap.className = 'videobox-video';
       videoWrap.appendChild(facade);
 
-      const p = document.createElement('p');
-      p.textContent = v.title;
-
       const cell = document.createElement('div');
       cell.appendChild(videoWrap);
-      cell.appendChild(p);
       box.appendChild(cell);
     });
   })();
@@ -287,9 +283,6 @@
         } else {
           return;
         }
-        const p = document.createElement('p');
-        p.textContent = t.title;
-        cell.appendChild(p);
         box.appendChild(cell);
       });
     };
