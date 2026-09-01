@@ -134,8 +134,7 @@ body:has(#lightbox.lb-visible){overflow:hidden}
 .entry-logo[src*="redda.svg"]{height:60px}
 .entry-logo[src*="saint-martins.svg"]{height:42px}
 .entry-logo[src*="schwifty-studios.svg"]{height:46px}
-.work{display:grid;grid-template-columns:repeat(3,1fr);column-gap:50px;align-items:start;margin:0;padding:44px 0;opacity:0;transition:opacity 0.25s cubic-bezier(0.16,1,0.3,1)}
-.work.loaded{opacity:1}
+.work{display:grid;grid-template-columns:repeat(3,1fr);column-gap:50px;align-items:start;margin:0;padding:44px 0}
 .work:last-child{padding-bottom:0}
 .work-info{grid-column:1}
 .work-role{margin:0;font-size:16px;font-weight:300;line-height:1.6;color:#fff}
@@ -185,7 +184,6 @@ body:has(#lightbox.lb-visible){overflow:hidden}
   .body{margin:0;padding:0}
   .entry-logo{filter:invert(1)}
   .work-role,.work-desc,.work-role a,.work-desc a,.duties li,.duties li::before{color:#000}
-  .work{opacity:1}
   .work,.duties li{break-inside:avoid}
   .exp-group{break-after:avoid}
 }
@@ -193,8 +191,7 @@ body:has(#lightbox.lb-visible){overflow:hidden}
 @media(prefers-reduced-motion:reduce){
   body.fade-in{animation-duration:0.01ms;animation-delay:0ms}
   #lightbox,.mobile-nav,.mobile-bar-logo,.mobile-bar-btn,
-  .design img,.photos-row img,.video-facade,.gridbox iframe,.gridbox video,.work,.btn,
+  .design img,.photos-row img,.video-facade,.gridbox iframe,.gridbox video,.btn,
   #lb-prev,#lb-next,#lb-close,
   .work-role a,.work-desc a{transition-duration:0.01ms}
-  .work{transition-delay:0s!important}
 }
