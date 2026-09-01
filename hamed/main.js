@@ -125,7 +125,7 @@
     });
   }
 
-  const LANE_LIMIT = { image: Infinity, video: Infinity, audio: 4 };
+  const LANE_LIMIT = { image: 4, video: Infinity, audio: 4 };
   const BOOT_SECTIONS = ['videos'];
   const _loadQueue = [];
   const _loadPending = {};
@@ -706,32 +706,14 @@
     document.body.style.opacity = '1';
   };
 
-  const _saveData = () => {
-    const conn = navigator.connection;
-    return !!conn && (conn.saveData || /(^|-)2g$/.test(conn.effectiveType || ''));
-  };
-
   const warmFonts = () => {
     if (!document.fonts || !document.fonts.load) return;
     ['300 1rem "Roboto Mono"', '600 1rem "Roboto Mono"']
       .forEach(f => { document.fonts.load(f).catch(() => {}); });
   };
 
-  const warmVideoFile = () => {
-    const conn = navigator.connection;
-    const slow = conn && (conn.saveData || /(^|-)[23]g$/.test(conn.effectiveType || ''));
-    document.querySelectorAll('.gridbox video').forEach(v => {
-      if (v.poster) new Image().src = v.poster;
-      if (slow) return;
-      v.preload = 'auto';
-      v.load();
-    });
-  };
-
   const warmAssets = () => {
     warmFonts();
-    if (_saveData()) return;
-    warmVideoFile();
   };
 
   const startFade = () => {
