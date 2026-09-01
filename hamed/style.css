@@ -29,7 +29,6 @@ p{font-size:16px}
 .flex.column.sub-btns{margin-top:-13px;margin-bottom:13px}
 .flex.column.sub-btns>.btn{margin-bottom:15px}
 .href-section{scroll-margin-top:94px}
-#section-design .href-section{margin-top:-6px}
 .body h2{margin:0 0 21px;text-transform:uppercase}
 
 .design{column-gap:25px;row-gap:25px;margin-bottom:100px;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,500px),1fr))}
@@ -102,7 +101,6 @@ body:has(#lightbox.lb-visible){overflow:hidden}
   p{font-size:13px;margin:0}
   .body h2{margin:0 0 12px}
   .design{column-gap:6px;row-gap:6px;margin-bottom:0;grid-template-columns:repeat(2,1fr)}
-  #section-design .href-section{margin-top:0}
   .photos-row{gap:6px;margin-bottom:6px}
   .photos-row:last-child{margin-bottom:0}
   .photos{margin-bottom:0}
