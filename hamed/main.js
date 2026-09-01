@@ -125,11 +125,11 @@
     });
   }
 
-  const LANE_LIMIT = { image: 4, frame: Infinity };
+  const LANE_LIMIT = { image: 4, video: Infinity, audio: 4 };
   const BOOT_SECTIONS = ['videos', 'music'];
   const _loadQueue = [];
   const _loadPending = {};
-  const _loadLive = { image: 0, frame: 0 };
+  const _loadLive = { image: 0, video: 0, audio: 0 };
   let _loadSection = 'work', _loadStarted = false;
 
   function queueLoad(section, lane, start) {
@@ -192,7 +192,7 @@
       iframe.title = v.title;
       iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
       iframe.allowFullscreen = true;
-      queueLoad('videos', 'frame', (done) => {
+      queueLoad('videos', 'video', (done) => {
         const step = () => { iframe.classList.add('loaded'); done(); };
         iframe.addEventListener('load', step, { once: true });
         iframe.addEventListener('error', step, { once: true });
@@ -305,7 +305,7 @@
           iframe.title = t.title;
           iframe.allow = 'autoplay';
           iframe.dataset.src = scSrc(t.sc);
-          queueLoad('music', 'frame', (done) => {
+          queueLoad('music', 'audio', (done) => {
             const step = () => { iframe.classList.add('loaded'); done(); };
             iframe.addEventListener('load', step, { once: true });
             iframe.addEventListener('error', step, { once: true });
