@@ -303,6 +303,35 @@
       '&color=%23000000&auto_play=false&hide_related=true&show_comments=false&show_user=true' +
       '&show_reposts=false&show_teaser=false&visual=true&sharing=false';
 
+    const scSound = (iframe, cb) => {
+      let settled = false;
+      const finish = (sound) => {
+        if (settled) return;
+        settled = true;
+        window.removeEventListener('message', onMessage);
+        cb(sound);
+      };
+      const ask = () => {
+        try { iframe.contentWindow.postMessage(JSON.stringify({ method: 'getCurrentSound', value: 'reveal' }), '*'); } catch {}
+      };
+      function onMessage(e) {
+        if (e.source !== iframe.contentWindow || typeof e.data !== 'string') return;
+        let msg;
+        try { msg = JSON.parse(e.data); } catch { return; }
+        if (msg.method === 'ready') ask();
+        else if (msg.method === 'getCurrentSound') finish(msg.value);
+      }
+      window.addEventListener('message', onMessage);
+      ask();
+      setTimeout(() => finish(null), 5000);
+    };
+
+    const scArtwork = (sound) => {
+      if (!sound) return null;
+      const visual = sound.visuals && sound.visuals.visuals && sound.visuals.visuals[0];
+      return (visual && visual.visual_url) || sound.artwork_url || null;
+    };
+
     const buildGridbox = (tracks, boxId) => {
       const box = document.getElementById(boxId);
       tracks.forEach(t => {
@@ -314,9 +343,19 @@
           iframe.dataset.src = scSrc(t.sc);
           queueLoad('music', 'audio', (done) => {
             const step = () => { iframe.classList.add('loaded'); done(); };
-            iframe.addEventListener('load', step, { once: true });
+            const warm = () => {
+              scSound(iframe, (sound) => {
+                const art = scArtwork(sound);
+                if (!art) { step(); return; }
+                const pre = new Image();
+                pre.addEventListener('load', step, { once: true });
+                pre.addEventListener('error', step, { once: true });
+                pre.src = art;
+              });
+            };
+            iframe.addEventListener('load', warm, { once: true });
             iframe.addEventListener('error', step, { once: true });
-            setTimeout(step, 8000);
+            setTimeout(step, 12000);
             iframe.src = iframe.dataset.src;
             iframe.removeAttribute('data-src');
           });
