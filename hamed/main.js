@@ -125,14 +125,15 @@
     });
   }
 
-  const LOAD_CONCURRENCY = 6;
+  const LANE_LIMIT = { image: 4, frame: 3 };
   const BOOT_SECTIONS = ['videos', 'music'];
   const _loadQueue = [];
   const _loadPending = {};
-  let _loadLive = 0, _loadSection = 'work', _loadStarted = false;
+  const _loadLive = { image: 0, frame: 0 };
+  let _loadSection = 'work', _loadStarted = false;
 
-  function queueLoad(section, start) {
-    _loadQueue.push({ section, start });
+  function queueLoad(section, lane, start) {
+    _loadQueue.push({ section, lane, start });
     _loadPending[section] = (_loadPending[section] || 0) + 1;
   }
 
@@ -151,20 +152,24 @@
   }
 
   function _pumpLoads() {
-    while (_loadStarted && _loadLive < LOAD_CONCURRENCY && _loadQueue.length) {
-      let i = _loadQueue.findIndex(t => t.section === _loadSection);
-      if (i < 0) i = 0;
-      const task = _loadQueue.splice(i, 1)[0];
-      _loadLive++;
-      let stepped = false;
-      task.start(() => {
-        if (stepped) return;
-        stepped = true;
-        _loadLive--;
-        if (--_loadPending[task.section] === 0) _syncSections();
-        _pumpLoads();
-      });
-    }
+    if (!_loadStarted) return;
+    Object.keys(LANE_LIMIT).forEach(lane => {
+      while (_loadLive[lane] < LANE_LIMIT[lane]) {
+        let i = _loadQueue.findIndex(t => t.lane === lane && t.section === _loadSection);
+        if (i < 0) i = _loadQueue.findIndex(t => t.lane === lane);
+        if (i < 0) return;
+        const task = _loadQueue.splice(i, 1)[0];
+        _loadLive[lane]++;
+        let stepped = false;
+        task.start(() => {
+          if (stepped) return;
+          stepped = true;
+          _loadLive[lane]--;
+          if (--_loadPending[task.section] === 0) _syncSections();
+          _pumpLoads();
+        });
+      }
+    });
   }
 
   function startLoads() {
@@ -187,7 +192,7 @@
       iframe.title = v.title;
       iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
       iframe.allowFullscreen = true;
-      queueLoad('videos', (done) => {
+      queueLoad('videos', 'frame', (done) => {
         const step = () => { iframe.classList.add('loaded'); done(); };
         iframe.addEventListener('load', step, { once: true });
         iframe.addEventListener('error', step, { once: true });
@@ -249,7 +254,7 @@
       img.dataset.src = 'photos/' + name;
 
       cell.appendChild(img);
-      queueLoad('photos', (done) => {
+      queueLoad('photos', 'image', (done) => {
         img.addEventListener('load', done, { once: true });
         img.addEventListener('error', done, { once: true });
         img.src = img.dataset.src;
@@ -278,7 +283,7 @@
 
       cell.appendChild(img);
       box.appendChild(cell);
-      queueLoad('design', (done) => {
+      queueLoad('design', 'image', (done) => {
         img.addEventListener('load', done, { once: true });
         img.addEventListener('error', done, { once: true });
         img.src = img.dataset.src;
@@ -300,7 +305,7 @@
           iframe.title = t.title;
           iframe.allow = 'autoplay';
           iframe.dataset.src = scSrc(t.sc);
-          queueLoad('music', (done) => {
+          queueLoad('music', 'frame', (done) => {
             const step = () => { iframe.classList.add('loaded'); done(); };
             iframe.addEventListener('load', step, { once: true });
             iframe.addEventListener('error', step, { once: true });
@@ -319,7 +324,7 @@
           source.src = t.video;
           source.type = 'video/mp4';
           video.appendChild(source);
-          queueLoad('music', (done) => {
+          queueLoad('music', 'image', (done) => {
             const posterImg = new Image();
             const showVideo = () => { video.classList.add('loaded'); done(); };
             posterImg.addEventListener('load', showVideo, { once: true });
