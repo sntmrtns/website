@@ -32,14 +32,28 @@
     ["DSC04431.webp", 2 / 3], ["DSC04456.webp", 2 / 3], ["DSC04471.webp", 3 / 2],
   ];
 
-  const design = {
-    'd-2-20-03':      ['design/2-20-03/fashion-week-cover.webp', 'design/2-20-03/profile-picture-1.webp', 'design/2-20-03/profile-picture-2.webp'],
-    'd-notahuman':    ['design/not-a-human/version-1.png', 'design/not-a-human/version-2.png', 'design/not-a-human/profile-picture.png'],
-    'd-roxie':        ['design/roxie/roxie-motherfucker-cover.webp'],
-    'd-saintmartins': ['design/saint-martins/logo-1.png', 'design/saint-martins/logo-2.png', 'design/saint-martins/logo-3.png'],
-    'd-sneak':        ['design/sneak/ok-with-it-cover.webp', 'design/sneak/sharpshooter-tracklist-1.webp', 'design/sneak/sharpshooter-tracklist-2.webp', 'design/sneak/vanilla-sky-tracklist.webp'],
-    'd-soufpaw':      ['design/soufpaw/collar-1.webp', 'design/soufpaw/collar-2.webp', 'design/soufpaw/collar-3.webp', 'design/soufpaw/leash-1.webp', 'design/soufpaw/leash-2.webp', 'design/soufpaw/leash-3.webp'],
-  };
+  const design = [
+    'design/roxie/roxie-motherfucker-cover.webp',
+    'design/2-20-03/fashion-week-cover.webp',
+    'design/2-20-03/profile-picture-1.webp',
+    'design/2-20-03/profile-picture-2.webp',
+    'design/sneak/ok-with-it-cover.webp',
+    'design/sneak/sharpshooter-tracklist-1.webp',
+    'design/sneak/sharpshooter-tracklist-2.webp',
+    'design/sneak/vanilla-sky-tracklist.webp',
+    'design/soufpaw/collar-1.webp',
+    'design/soufpaw/collar-2.webp',
+    'design/soufpaw/collar-3.webp',
+    'design/soufpaw/leash-1.webp',
+    'design/soufpaw/leash-2.webp',
+    'design/soufpaw/leash-3.webp',
+    'design/not-a-human/version-1.png',
+    'design/not-a-human/version-2.png',
+    'design/not-a-human/profile-picture.png',
+    'design/saint-martins/logo-1.png',
+    'design/saint-martins/logo-2.png',
+    'design/saint-martins/logo-3.png',
+  ];
 
   const music = {
     personal: [
@@ -221,28 +235,26 @@
   })();
 
   (() => {
-    Object.entries(design).forEach(([id, srcs]) => {
-      const box = document.querySelector('#' + id + ' .design');
-      srcs.forEach((src, i) => {
-        const cell = document.createElement('div');
-        cell.style.aspectRatio = '1/1';
+    const box = document.getElementById('designbox');
+    design.forEach((src, i) => {
+      const cell = document.createElement('div');
+      cell.style.aspectRatio = '1/1';
 
-        const img = new Image();
-        img.alt = '';
-        img.loading = 'lazy';
-        img.tabIndex = -1;
-        img.setAttribute('role', 'button');
-        img.setAttribute('aria-label', 'Image ' + (i + 1) + ' of ' + srcs.length);
-        img.addEventListener('load', () => {
-          cell.style.aspectRatio = '';
-          img.classList.add('loaded');
-          img.tabIndex = 0;
-        });
-
-        cell.appendChild(img);
-        box.appendChild(cell);
-        img.src = src;
+      const img = new Image();
+      img.alt = '';
+      img.loading = 'lazy';
+      img.tabIndex = -1;
+      img.setAttribute('role', 'button');
+      img.setAttribute('aria-label', 'Image ' + (i + 1) + ' of ' + design.length);
+      img.addEventListener('load', () => {
+        cell.style.aspectRatio = '';
+        img.classList.add('loaded');
+        img.tabIndex = 0;
       });
+
+      cell.appendChild(img);
+      box.appendChild(cell);
+      img.src = src;
     });
   })();
 
@@ -426,7 +438,7 @@
         b.setAttribute('aria-current', s === name ? 'page' : 'false');
       }
     });
-    ['work', 'design', 'music'].forEach(s => {
+    ['work', 'music'].forEach(s => {
       const sub = document.getElementById('sub-' + s);
       if (sub) sub.style.display = s === name ? '' : 'none';
     });
