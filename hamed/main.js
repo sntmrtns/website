@@ -304,7 +304,7 @@
     _workRevealed = true;
     const entries = document.querySelectorAll('#section-work .work');
     entries.forEach((el, i) => {
-      el.style.transitionDelay = (i * 0.08) + 's';
+      el.style.transitionDelay = (i * 0.25) + 's';
       el.classList.add('loaded');
     });
   }
