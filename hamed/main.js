@@ -125,7 +125,7 @@
     });
   }
 
-  const LANE_LIMIT = { image: 4, frame: 3 };
+  const LANE_LIMIT = { image: 4, frame: Infinity };
   const BOOT_SECTIONS = ['videos', 'music'];
   const _loadQueue = [];
   const _loadPending = {};
