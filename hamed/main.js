@@ -126,11 +126,28 @@
   }
 
   const LOAD_CONCURRENCY = 6;
+  const BOOT_SECTIONS = ['videos', 'music'];
   const _loadQueue = [];
+  const _loadPending = {};
   let _loadLive = 0, _loadSection = 'work', _loadStarted = false;
 
   function queueLoad(section, start) {
     _loadQueue.push({ section, start });
+    _loadPending[section] = (_loadPending[section] || 0) + 1;
+  }
+
+  function _syncSections() {
+    SECTIONS.forEach(s => {
+      const el = document.getElementById('section-' + s);
+      if (!el) return;
+      const active = s === _loadSection;
+      const booting = !active && BOOT_SECTIONS.includes(s) && _loadPending[s] > 0;
+      el.style.display = active || booting ? '' : 'none';
+      el.classList.toggle('section-boot', booting);
+      el.toggleAttribute('inert', !active);
+      if (active) el.removeAttribute('aria-hidden');
+      else el.setAttribute('aria-hidden', 'true');
+    });
   }
 
   function _pumpLoads() {
@@ -140,13 +157,21 @@
       const task = _loadQueue.splice(i, 1)[0];
       _loadLive++;
       let stepped = false;
-      task.start(() => { if (stepped) return; stepped = true; _loadLive--; _pumpLoads(); });
+      task.start(() => {
+        if (stepped) return;
+        stepped = true;
+        _loadLive--;
+        if (--_loadPending[task.section] === 0) _syncSections();
+        _pumpLoads();
+      });
     }
   }
 
   function startLoads() {
     if (_loadStarted) return;
     _loadStarted = true;
+    _syncSections();
+    void document.body.offsetHeight;
     _loadQueue.sort((a, b) => SECTIONS.indexOf(a.section) - SECTIONS.indexOf(b.section));
     _pumpLoads();
   }
@@ -425,7 +450,6 @@
     if (cur && cur.classList.contains('btn-active')) return;
     pauseAllMedia();
     SECTIONS.forEach(s => {
-      document.getElementById('section-' + s).style.display = s === name ? '' : 'none';
       const b = document.getElementById('btn-' + s);
       if (b) {
         b.classList.toggle('btn-active', s === name);
@@ -437,6 +461,7 @@
       if (sub) sub.style.display = s === name ? '' : 'none';
     });
     _loadSection = name;
+    _syncSections();
     _pumpLoads();
     window.scrollTo({ top: 0, behavior: 'instant' });
     _updateMobileNavActive(name);
