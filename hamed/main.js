@@ -298,10 +298,7 @@
     buildGridbox(music.mixing, 'gridbox-mixing');
   })();
 
-  let _musicWarmed = false;
-  function warmMusicFrames() {
-    if (_musicWarmed) return;
-    _musicWarmed = true;
+  (() => {
     const pending = Array.from(document.querySelectorAll('.gridbox iframe[data-src]'));
     let next = 0, live = 0;
     const pump = () => {
@@ -319,7 +316,7 @@
       }
     };
     pump();
-  }
+  })();
 
   let _lb = null, _lbImgs = [], _lbIdx = 0, _lbAnimating = false, _lbTrigger = null;
   let _lbTouchX = null, _lbTouchY = null, _lbSwiped = false;
@@ -441,7 +438,6 @@
       const sub = document.getElementById('sub-' + s);
       if (sub) sub.style.display = s === name ? '' : 'none';
     });
-    if (name === 'music') warmMusicFrames();
     window.scrollTo({ top: 0, behavior: 'instant' });
     _updateMobileNavActive(name);
   }
