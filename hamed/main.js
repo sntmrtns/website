@@ -126,7 +126,7 @@
   }
 
   const LANE_LIMIT = { image: 4, video: Infinity, audio: 4 };
-  const BOOT_SECTIONS = ['videos', 'music'];
+  const BOOT_SECTIONS = ['videos'];
   const _loadQueue = [];
   const _loadPending = {};
   const _loadLive = { image: 0, video: 0, audio: 0 };
