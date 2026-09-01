@@ -351,9 +351,20 @@
     buildGridbox(music.mixing, 'gridbox-mixing');
   })();
 
+  (() => {
+    document.querySelectorAll('#section-work .work').forEach(entry => {
+      const logo = entry.querySelector('.entry-logo');
+      if (!logo) { entry.classList.add('loaded'); return; }
+      const step = () => { entry.classList.add('loaded'); };
+      if (logo.complete) { step(); return; }
+      logo.addEventListener('load', step, { once: true });
+      logo.addEventListener('error', step, { once: true });
+    });
+  })();
+
   startLoads();
 
-  let _lb = null, _lbImgs = [], _lbIdx = 0, _lbAnimating = false, _lbTrigger = null;
+  let _lb = null, _lbImgs = [], _lbIdx = 0, _lbAnimating = false, _lbTrigger = null, _lbToken = 0;
   let _lbTouchX = null, _lbTouchY = null, _lbSwiped = false;
 
   const _lbOpen = () => !!_lb && _lb.classList.contains('lb-visible');
@@ -372,12 +383,28 @@
     [-1, 1].forEach(d => { new Image().src = _lbImgs[(idx + d + _lbImgs.length) % _lbImgs.length]; });
   }
 
+  function _lbShow(src, then) {
+    const token = ++_lbToken;
+    let settled = false;
+    const apply = () => {
+      if (settled || token !== _lbToken) return;
+      settled = true;
+      _lb.querySelector('img').src = src;
+      if (then) then();
+    };
+    const pre = new Image();
+    pre.addEventListener('load', apply, { once: true });
+    pre.addEventListener('error', apply, { once: true });
+    pre.src = src;
+    if (pre.complete) apply();
+    setTimeout(apply, 8000);
+  }
+
   function _lbNav(dir) {
     if (_lbImgs.length <= 1) return;
     _lbIdx = (_lbIdx + dir + _lbImgs.length) % _lbImgs.length;
-    _lb.querySelector('img').src = _lbImgs[_lbIdx];
-    _lbUpdateCount();
     _lbPreload(_lbIdx);
+    _lbShow(_lbImgs[_lbIdx], _lbUpdateCount);
   }
 
   function _toggleMobileBar(hidden) {
@@ -420,20 +447,21 @@
       const b = document.getElementById(id);
       if (b) b.style.visibility = single ? 'hidden' : '';
     });
-    _lb.querySelector('img').src = _lbImgs[_lbIdx];
-    _lbUpdateCount();
     _lbPreload(idx);
     _lbAnimating = true;
-    _lb.classList.add('lb-visible');
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      _lb.classList.add('lb-open');
-      _toggleMobileBar(true);
-      _afterTransition(_lb, 250, () => {
-        _lbAnimating = false;
-        const close = document.getElementById('lb-close');
-        if (close) close.focus();
-      });
-    }));
+    _lbShow(_lbImgs[_lbIdx], () => {
+      _lbUpdateCount();
+      _lb.classList.add('lb-visible');
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        _lb.classList.add('lb-open');
+        _toggleMobileBar(true);
+        _afterTransition(_lb, 250, () => {
+          _lbAnimating = false;
+          const close = document.getElementById('lb-close');
+          if (close) close.focus();
+        });
+      }));
+    });
   }
 
   function _openFromImage(el) {
