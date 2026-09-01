@@ -196,4 +196,5 @@ body:has(#lightbox.lb-visible){overflow:hidden}
   .design img,.photos-row img,.video-facade,.gridbox iframe,.gridbox video,.work,.btn,
   #lb-prev,#lb-next,#lb-close,
   .work-role a,.work-desc a{transition-duration:0.01ms}
+  .work{transition-delay:0s!important}
 }
