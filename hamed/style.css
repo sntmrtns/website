@@ -55,7 +55,7 @@ p{font-size:16px}
 .gridbox video{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
 .music{margin-bottom:7px}
 .personal,.production,.mixing{scroll-margin-top:94px;margin-bottom:77px}
-.mixing{margin-bottom:100px}
+.mixing{margin-bottom:101px}
 .personal{margin-top:-6px}
 
 #site-lock{position:fixed;inset:0;z-index:9999}
