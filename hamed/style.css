@@ -33,14 +33,13 @@ p{font-size:16px}
 
 .design{column-gap:25px;row-gap:25px;margin-bottom:100px;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,500px),1fr))}
 .design img{width:100%;height:auto;display:block;cursor:zoom-in;opacity:0;transition:opacity 0.25s cubic-bezier(0.16,1,0.3,1)}
-.design img.loaded{opacity:1}
+.section-shown .design img,.section-shown .photos-row img,.section-shown .videobox-video iframe,.section-shown .gridbox iframe,.section-shown .gridbox video{opacity:1}
 .design img:not(.loaded),.photos-row img:not(.loaded),.videobox-video iframe:not(.loaded),.gridbox iframe:not(.loaded),.gridbox video:not(.loaded){pointer-events:none}
 
 .photos{margin-bottom:100px}
 .photos-row{display:flex;gap:25px;margin-bottom:25px}
 .photos-row div{overflow:hidden;min-width:0}
 .photos-row img{display:block;width:100%;height:100%;object-fit:cover;cursor:zoom-in;opacity:0;transition:opacity 0.25s cubic-bezier(0.16,1,0.3,1)}
-.photos-row img.loaded{opacity:1}
 
 .section-boot{position:absolute;top:0;left:0;width:100%;height:100vh;overflow:hidden;opacity:0;z-index:-1;pointer-events:none}
 
@@ -48,12 +47,10 @@ p{font-size:16px}
 .videobox{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,500px),1fr));column-gap:25px;row-gap:25px;margin-bottom:0;width:100%;box-sizing:border-box}
 .videobox-video{position:relative;padding-top:56.25%;overflow:hidden}
 .videobox-video iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0;display:block;opacity:0;transition:opacity 0.25s cubic-bezier(0.16,1,0.3,1)}
-.videobox-video iframe.loaded{opacity:1}
 
 .gridbox{column-gap:25px;row-gap:25px;margin-bottom:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,500px),1fr))}
 .gridbox iframe{display:block;width:100%;height:178.5px;border:0;overflow:hidden;opacity:0;transition:opacity 0.25s cubic-bezier(0.16,1,0.3,1)}
 .gridbox video{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;opacity:0;transition:opacity 0.25s cubic-bezier(0.16,1,0.3,1)}
-.gridbox iframe.loaded,.gridbox video.loaded{opacity:1}
 .music{margin-bottom:7px}
 .personal,.production,.mixing{scroll-margin-top:94px;margin-bottom:77px}
 .mixing{margin-bottom:101px}
