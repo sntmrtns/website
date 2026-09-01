@@ -131,7 +131,7 @@ body:has(#lightbox.lb-visible){overflow:hidden}
 .entry-logo[src*="saint-martins.svg"]{height:42px}
 .entry-logo[src*="schwifty-studios.svg"]{height:46px}
 .work{display:grid;grid-template-columns:repeat(3,1fr);column-gap:50px;align-items:start;margin:0;padding:44px 0;opacity:0;transition:opacity 0.25s cubic-bezier(0.16,1,0.3,1)}
-.section-shown .work{opacity:1}
+.section-shown .work.loaded{opacity:1}
 .work:last-child{padding-bottom:0}
 .work-info{grid-column:1}
 .work-role{margin:0;font-size:16px;font-weight:300;line-height:1.6;color:#fff}
