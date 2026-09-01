@@ -125,6 +125,32 @@
     });
   }
 
+  const LOAD_CONCURRENCY = 6;
+  const _loadQueue = [];
+  let _loadLive = 0, _loadSection = 'work', _loadStarted = false;
+
+  function queueLoad(section, start) {
+    _loadQueue.push({ section, start });
+  }
+
+  function _pumpLoads() {
+    while (_loadStarted && _loadLive < LOAD_CONCURRENCY && _loadQueue.length) {
+      let i = _loadQueue.findIndex(t => t.section === _loadSection);
+      if (i < 0) i = 0;
+      const task = _loadQueue.splice(i, 1)[0];
+      _loadLive++;
+      let stepped = false;
+      task.start(() => { if (stepped) return; stepped = true; _loadLive--; _pumpLoads(); });
+    }
+  }
+
+  function startLoads() {
+    if (_loadStarted) return;
+    _loadStarted = true;
+    _loadQueue.sort((a, b) => SECTIONS.indexOf(a.section) - SECTIONS.indexOf(b.section));
+    _pumpLoads();
+  }
+
   (() => {
     const ytId = (url) => { const m = url.match(/(?:v=|youtu\.be\/|embed\/)([^&?/]+)/); return m ? m[1] : null; };
     const box = document.getElementById('videobox');
@@ -136,8 +162,13 @@
       iframe.title = v.title;
       iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
       iframe.allowFullscreen = true;
-      iframe.addEventListener('load', () => { iframe.classList.add('loaded'); });
-      iframe.src = 'https://www.youtube-nocookie.com/embed/' + id + '?enablejsapi=1';
+      queueLoad('videos', (done) => {
+        const step = () => { iframe.classList.add('loaded'); done(); };
+        iframe.addEventListener('load', step, { once: true });
+        iframe.addEventListener('error', step, { once: true });
+        setTimeout(step, 8000);
+        iframe.src = 'https://www.youtube-nocookie.com/embed/' + id + '?enablejsapi=1';
+      });
 
       const videoWrap = document.createElement('div');
       videoWrap.className = 'videobox-video';
@@ -178,7 +209,6 @@
 
       const img = new Image();
       img.alt = '';
-      img.loading = 'lazy';
       img.tabIndex = -1;
       img.setAttribute('role', 'button');
       img.setAttribute('aria-label', 'Photo ' + (i + 1) + ' of ' + photos.length);
@@ -191,8 +221,14 @@
         img.tabIndex = 0;
       });
 
+      img.dataset.src = 'photos/' + name;
+
       cell.appendChild(img);
-      img.src = 'photos/' + name;
+      queueLoad('photos', (done) => {
+        img.addEventListener('load', done, { once: true });
+        img.addEventListener('error', done, { once: true });
+        img.src = img.dataset.src;
+      });
     });
   })();
 
@@ -204,7 +240,6 @@
 
       const img = new Image();
       img.alt = '';
-      img.loading = 'lazy';
       img.tabIndex = -1;
       img.setAttribute('role', 'button');
       img.setAttribute('aria-label', 'Image ' + (i + 1) + ' of ' + design.length);
@@ -214,9 +249,15 @@
         img.tabIndex = 0;
       });
 
+      img.dataset.src = src;
+
       cell.appendChild(img);
       box.appendChild(cell);
-      img.src = src;
+      queueLoad('design', (done) => {
+        img.addEventListener('load', done, { once: true });
+        img.addEventListener('error', done, { once: true });
+        img.src = img.dataset.src;
+      });
     });
   })();
 
@@ -234,6 +275,14 @@
           iframe.title = t.title;
           iframe.allow = 'autoplay';
           iframe.dataset.src = scSrc(t.sc);
+          queueLoad('music', (done) => {
+            const step = () => { iframe.classList.add('loaded'); done(); };
+            iframe.addEventListener('load', step, { once: true });
+            iframe.addEventListener('error', step, { once: true });
+            setTimeout(step, 8000);
+            iframe.src = iframe.dataset.src;
+            iframe.removeAttribute('data-src');
+          });
           cell.appendChild(iframe);
         } else if (t.video) {
           const video = document.createElement('video');
@@ -245,11 +294,13 @@
           source.src = t.video;
           source.type = 'video/mp4';
           video.appendChild(source);
-          const posterImg = new Image();
-          const showVideo = () => { video.classList.add('loaded'); };
-          posterImg.addEventListener('load', showVideo, { once: true });
-          posterImg.addEventListener('error', showVideo, { once: true });
-          posterImg.src = t.poster;
+          queueLoad('music', (done) => {
+            const posterImg = new Image();
+            const showVideo = () => { video.classList.add('loaded'); done(); };
+            posterImg.addEventListener('load', showVideo, { once: true });
+            posterImg.addEventListener('error', showVideo, { once: true });
+            posterImg.src = t.poster;
+          });
           cell.appendChild(video);
         } else {
           return;
@@ -263,25 +314,7 @@
     buildGridbox(music.mixing, 'gridbox-mixing');
   })();
 
-  (() => {
-    const pending = Array.from(document.querySelectorAll('.gridbox iframe[data-src]'));
-    let next = 0, live = 0;
-    const pump = () => {
-      while (live < 4 && next < pending.length) {
-        const f = pending[next++];
-        if (!f.dataset.src) continue;
-        live++;
-        let stepped = false;
-        const step = () => { if (stepped) return; stepped = true; f.classList.add('loaded'); live--; pump(); };
-        f.addEventListener('load', step, { once: true });
-        f.addEventListener('error', step, { once: true });
-        setTimeout(step, 8000);
-        f.src = f.dataset.src;
-        f.removeAttribute('data-src');
-      }
-    };
-    pump();
-  })();
+  startLoads();
 
   let _lb = null, _lbImgs = [], _lbIdx = 0, _lbAnimating = false, _lbTrigger = null;
   let _lbTouchX = null, _lbTouchY = null, _lbSwiped = false;
@@ -372,7 +405,7 @@
       ? Array.from(group.querySelectorAll('img'))
       : Array.from(document.querySelectorAll('.photos-row img'));
     _lbTrigger = el;
-    _openLightbox(siblings.map(i => i.src), Math.max(0, siblings.indexOf(el)));
+    _openLightbox(siblings.map(i => i.dataset.src || i.src), Math.max(0, siblings.indexOf(el)));
   }
 
   const _reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -403,6 +436,8 @@
       const sub = document.getElementById('sub-' + s);
       if (sub) sub.style.display = s === name ? '' : 'none';
     });
+    _loadSection = name;
+    _pumpLoads();
     window.scrollTo({ top: 0, behavior: 'instant' });
     _updateMobileNavActive(name);
   }
@@ -567,8 +602,6 @@
     document.body.style.opacity = '1';
   };
 
-  const WARM_CONCURRENCY = 6;
-
   const _saveData = () => {
     const conn = navigator.connection;
     return !!conn && (conn.saveData || /(^|-)2g$/.test(conn.effectiveType || ''));
@@ -591,31 +624,10 @@
     });
   };
 
-  const warmImages = (done) => {
-    const queue = [
-      ...document.querySelectorAll('.design img'),
-      ...document.querySelectorAll('.photos-row img'),
-    ];
-    let next = 0, live = 0, finished = false;
-    const pump = () => {
-      while (live < WARM_CONCURRENCY && next < queue.length) {
-        const img = queue[next++];
-        if (img.complete && img.naturalWidth) continue;
-        live++;
-        const step = () => { live--; pump(); };
-        img.addEventListener('load', step, { once: true });
-        img.addEventListener('error', step, { once: true });
-        img.loading = 'eager';
-      }
-      if (!finished && live === 0 && next >= queue.length) { finished = true; done(); }
-    };
-    pump();
-  };
-
   const warmAssets = () => {
     warmFonts();
     if (_saveData()) return;
-    warmImages(warmVideoFile);
+    warmVideoFile();
   };
 
   const startFade = () => {
