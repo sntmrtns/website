@@ -179,12 +179,15 @@
     });
   }
 
-  function startLoads() {
-    if (_loadStarted) return;
-    _loadStarted = true;
+  function layoutSections() {
     _syncSections();
     void document.body.offsetHeight;
     _loadQueue.sort((a, b) => SECTIONS.indexOf(a.section) - SECTIONS.indexOf(b.section));
+  }
+
+  function startLoads() {
+    if (_loadStarted) return;
+    _loadStarted = true;
     _pumpLoads();
   }
 
@@ -401,7 +404,7 @@
     });
   })();
 
-  startLoads();
+  layoutSections();
 
   let _lb = null, _lbImgs = [], _lbIdx = 0, _lbAnimating = false, _lbTrigger = null, _lbToken = 0;
   let _lbTouchX = null, _lbTouchY = null, _lbSwiped = false;
@@ -731,6 +734,7 @@
   const doStart = () => {
     if (_faded) return;
     _faded = true;
+    startLoads();
     if (document.hidden) {
       document.addEventListener('visibilitychange', function h() {
         if (!document.hidden) { document.removeEventListener('visibilitychange', h); startFade(); }
