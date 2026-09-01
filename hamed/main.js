@@ -148,7 +148,13 @@
       el.toggleAttribute('inert', !active);
       if (active) el.removeAttribute('aria-hidden');
       else el.setAttribute('aria-hidden', 'true');
+      if (!active) el.classList.remove('section-shown');
     });
+    const cur = document.getElementById('section-' + _loadSection);
+    if (cur && !cur.classList.contains('section-shown')) {
+      void cur.offsetHeight;
+      requestAnimationFrame(() => { cur.classList.add('section-shown'); });
+    }
   }
 
   function _pumpLoads() {
