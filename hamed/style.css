@@ -106,9 +106,9 @@ body:has(#lightbox.lb-visible){overflow:hidden}
   .personal,.production{padding-bottom:40px}
   .personal{margin-top:0}
   .videos{padding-bottom:0}
-  .videobox{grid-template-columns:1fr;row-gap:6px}
+  .videobox{grid-template-columns:1fr;row-gap:16px}
   .music{margin-bottom:0}
-  .gridbox{grid-template-columns:1fr;row-gap:6px}
+  .gridbox{grid-template-columns:1fr;row-gap:16px}
   .gridbox iframe{height:120px}
 }
 
