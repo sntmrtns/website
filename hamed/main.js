@@ -298,6 +298,22 @@
     buildGridbox(music.mixing, 'gridbox-mixing');
   })();
 
+  (() => {
+    const entries = Array.from(document.querySelectorAll('#section-work .work'));
+    if (!('IntersectionObserver' in window)) {
+      entries.forEach(el => el.classList.add('loaded'));
+      return;
+    }
+    const io = new IntersectionObserver((records) => {
+      records.forEach(r => {
+        if (!r.isIntersecting) return;
+        r.target.classList.add('loaded');
+        io.unobserve(r.target);
+      });
+    }, { rootMargin: '0px 0px -10% 0px' });
+    entries.forEach(el => io.observe(el));
+  })();
+
   let _musicWarmed = false;
   function warmMusicFrames() {
     if (_musicWarmed) return;
