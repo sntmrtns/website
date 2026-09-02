@@ -333,7 +333,7 @@
           iframe.dataset.src = scSrc(t.sc);
           queueLoad('music', 'audio', (done) => {
             const step = () => { iframe.classList.add('loaded'); done(); };
-            iframe.addEventListener('load', () => setTimeout(step, 300), { once: true });
+            iframe.addEventListener('load', () => setTimeout(step, 1000), { once: true });
             iframe.addEventListener('error', step, { once: true });
             setTimeout(step, 12000);
             iframe.src = iframe.dataset.src;
