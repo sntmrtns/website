@@ -307,10 +307,11 @@
       '&show_reposts=false&show_teaser=false&visual=true&sharing=false';
 
     const scSound = (iframe, cb) => {
-      let settled = false;
+      let settled = false, poll = null;
       const finish = (sound) => {
         if (settled) return;
         settled = true;
+        clearInterval(poll);
         window.removeEventListener('message', onMessage);
         cb(sound);
       };
@@ -322,27 +323,30 @@
         let msg;
         try { msg = JSON.parse(e.data); } catch { return; }
         if (msg.method === 'ready') ask();
-        else if (msg.method === 'getCurrentSound') finish(msg.value);
+        else if (msg.method === 'getCurrentSound' && msg.value) finish(msg.value);
       }
       window.addEventListener('message', onMessage);
+      poll = setInterval(ask, 200);
       ask();
-      setTimeout(() => finish(null), 5000);
+      setTimeout(() => finish(null), 6000);
     };
 
     const scWarm = (sound, done) => {
       const visual = sound && sound.visuals && sound.visuals.visuals && sound.visuals.visuals[0];
       const art = sound && ((visual && visual.visual_url) || sound.artwork_url);
-      const wave = sound && sound.waveform_url;
+      const raw = sound && sound.waveform_url;
+      const wave = raw && raw.replace(/\.json(\?.*)?$/, '.png$1');
       let left = (art ? 1 : 0) + (wave ? 1 : 0);
       if (!left) { done(); return; }
       const tick = () => { if (--left <= 0) done(); };
-      if (art) {
+      const preload = (url) => {
         const pre = new Image();
         pre.addEventListener('load', tick, { once: true });
         pre.addEventListener('error', tick, { once: true });
-        pre.src = art;
-      }
-      if (wave) fetch(wave, { mode: 'no-cors' }).then(tick, tick);
+        pre.src = url;
+      };
+      if (art) preload(art);
+      if (wave) preload(wave);
     };
 
     const buildGridbox = (tracks, boxId) => {
@@ -356,12 +360,11 @@
           iframe.dataset.src = scSrc(t.sc);
           queueLoad('music', 'audio', (done) => {
             const step = () => { iframe.classList.add('loaded'); done(); };
-            const warm = () => { scSound(iframe, (sound) => { scWarm(sound, step); }); };
-            iframe.addEventListener('load', warm, { once: true });
             iframe.addEventListener('error', step, { once: true });
-            setTimeout(step, 12000);
+            setTimeout(step, 15000);
             iframe.src = iframe.dataset.src;
             iframe.removeAttribute('data-src');
+            scSound(iframe, (sound) => { scWarm(sound, step); });
           });
           cell.appendChild(iframe);
         } else if (t.video) {
