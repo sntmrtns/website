@@ -35,6 +35,7 @@ p{font-size:16px}
 .design img{width:100%;height:auto;display:block;cursor:zoom-in;opacity:0;transition:opacity 0.25s cubic-bezier(0.16,1,0.3,1)}
 .section-shown .design img.loaded,.section-shown .photos-row img.loaded,.section-shown .videobox-video iframe.loaded,.section-shown .gridbox iframe.loaded,.section-shown .gridbox video.loaded{opacity:1}
 .design img:not(.loaded),.photos-row img:not(.loaded),.videobox-video iframe:not(.loaded),.gridbox iframe:not(.loaded),.gridbox video:not(.loaded){pointer-events:none}
+.section-enter .design img,.section-enter .photos-row img,.section-enter .videobox-video iframe,.section-enter .gridbox iframe,.section-enter .gridbox video,.section-enter .work{transition:none}
 
 .photos{margin-bottom:100px}
 .photos-row{display:flex;gap:25px;margin-bottom:25px}
