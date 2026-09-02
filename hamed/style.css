@@ -135,7 +135,7 @@ body:has(#lightbox.lb-visible){overflow:hidden}
 .section-shown .work.loaded{opacity:1}
 .work:last-child{padding-bottom:0}
 .work-role{margin:0;font-size:16px;font-weight:300;line-height:1.5;color:#fff}
-.work-desc{max-width:none;margin:14px 0 0;font-size:16px;font-weight:300;line-height:1.5;color:#fff;text-wrap:pretty}
+.work-desc{max-width:none;margin:13px 0 0;font-size:16px;font-weight:300;line-height:1.5;color:#fff;text-wrap:pretty}
 .work-role a,.work-desc a{color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px;transition:opacity 0.15s cubic-bezier(0.16,1,0.3,1)}
 .work-role a:hover,.work-desc a:hover{opacity:0.6}
 .duties-wrap{overflow:hidden}
