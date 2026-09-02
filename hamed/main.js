@@ -334,7 +334,7 @@
           queueLoad('music', 'audio', (done) => {
             const reveal = () => { iframe.classList.add('loaded'); };
             const step = () => { reveal(); done(); };
-            iframe.addEventListener('load', () => { done(); setTimeout(reveal, 2000); }, { once: true });
+            iframe.addEventListener('load', () => { done(); setTimeout(reveal, 1000); }, { once: true });
             iframe.addEventListener('error', step, { once: true });
             setTimeout(step, 12000);
             iframe.src = iframe.dataset.src;
