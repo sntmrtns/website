@@ -329,10 +329,20 @@
       setTimeout(() => finish(null), 5000);
     };
 
-    const scArtwork = (sound) => {
-      if (!sound) return null;
-      const visual = sound.visuals && sound.visuals.visuals && sound.visuals.visuals[0];
-      return (visual && visual.visual_url) || sound.artwork_url || null;
+    const scWarm = (sound, done) => {
+      const visual = sound && sound.visuals && sound.visuals.visuals && sound.visuals.visuals[0];
+      const art = sound && ((visual && visual.visual_url) || sound.artwork_url);
+      const wave = sound && sound.waveform_url;
+      let left = (art ? 1 : 0) + (wave ? 1 : 0);
+      if (!left) { done(); return; }
+      const tick = () => { if (--left <= 0) done(); };
+      if (art) {
+        const pre = new Image();
+        pre.addEventListener('load', tick, { once: true });
+        pre.addEventListener('error', tick, { once: true });
+        pre.src = art;
+      }
+      if (wave) fetch(wave, { mode: 'no-cors' }).then(tick, tick);
     };
 
     const buildGridbox = (tracks, boxId) => {
@@ -346,16 +356,7 @@
           iframe.dataset.src = scSrc(t.sc);
           queueLoad('music', 'audio', (done) => {
             const step = () => { iframe.classList.add('loaded'); done(); };
-            const warm = () => {
-              scSound(iframe, (sound) => {
-                const art = scArtwork(sound);
-                if (!art) { step(); return; }
-                const pre = new Image();
-                pre.addEventListener('load', step, { once: true });
-                pre.addEventListener('error', step, { once: true });
-                pre.src = art;
-              });
-            };
+            const warm = () => { scSound(iframe, (sound) => { scWarm(sound, step); }); };
             iframe.addEventListener('load', warm, { once: true });
             iframe.addEventListener('error', step, { once: true });
             setTimeout(step, 12000);
