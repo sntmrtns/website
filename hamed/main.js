@@ -540,12 +540,45 @@
 
   const _reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+  let _scrollPad = null, _padLockUntil = 0;
+
+  function _dropScrollPad() {
+    if (!_scrollPad) return;
+    _scrollPad.remove();
+    _scrollPad = null;
+  }
+
+  function _trimScrollPad() {
+    if (!_scrollPad || performance.now() < _padLockUntil) return;
+    const natural = document.documentElement.scrollHeight - _scrollPad.offsetHeight - window.innerHeight;
+    if (window.scrollY <= Math.max(0, natural)) _dropScrollPad();
+  }
+
+  window.addEventListener('scroll', _trimScrollPad, { passive: true });
+  window.addEventListener('resize', _dropScrollPad);
+
   function scrollToId(id) {
     const el = document.getElementById(id);
     if (!el) return;
-    const offset = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
+    const section = el.closest('[id^="section-"]');
+    const anchor = section && section.querySelector('.href-section');
+    const offset = anchor
+      ? anchor.getBoundingClientRect().top + window.scrollY
+      : parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
+    const top = el.getBoundingClientRect().top + window.scrollY - offset;
+    const padHeight = _scrollPad ? _scrollPad.offsetHeight : 0;
+    const reach = document.documentElement.scrollHeight - padHeight - window.innerHeight;
+    if (top > reach) {
+      if (!_scrollPad) {
+        _scrollPad = document.createElement('div');
+        _scrollPad.setAttribute('aria-hidden', 'true');
+        document.body.appendChild(_scrollPad);
+      }
+      _scrollPad.style.height = Math.max(padHeight, top - reach) + 'px';
+      _padLockUntil = performance.now() + 1500;
+    }
     window.scrollTo({
-      top: el.getBoundingClientRect().top + window.scrollY - offset,
+      top,
       behavior: _reducedMotion.matches ? 'auto' : 'smooth'
     });
   }
