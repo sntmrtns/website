@@ -395,26 +395,30 @@
       btn.setAttribute('aria-expanded', 'false');
       btn.setAttribute('aria-controls', duties.id);
       info.appendChild(btn);
-      let anim = null;
+      let anim = null, guard = null;
       btn.addEventListener('click', () => {
         const opening = entry.classList.contains('collapsed');
         if (anim) { anim.onfinish = null; anim.cancel(); anim = null; }
+        clearTimeout(guard);
         btn.setAttribute('aria-expanded', opening ? 'true' : 'false');
         btn.textContent = opening ? 'Hide' : 'Details';
         entry.classList.remove('collapsed');
-        if (!duties.animate || _reduced()) {
+        const settle = () => {
+          anim = null;
+          clearTimeout(guard);
           if (!opening) entry.classList.add('collapsed');
-          return;
-        }
+        };
+        if (!duties.animate || _reduced() || document.hidden) { settle(); return; }
         const h = duties.scrollHeight + 'px';
         const frames = opening
           ? [{ height: '0px', opacity: 0 }, { height: h, opacity: 1 }]
           : [{ height: h, opacity: 1 }, { height: '0px', opacity: 0 }];
         anim = duties.animate(frames, { duration: FADE_MS, easing: FADE_EASE });
-        anim.onfinish = () => {
-          if (!opening) entry.classList.add('collapsed');
-          anim = null;
-        };
+        anim.onfinish = settle;
+        guard = setTimeout(() => {
+          if (anim) { anim.onfinish = null; anim.cancel(); }
+          settle();
+        }, FADE_MS + 500);
       });
     });
   })();
