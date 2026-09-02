@@ -137,7 +137,20 @@
     _loadPending[section] = (_loadPending[section] || 0) + 1;
   }
 
-  function _syncSections() {
+  const FADE_MS = 250, FADE_EASE = 'cubic-bezier(0.16,1,0.3,1)';
+  const _reduced = () => !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+  function _fadeSection(el) {
+    if (!el.animate) { el.classList.remove('section-enter'); return; }
+    el.getAnimations().forEach(a => { a.oncancel = null; a.cancel(); });
+    const anim = el.animate([{ opacity: 0 }, { opacity: 1 }],
+      { duration: _reduced() ? 0.01 : FADE_MS, easing: FADE_EASE });
+    const clear = () => { el.classList.remove('section-enter'); };
+    anim.onfinish = clear;
+    anim.oncancel = clear;
+  }
+
+  function _syncSections(entering) {
     SECTIONS.forEach(s => {
       const el = document.getElementById('section-' + s);
       if (!el) return;
@@ -148,13 +161,15 @@
       el.toggleAttribute('inert', !active);
       if (active) el.removeAttribute('aria-hidden');
       else el.setAttribute('aria-hidden', 'true');
-      if (!active) el.classList.remove('section-shown');
+      if (!active) { el.classList.remove('section-shown'); el.classList.remove('section-enter'); }
     });
     const cur = document.getElementById('section-' + _loadSection);
     if (cur && !cur.classList.contains('section-shown')) {
+      if (entering) cur.classList.add('section-enter');
       void cur.offsetHeight;
       void getComputedStyle(cur).opacity;
       cur.classList.add('section-shown');
+      if (entering) _fadeSection(cur);
     }
   }
 
@@ -547,7 +562,7 @@
       if (sub) sub.style.display = s === name ? '' : 'none';
     });
     _loadSection = name;
-    _syncSections();
+    _syncSections(true);
     _pumpLoads();
     window.scrollTo({ top: 0, behavior: 'instant' });
     _updateMobileNavActive(name);
