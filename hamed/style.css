@@ -160,7 +160,7 @@ body:has(#lightbox.lb-visible){overflow:hidden}
   .work-role{margin-top:8px;font-size:13px;line-height:normal}
   .work-desc{max-width:none;margin-top:7px;font-size:13px;line-height:normal}
   .duties{columns:1;margin:10px 0 0}
-  .duties li{font-size:13px;padding-left:18px;margin:0 0 12px;line-height:normal}
+  .duties li{font-size:13px;padding-left:18px;margin:0 0 7px;line-height:normal}
   .duty-toggle{font-size:13px;margin-top:7px}
 }
 
