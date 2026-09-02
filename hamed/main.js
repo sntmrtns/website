@@ -387,6 +387,10 @@
       const duties = entry.querySelector('.duties');
       if (!info || !duties) return;
       duties.id = (entry.id || 'entry') + '-duties';
+      const wrap = document.createElement('div');
+      wrap.className = 'duties-wrap';
+      duties.replaceWith(wrap);
+      wrap.appendChild(duties);
       entry.classList.add('collapsed');
       const btn = document.createElement('button');
       btn.type = 'button';
@@ -408,12 +412,12 @@
           clearTimeout(guard);
           if (!opening) entry.classList.add('collapsed');
         };
-        if (!duties.animate || _reduced() || document.hidden) { settle(); return; }
-        const h = duties.scrollHeight + 'px';
+        if (!wrap.animate || _reduced() || document.hidden) { settle(); return; }
+        const h = wrap.scrollHeight + 'px';
         const frames = opening
           ? [{ height: '0px', opacity: 0 }, { height: h, opacity: 1 }]
           : [{ height: h, opacity: 1 }, { height: '0px', opacity: 0 }];
-        anim = duties.animate(frames, { duration: FADE_MS, easing: FADE_EASE });
+        anim = wrap.animate(frames, { duration: FADE_MS, easing: FADE_EASE });
         anim.onfinish = settle;
         guard = setTimeout(() => {
           if (anim) { anim.onfinish = null; anim.cancel(); }
