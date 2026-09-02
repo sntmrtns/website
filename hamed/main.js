@@ -127,17 +127,16 @@
 
   const LANE_LIMIT = { image: 4, video: Infinity, audio: 4 };
   const BOOT_SECTIONS = ['videos'];
-  const LAZY_SECTIONS = ['music'];
   const _loadQueue = [];
-  const _loadActive = [];
   const _loadPending = {};
   const _loadLive = { image: 0, video: 0, audio: 0 };
   let _loadSection = 'work', _loadStarted = false;
 
-  function queueLoad(section, lane, start, reset) {
-    _loadQueue.push({ section, lane, start, reset });
+  function queueLoad(section, lane, start) {
+    _loadQueue.push({ section, lane, start });
     _loadPending[section] = (_loadPending[section] || 0) + 1;
   }
+
   function _syncSections() {
     SECTIONS.forEach(s => {
       const el = document.getElementById('section-' + s);
@@ -164,17 +163,14 @@
     Object.keys(LANE_LIMIT).forEach(lane => {
       while (_loadLive[lane] < LANE_LIMIT[lane]) {
         let i = _loadQueue.findIndex(t => t.lane === lane && t.section === _loadSection);
-        if (i < 0) i = _loadQueue.findIndex(t => t.lane === lane && !LAZY_SECTIONS.includes(t.section));
+        if (i < 0) i = _loadQueue.findIndex(t => t.lane === lane);
         if (i < 0) return;
         const task = _loadQueue.splice(i, 1)[0];
         _loadLive[lane]++;
-        task.live = true;
-        _loadActive.push(task);
+        let stepped = false;
         task.start(() => {
-          if (!task.live) return;
-          task.live = false;
-          const k = _loadActive.indexOf(task);
-          if (k >= 0) _loadActive.splice(k, 1);
+          if (stepped) return;
+          stepped = true;
           _loadLive[lane]--;
           if (--_loadPending[task.section] === 0) _syncSections();
           _pumpLoads();
@@ -183,17 +179,6 @@
     });
   }
 
-  function _abortSection(section) {
-    for (let k = _loadActive.length - 1; k >= 0; k--) {
-      const task = _loadActive[k];
-      if (task.section !== section || !task.reset) continue;
-      task.live = false;
-      _loadActive.splice(k, 1);
-      _loadLive[task.lane]--;
-      task.reset();
-      _loadQueue.push(task);
-    }
-  }
   function layoutSections() {
     _syncSections();
     void document.body.offsetHeight;
@@ -365,26 +350,18 @@
       tracks.forEach(t => {
         const cell = document.createElement('div');
         if (t.sc) {
-          let iframe = document.createElement('iframe');
+          const iframe = document.createElement('iframe');
           iframe.title = t.title;
           iframe.allow = 'autoplay';
           iframe.dataset.src = scSrc(t.sc);
           queueLoad('music', 'audio', (done) => {
-            const el = iframe;
-            const step = () => { el.classList.add('loaded'); done(); };
-            const warm = () => { scSound(el, (sound) => { scWarm(sound, step); }); };
-            el.addEventListener('load', warm, { once: true });
-            el.addEventListener('error', step, { once: true });
+            const step = () => { iframe.classList.add('loaded'); done(); };
+            const warm = () => { scSound(iframe, (sound) => { scWarm(sound, step); }); };
+            iframe.addEventListener('load', warm, { once: true });
+            iframe.addEventListener('error', step, { once: true });
             setTimeout(step, 12000);
-            el.src = scSrc(t.sc);
-            el.removeAttribute('data-src');
-          }, () => {
-            const fresh = iframe.cloneNode(false);
-            fresh.classList.remove('loaded');
-            fresh.removeAttribute('src');
-            fresh.dataset.src = scSrc(t.sc);
-            iframe.replaceWith(fresh);
-            iframe = fresh;
+            iframe.src = iframe.dataset.src;
+            iframe.removeAttribute('data-src');
           });
           cell.appendChild(iframe);
         } else if (t.video) {
@@ -506,7 +483,6 @@
     if (!_lb) _lb = document.getElementById('lightbox');
     if (!_lb) return;
     pauseAllMedia();
-    if (_loadSection !== name && LAZY_SECTIONS.includes(_loadSection)) _abortSection(_loadSection);
     _lbImgs = imgs;
     _lbIdx = idx;
     const single = imgs.length === 1;
@@ -556,7 +532,6 @@
     const cur = document.getElementById('btn-' + name);
     if (cur && cur.classList.contains('btn-active')) return;
     pauseAllMedia();
-    if (_loadSection !== name && LAZY_SECTIONS.includes(_loadSection)) _abortSection(_loadSection);
     SECTIONS.forEach(s => {
       const b = document.getElementById('btn-' + s);
       if (b) {
