@@ -138,20 +138,22 @@
   }
 
   const FADE_MS = 250, FADE_EASE = 'cubic-bezier(0.16,1,0.3,1)';
+  const NAV_HANDOFF = 200;
   const _reduced = () => !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
-  function _fadeSection(el) {
+  function _fadeSection(el, delay) {
     if (!el.animate || document.hidden || _reduced()) { el.classList.remove('section-enter'); return; }
     el.getAnimations().forEach(a => { a.oncancel = null; a.cancel(); });
-    const anim = el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: FADE_MS, easing: FADE_EASE });
+    const anim = el.animate([{ opacity: 0 }, { opacity: 1 }],
+      { duration: FADE_MS, delay: delay || 0, easing: FADE_EASE, fill: delay ? 'backwards' : 'none' });
     let guard = null;
     const clear = () => { clearTimeout(guard); el.classList.remove('section-enter'); };
     anim.onfinish = clear;
     anim.oncancel = clear;
-    guard = setTimeout(() => { if (anim.playState !== 'finished') anim.cancel(); }, FADE_MS + 500);
+    guard = setTimeout(() => { if (anim.playState !== 'finished') anim.cancel(); }, (delay || 0) + FADE_MS + 500);
   }
 
-  function _syncSections(entering) {
+  function _syncSections(entering, delay) {
     SECTIONS.forEach(s => {
       const el = document.getElementById('section-' + s);
       if (!el) return;
@@ -170,7 +172,7 @@
       void cur.offsetHeight;
       void getComputedStyle(cur).opacity;
       cur.classList.add('section-shown');
-      if (entering) _fadeSection(cur);
+      if (entering) _fadeSection(cur, delay);
     }
   }
 
@@ -547,7 +549,7 @@
     });
   }
 
-  function showSection(name) {
+  function showSection(name, delay) {
     const cur = document.getElementById('btn-' + name);
     if (cur && cur.classList.contains('btn-active')) return;
     pauseAllMedia();
@@ -563,7 +565,7 @@
       if (sub) sub.style.display = s === name ? '' : 'none';
     });
     _loadSection = name;
-    _syncSections(true);
+    _syncSections(true, delay);
     _pumpLoads();
     window.scrollTo({ top: 0, behavior: 'instant' });
     _updateMobileNavActive(name);
@@ -620,7 +622,7 @@
     if (_navAnimating) return;
     _navOpen = false;
     _navAnimating = true;
-    showSection(name);
+    showSection(name, NAV_HANDOFF);
     _setBarBtnState(false);
     requestAnimationFrame(() => {
       _mobileNav.classList.remove('open');
