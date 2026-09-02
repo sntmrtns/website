@@ -127,6 +127,7 @@
 
   const LANE_LIMIT = { image: 4, video: Infinity, audio: 4 };
   const BOOT_SECTIONS = ['videos'];
+  const LAZY_SECTIONS = ['music'];
   const _loadQueue = [];
   const _loadPending = {};
   const _loadLive = { image: 0, video: 0, audio: 0 };
@@ -163,7 +164,7 @@
     Object.keys(LANE_LIMIT).forEach(lane => {
       while (_loadLive[lane] < LANE_LIMIT[lane]) {
         let i = _loadQueue.findIndex(t => t.lane === lane && t.section === _loadSection);
-        if (i < 0) i = _loadQueue.findIndex(t => t.lane === lane);
+        if (i < 0) i = _loadQueue.findIndex(t => t.lane === lane && !LAZY_SECTIONS.includes(t.section));
         if (i < 0) return;
         const task = _loadQueue.splice(i, 1)[0];
         _loadLive[lane]++;
