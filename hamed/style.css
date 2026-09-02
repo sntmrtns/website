@@ -159,7 +159,7 @@ body:has(#lightbox.lb-visible){overflow:hidden}
   #section-work .entry-logo[src*="fan-engagement-dashboard.svg"]{width:323px;height:auto;max-width:100%}
   .work-role{margin-top:8px;font-size:13px;line-height:1.5}
   .work-desc{max-width:none;margin-top:5px;font-size:13px;line-height:1.5}
-  .duties{columns:1;margin:9px 0 0}
+  .duties{columns:1;margin:10px 0 0}
   .duties li{font-size:13px;padding-left:18px;margin:0 0 6px;line-height:1.5}
   .duty-toggle{font-size:13px;margin-top:6px}
 }
