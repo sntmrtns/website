@@ -138,7 +138,7 @@ body:has(#lightbox.lb-visible){overflow:hidden}
 .work-desc{max-width:none;margin:13px 0 0;font-size:16px;font-weight:300;line-height:1.6;color:#fff;text-wrap:pretty}
 .work-role a,.work-desc a{color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px;transition:opacity 0.15s cubic-bezier(0.16,1,0.3,1)}
 .work-role a:hover,.work-desc a:hover{opacity:0.6}
-.duties{display:flex;flex-direction:column;gap:13px;margin-top:16px;overflow:hidden}
+.duties{display:grid;grid-template-columns:repeat(3,1fr);gap:25px;margin-top:16px;overflow:hidden}
 .duty-col:first-child li:nth-child(1){order:1}
 .duty-col:first-child li:nth-child(2){order:3}
 .duty-col:first-child li:nth-child(3){order:5}
@@ -170,7 +170,7 @@ body:has(#lightbox.lb-visible){overflow:hidden}
   #section-work .entry-logo[src*="fan-engagement-dashboard.svg"]{height:45.91px}
   .work-role{margin-top:8px;font-size:13px;line-height:1.55}
   .work-desc{max-width:none;margin-top:12px;font-size:13px;line-height:1.55}
-  .duties{margin-top:18px;gap:11px}
+  .duties{grid-template-columns:1fr;margin-top:18px;gap:11px}
   .duties li{font-size:13px;padding-left:18px;margin:0;line-height:1.5}
   .duty-toggle{font-size:13px;margin-top:12px}
 }
@@ -180,7 +180,7 @@ body:has(#lightbox.lb-visible){overflow:hidden}
   body,body.fade-in{background:#fff;opacity:1;animation:none}
   .mobile-bar,.mobile-nav,.header,#site-lock,#lightbox{display:none}
   .duty-toggle{display:none}
-  .work.collapsed .duties{display:flex}
+  .work.collapsed .duties{display:grid}
   .site-root{display:block;max-width:none}
   .body{margin:0;padding:0}
   .entry-logo{filter:invert(1)}
