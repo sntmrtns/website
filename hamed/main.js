@@ -540,17 +540,18 @@
 
   const _reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  let _scrollPad = null, _padLockUntil = 0;
+  const _padHost = document.querySelector('.body-zoom');
+  let _padHeight = 0, _padLockUntil = 0;
 
   function _dropScrollPad() {
-    if (!_scrollPad) return;
-    _scrollPad.remove();
-    _scrollPad = null;
+    if (!_padHeight) return;
+    _padHost.style.paddingBottom = '';
+    _padHeight = 0;
   }
 
   function _trimScrollPad() {
-    if (!_scrollPad || performance.now() < _padLockUntil) return;
-    const natural = document.documentElement.scrollHeight - _scrollPad.offsetHeight - window.innerHeight;
+    if (!_padHeight || performance.now() < _padLockUntil) return;
+    const natural = document.documentElement.scrollHeight - _padHeight - window.innerHeight;
     if (window.scrollY <= Math.max(0, natural)) _dropScrollPad();
   }
 
@@ -566,15 +567,10 @@
       ? anchor.getBoundingClientRect().top + window.scrollY
       : parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
     const top = el.getBoundingClientRect().top + window.scrollY - offset;
-    const padHeight = _scrollPad ? _scrollPad.offsetHeight : 0;
-    const reach = document.documentElement.scrollHeight - padHeight - window.innerHeight;
-    if (top > reach) {
-      if (!_scrollPad) {
-        _scrollPad = document.createElement('div');
-        _scrollPad.setAttribute('aria-hidden', 'true');
-        document.body.appendChild(_scrollPad);
-      }
-      _scrollPad.style.height = Math.max(padHeight, top - reach) + 'px';
+    const reach = document.documentElement.scrollHeight - _padHeight - window.innerHeight;
+    if (_padHost && top > reach) {
+      _padHeight = Math.max(_padHeight, top - reach);
+      _padHost.style.paddingBottom = _padHeight + 'px';
       _padLockUntil = performance.now() + 1500;
     }
     window.scrollTo({
