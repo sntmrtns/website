@@ -127,11 +127,11 @@ body:has(#lightbox.lb-visible){overflow:hidden}
 #section-work .exp-group+.work{padding-top:0}
 .entry-name{margin:0}
 .entry-logo{display:block;width:auto;height:32px;max-width:100%;margin:0 0 20px}
-.entry-logo[src*="fan-engagement-dashboard.svg"]{height:38.59px}
+.entry-logo[src*="fan-engagement-dashboard.svg"]{height:39px}
 .entry-logo[src*="redda.svg"]{height:60px}
 .entry-logo[src*="saint-martins.svg"]{height:42px}
 .entry-logo[src*="schwifty-studios.svg"]{height:46px}
-.work{display:block;margin:0;padding:49.5px 0;opacity:0;transition:opacity 0.25s cubic-bezier(0.16,1,0.3,1)}
+.work{display:block;margin:0;padding:50px 0;opacity:0;transition:opacity 0.25s cubic-bezier(0.16,1,0.3,1)}
 .section-shown .work.loaded{opacity:1}
 .work:last-child{padding-bottom:0}
 .work-role{margin:0;font-size:16px;font-weight:300;line-height:normal;color:#fff}
@@ -156,12 +156,12 @@ body:has(#lightbox.lb-visible){overflow:hidden}
   #section-work .entry-logo[src*="redda.svg"]{height:36px}
   #section-work .entry-logo[src*="saint-martins.svg"]{height:25.2px}
   #section-work .entry-logo[src*="schwifty-studios.svg"]{height:27.6px}
-  #section-work .entry-logo[src*="fan-engagement-dashboard.svg"]{width:323.4px;height:auto;max-width:100%}
+  #section-work .entry-logo[src*="fan-engagement-dashboard.svg"]{width:323px;height:auto;max-width:100%}
   .work-role{margin-top:8px;font-size:13px;line-height:normal}
-  .work-desc{max-width:none;margin-top:7.1px;font-size:13px;line-height:normal}
+  .work-desc{max-width:none;margin-top:7px;font-size:13px;line-height:normal}
   .duties{columns:1;margin:18px 0 0}
-  .duties li{font-size:13px;padding-left:18px;margin:0 0 12.5px;line-height:normal}
-  .duty-toggle{font-size:13px;margin-top:7.1px}
+  .duties li{font-size:13px;padding-left:18px;margin:0 0 12px;line-height:normal}
+  .duty-toggle{font-size:13px;margin-top:7px}
 }
 
 @media print{
