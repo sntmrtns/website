@@ -152,7 +152,7 @@ body:has(#lightbox.lb-visible){overflow:hidden}
   #section-work .exp-group{font-size:17px;margin:44px 0 10px}
   #section-work .exp-group:first-child{margin-top:0}
   #section-work .work{display:block;padding:40px 0 0;margin:0;column-gap:0}
-  #section-work .entry-logo{height:19.2px;margin-bottom:21px}
+  #section-work .entry-logo{height:19.2px;margin-bottom:11px}
   #section-work .entry-logo[src*="redda.svg"]{height:36px}
   #section-work .entry-logo[src*="saint-martins.svg"]{height:25.2px}
   #section-work .entry-logo[src*="schwifty-studios.svg"]{height:27.6px}
