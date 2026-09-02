@@ -332,8 +332,9 @@
           iframe.allow = 'autoplay';
           iframe.dataset.src = scSrc(t.sc);
           queueLoad('music', 'audio', (done) => {
-            const step = () => { iframe.classList.add('loaded'); done(); };
-            iframe.addEventListener('load', () => setTimeout(step, 1000), { once: true });
+            const reveal = () => { iframe.classList.add('loaded'); };
+            const step = () => { reveal(); done(); };
+            iframe.addEventListener('load', () => { done(); setTimeout(reveal, 1000); }, { once: true });
             iframe.addEventListener('error', step, { once: true });
             setTimeout(step, 12000);
             iframe.src = iframe.dataset.src;
