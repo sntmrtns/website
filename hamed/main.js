@@ -141,13 +141,14 @@
   const _reduced = () => !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
   function _fadeSection(el) {
-    if (!el.animate) { el.classList.remove('section-enter'); return; }
+    if (!el.animate || document.hidden || _reduced()) { el.classList.remove('section-enter'); return; }
     el.getAnimations().forEach(a => { a.oncancel = null; a.cancel(); });
-    const anim = el.animate([{ opacity: 0 }, { opacity: 1 }],
-      { duration: _reduced() ? 0.01 : FADE_MS, easing: FADE_EASE });
-    const clear = () => { el.classList.remove('section-enter'); };
+    const anim = el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: FADE_MS, easing: FADE_EASE });
+    let guard = null;
+    const clear = () => { clearTimeout(guard); el.classList.remove('section-enter'); };
     anim.onfinish = clear;
     anim.oncancel = clear;
+    guard = setTimeout(() => { if (anim.playState !== 'finished') anim.cancel(); }, FADE_MS + 500);
   }
 
   function _syncSections(entering) {
