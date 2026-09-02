@@ -149,7 +149,7 @@ body:has(#lightbox.lb-visible){overflow:hidden}
 
 @media(max-width:1575px){
   #section-work{margin-top:0;padding-top:0;padding-bottom:0}
-  #section-work .exp-group{font-size:17px;margin:44px 0 7px}
+  #section-work .exp-group{font-size:17px;margin:44px 0 10px}
   #section-work .exp-group:first-child{margin-top:0}
   #section-work .work{display:block;padding:40px 0 0;margin:0;column-gap:0}
   #section-work .entry-logo{height:19.2px;margin-bottom:21px}
