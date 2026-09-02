@@ -322,49 +322,6 @@
       '&color=%23000000&auto_play=false&hide_related=true&show_comments=false&show_user=true' +
       '&show_reposts=false&show_teaser=false&visual=true&sharing=false';
 
-    const scSound = (iframe, cb) => {
-      let settled = false, poll = null;
-      const finish = (sound) => {
-        if (settled) return;
-        settled = true;
-        clearInterval(poll);
-        window.removeEventListener('message', onMessage);
-        cb(sound);
-      };
-      const ask = () => {
-        try { iframe.contentWindow.postMessage(JSON.stringify({ method: 'getCurrentSound', value: 'reveal' }), '*'); } catch {}
-      };
-      function onMessage(e) {
-        if (e.source !== iframe.contentWindow || typeof e.data !== 'string') return;
-        let msg;
-        try { msg = JSON.parse(e.data); } catch { return; }
-        if (msg.method === 'ready') ask();
-        else if (msg.method === 'getCurrentSound' && msg.value) finish(msg.value);
-      }
-      window.addEventListener('message', onMessage);
-      poll = setInterval(ask, 200);
-      ask();
-      setTimeout(() => finish(null), 6000);
-    };
-
-    const scWarm = (sound, done) => {
-      const visual = sound && sound.visuals && sound.visuals.visuals && sound.visuals.visuals[0];
-      const art = sound && ((visual && visual.visual_url) || sound.artwork_url);
-      const raw = sound && sound.waveform_url;
-      const wave = raw && raw.replace(/\.json(\?.*)?$/, '.png$1');
-      let left = (art ? 1 : 0) + (wave ? 1 : 0);
-      if (!left) { done(); return; }
-      const tick = () => { if (--left <= 0) done(); };
-      const preload = (url) => {
-        const pre = new Image();
-        pre.addEventListener('load', tick, { once: true });
-        pre.addEventListener('error', tick, { once: true });
-        pre.src = url;
-      };
-      if (art) preload(art);
-      if (wave) preload(wave);
-    };
-
     const buildGridbox = (tracks, boxId) => {
       const box = document.getElementById(boxId);
       tracks.forEach(t => {
@@ -376,11 +333,11 @@
           iframe.dataset.src = scSrc(t.sc);
           queueLoad('music', 'audio', (done) => {
             const step = () => { iframe.classList.add('loaded'); done(); };
+            iframe.addEventListener('load', () => setTimeout(step, 300), { once: true });
             iframe.addEventListener('error', step, { once: true });
-            setTimeout(step, 15000);
+            setTimeout(step, 12000);
             iframe.src = iframe.dataset.src;
             iframe.removeAttribute('data-src');
-            scSound(iframe, (sound) => { scWarm(sound, step); });
           });
           cell.appendChild(iframe);
         } else if (t.video) {
