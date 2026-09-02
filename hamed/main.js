@@ -125,11 +125,11 @@
     });
   }
 
-  const LANE_LIMIT = { image: 4, video: Infinity, audio: 4 };
+  const LANE_LIMIT = { image: 4, video: Infinity };
   const BOOT_SECTIONS = ['videos'];
   const _loadQueue = [];
   const _loadPending = {};
-  const _loadLive = { image: 0, video: 0, audio: 0 };
+  const _loadLive = { image: 0, video: 0 };
   let _loadSection = 'work', _loadStarted = false;
 
   function queueLoad(section, lane, start) {
@@ -306,45 +306,6 @@
       '&color=%23000000&auto_play=false&hide_related=true&show_comments=false&show_user=true' +
       '&show_reposts=false&show_teaser=false&visual=true&sharing=false';
 
-    const scSound = (iframe, cb) => {
-      let settled = false;
-      const finish = (sound) => {
-        if (settled) return;
-        settled = true;
-        window.removeEventListener('message', onMessage);
-        cb(sound);
-      };
-      const ask = () => {
-        try { iframe.contentWindow.postMessage(JSON.stringify({ method: 'getCurrentSound', value: 'reveal' }), '*'); } catch {}
-      };
-      function onMessage(e) {
-        if (e.source !== iframe.contentWindow || typeof e.data !== 'string') return;
-        let msg;
-        try { msg = JSON.parse(e.data); } catch { return; }
-        if (msg.method === 'ready') ask();
-        else if (msg.method === 'getCurrentSound') finish(msg.value);
-      }
-      window.addEventListener('message', onMessage);
-      ask();
-      setTimeout(() => finish(null), 5000);
-    };
-
-    const scWarm = (sound, done) => {
-      const visual = sound && sound.visuals && sound.visuals.visuals && sound.visuals.visuals[0];
-      const art = sound && ((visual && visual.visual_url) || sound.artwork_url);
-      const wave = sound && sound.waveform_url;
-      let left = (art ? 1 : 0) + (wave ? 1 : 0);
-      if (!left) { done(); return; }
-      const tick = () => { if (--left <= 0) done(); };
-      if (art) {
-        const pre = new Image();
-        pre.addEventListener('load', tick, { once: true });
-        pre.addEventListener('error', tick, { once: true });
-        pre.src = art;
-      }
-      if (wave) fetch(wave, { mode: 'no-cors' }).then(tick, tick);
-    };
-
     const buildGridbox = (tracks, boxId) => {
       const box = document.getElementById(boxId);
       tracks.forEach(t => {
@@ -354,15 +315,6 @@
           iframe.title = t.title;
           iframe.allow = 'autoplay';
           iframe.dataset.src = scSrc(t.sc);
-          queueLoad('music', 'audio', (done) => {
-            const step = () => { iframe.classList.add('loaded'); done(); };
-            const warm = () => { scSound(iframe, (sound) => { scWarm(sound, step); }); };
-            iframe.addEventListener('load', warm, { once: true });
-            iframe.addEventListener('error', step, { once: true });
-            setTimeout(step, 12000);
-            iframe.src = iframe.dataset.src;
-            iframe.removeAttribute('data-src');
-          });
           cell.appendChild(iframe);
         } else if (t.video) {
           const video = document.createElement('video');
@@ -393,6 +345,29 @@
     buildGridbox(music.production, 'gridbox-production');
     buildGridbox(music.mixing, 'gridbox-mixing');
   })();
+
+  let _musicWarmed = false;
+  function warmMusicFrames() {
+    if (_musicWarmed) return;
+    _musicWarmed = true;
+    const pending = Array.from(document.querySelectorAll('.gridbox iframe[data-src]'));
+    let next = 0, live = 0;
+    const pump = () => {
+      while (live < 4 && next < pending.length) {
+        const f = pending[next++];
+        if (!f.dataset.src) continue;
+        live++;
+        let stepped = false;
+        const step = () => { if (stepped) return; stepped = true; f.classList.add('loaded'); live--; pump(); };
+        f.addEventListener('load', step, { once: true });
+        f.addEventListener('error', step, { once: true });
+        setTimeout(step, 8000);
+        f.src = f.dataset.src;
+        f.removeAttribute('data-src');
+      }
+    };
+    pump();
+  }
 
   (() => {
     document.querySelectorAll('#section-work .work').forEach(entry => {
@@ -546,6 +521,7 @@
     _loadSection = name;
     _syncSections();
     _pumpLoads();
+    if (name === 'music') warmMusicFrames();
     window.scrollTo({ top: 0, behavior: 'instant' });
     _updateMobileNavActive(name);
   }
