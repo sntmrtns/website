@@ -97,7 +97,7 @@ body:has(#lightbox.lb-visible){overflow:hidden}
   h2{font-size:17px}
   p{font-size:13px;margin:0}
   .body h2{margin:0 0 7px}
-  .design{column-gap:25px;row-gap:25px;margin-bottom:0;grid-template-columns:repeat(2,1fr)}
+  .design{column-gap:13px;row-gap:13px;margin-bottom:0;grid-template-columns:repeat(2,1fr)}
   .photos-row{gap:12px;margin-bottom:12px}
   .photos-row:last-child{margin-bottom:0}
   .photos{margin-bottom:0}
