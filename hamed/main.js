@@ -381,6 +381,44 @@
     });
   })();
 
+  (() => {
+    document.querySelectorAll('#section-work .work').forEach(entry => {
+      const info = entry.querySelector('.work-info');
+      const duties = entry.querySelector('.duties');
+      if (!info || !duties) return;
+      duties.id = (entry.id || 'entry') + '-duties';
+      entry.classList.add('collapsed');
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'duty-toggle';
+      btn.textContent = 'Details';
+      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('aria-controls', duties.id);
+      info.appendChild(btn);
+      let anim = null;
+      btn.addEventListener('click', () => {
+        const opening = entry.classList.contains('collapsed');
+        if (anim) { anim.onfinish = null; anim.cancel(); anim = null; }
+        btn.setAttribute('aria-expanded', opening ? 'true' : 'false');
+        btn.textContent = opening ? 'Hide' : 'Details';
+        entry.classList.remove('collapsed');
+        if (!duties.animate || _reduced()) {
+          if (!opening) entry.classList.add('collapsed');
+          return;
+        }
+        const h = duties.scrollHeight + 'px';
+        const frames = opening
+          ? [{ height: '0px', opacity: 0 }, { height: h, opacity: 1 }]
+          : [{ height: h, opacity: 1 }, { height: '0px', opacity: 0 }];
+        anim = duties.animate(frames, { duration: FADE_MS, easing: FADE_EASE });
+        anim.onfinish = () => {
+          if (!opening) entry.classList.add('collapsed');
+          anim = null;
+        };
+      });
+    });
+  })();
+
   layoutSections();
 
   let _lb = null, _lbImgs = [], _lbIdx = 0, _lbAnimating = false, _lbTrigger = null, _lbToken = 0;
