@@ -126,7 +126,7 @@ body:has(#lightbox.lb-visible){overflow:hidden}
 #section-work .exp-group:first-child{margin-top:-6px}
 #section-work .exp-group+.work{padding-top:0}
 .entry-name{margin:0}
-.entry-logo{display:block;width:auto;height:32px;max-width:100%;margin:0 0 20px}
+.entry-logo{display:block;width:auto;height:32px;max-width:100%;margin:0 0 19px}
 .entry-logo[src*="fan-engagement-dashboard.svg"]{height:39px}
 .entry-logo[src*="redda.svg"]{height:60px}
 .entry-logo[src*="saint-martins.svg"]{height:42px}
@@ -135,16 +135,16 @@ body:has(#lightbox.lb-visible){overflow:hidden}
 .section-shown .work.loaded{opacity:1}
 .work:last-child{padding-bottom:0}
 .work-role{margin:0;font-size:16px;font-weight:300;line-height:1.5;color:#fff}
-.work-desc{max-width:none;margin:17px 0 0;font-size:16px;font-weight:300;line-height:1.5;color:#fff;text-wrap:pretty}
+.work-desc{max-width:none;margin:14px 0 0;font-size:16px;font-weight:300;line-height:1.5;color:#fff;text-wrap:pretty}
 .work-role a,.work-desc a{color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px;transition:opacity 0.15s cubic-bezier(0.16,1,0.3,1)}
 .work-role a:hover,.work-desc a:hover{opacity:0.6}
 .duties-wrap{overflow:hidden}
-.duties{columns:2;column-gap:25px;margin:21px 0 0}
+.duties{columns:2;column-gap:25px;margin:20px 0 0}
 .work.collapsed .duties-wrap{display:none}
-.duty-toggle{appearance:none;-webkit-appearance:none;background:none;border:none;padding:0;margin:15px 0 0;font-family:inherit;font-size:16px;font-weight:300;color:#fff;cursor:pointer;text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px;transition:opacity 0.15s cubic-bezier(0.16,1,0.3,1)}
+.duty-toggle{appearance:none;-webkit-appearance:none;background:none;border:none;padding:0;margin:13px 0 0;font-family:inherit;font-size:16px;font-weight:300;color:#fff;cursor:pointer;text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px;transition:opacity 0.15s cubic-bezier(0.16,1,0.3,1)}
 .duty-toggle:hover{opacity:0.6}
 .duty-col{display:contents}
-.duties li{position:relative;display:block;margin:0 0 20px;padding-left:25px;font-size:16px;font-weight:300;line-height:1.5;color:#fff;text-wrap:pretty;break-inside:avoid}
+.duties li{position:relative;display:block;margin:0 0 17px;padding-left:25px;font-size:16px;font-weight:300;line-height:1.5;color:#fff;text-wrap:pretty;break-inside:avoid}
 .duties li::before{content:"\2014";position:absolute;left:0;top:0;color:#fff}
 
 @media(max-width:1575px){
@@ -152,16 +152,16 @@ body:has(#lightbox.lb-visible){overflow:hidden}
   #section-work .exp-group{font-size:17px;margin:44px 0 10px}
   #section-work .exp-group:first-child{margin-top:0}
   #section-work .work{display:block;padding:59px 0 0;margin:0;column-gap:0}
-  #section-work .entry-logo{height:19.2px;margin-bottom:11px}
+  #section-work .entry-logo{height:19.2px;margin-bottom:10px}
   #section-work .entry-logo[src*="redda.svg"]{height:36px}
   #section-work .entry-logo[src*="saint-martins.svg"]{height:25.2px}
   #section-work .entry-logo[src*="schwifty-studios.svg"]{height:27.6px}
   #section-work .entry-logo[src*="fan-engagement-dashboard.svg"]{width:323px;height:auto;max-width:100%}
   .work-role{margin-top:8px;font-size:13px;line-height:1.5}
-  .work-desc{max-width:none;margin-top:7px;font-size:13px;line-height:1.5}
-  .duties{columns:1;margin:10px 0 0}
-  .duties li{font-size:13px;padding-left:18px;margin:0 0 7px;line-height:1.5}
-  .duty-toggle{font-size:13px;margin-top:7px}
+  .work-desc{max-width:none;margin-top:6px;font-size:13px;line-height:1.5}
+  .duties{columns:1;margin:9px 0 0}
+  .duties li{font-size:13px;padding-left:18px;margin:0 0 6px;line-height:1.5}
+  .duty-toggle{font-size:13px;margin-top:6px}
 }
 
 @media print{
