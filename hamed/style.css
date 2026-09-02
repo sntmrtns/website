@@ -138,8 +138,9 @@ body:has(#lightbox.lb-visible){overflow:hidden}
 .work-desc{max-width:none;margin:11.4px 0 0;font-size:16px;font-weight:300;line-height:1.6;color:#fff;text-wrap:pretty}
 .work-role a,.work-desc a{color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px;transition:opacity 0.15s cubic-bezier(0.16,1,0.3,1)}
 .work-role a:hover,.work-desc a:hover{opacity:0.6}
-.duties{columns:2;column-gap:25px;margin:18.2px 0 -17.2px;overflow:hidden}
-.work.collapsed .duties{display:none}
+.duties-wrap{overflow:hidden}
+.duties{columns:2;column-gap:25px;margin:18.2px 0 -17.2px}
+.work.collapsed .duties-wrap{display:none}
 .duty-toggle{appearance:none;-webkit-appearance:none;background:none;border:none;padding:0;margin:13.6px 0 0;font-family:inherit;font-size:16px;font-weight:300;color:#fff;cursor:pointer;text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px;transition:opacity 0.15s cubic-bezier(0.16,1,0.3,1)}
 .duty-toggle:hover{opacity:0.6}
 .duty-col{display:contents}
@@ -168,7 +169,7 @@ body:has(#lightbox.lb-visible){overflow:hidden}
   body,body.fade-in{background:#fff;opacity:1;animation:none}
   .mobile-bar,.mobile-nav,.header,#site-lock,#lightbox{display:none}
   .duty-toggle{display:none}
-  .work.collapsed .duties{display:block}
+  .work.collapsed .duties-wrap{display:block}
   .site-root{display:block;max-width:none}
   .body{margin:0;padding:0}
   .entry-logo{filter:invert(1)}
