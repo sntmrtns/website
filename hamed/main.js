@@ -397,8 +397,8 @@
       info.appendChild(btn);
       let anim = null, guard = null;
       btn.addEventListener('click', () => {
+        if (anim) return;
         const opening = entry.classList.contains('collapsed');
-        if (anim) { anim.onfinish = null; anim.cancel(); anim = null; }
         clearTimeout(guard);
         btn.setAttribute('aria-expanded', opening ? 'true' : 'false');
         btn.textContent = opening ? 'Hide' : 'Details';
