@@ -98,7 +98,7 @@ body:has(#lightbox.lb-visible){overflow:hidden}
   p{font-size:13px;margin:0}
   .body h2{margin:0 0 7px}
   .design{column-gap:19px;row-gap:19px;margin-bottom:0;grid-template-columns:repeat(2,1fr)}
-  .photos-row{gap:12px;margin-bottom:12px}
+  .photos-row{gap:19px;margin-bottom:19px}
   .photos-row:last-child{margin-bottom:0}
   .photos{margin-bottom:0}
   .href-section{scroll-margin-top:calc(84px + env(safe-area-inset-top,0px));padding-top:40px}
@@ -107,9 +107,9 @@ body:has(#lightbox.lb-visible){overflow:hidden}
   .personal,.production{padding-bottom:40px}
   .personal{margin-top:0}
   .videos{padding-bottom:0}
-  .videobox{grid-template-columns:1fr;row-gap:12px}
+  .videobox{grid-template-columns:1fr;row-gap:19px}
   .music{margin-bottom:0}
-  .gridbox{grid-template-columns:1fr;row-gap:12px}
+  .gridbox{grid-template-columns:1fr;row-gap:19px}
   .gridbox iframe{height:120px}
 }
 
