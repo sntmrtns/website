@@ -239,35 +239,35 @@
   (() => {
     const DEFAULT_AR = 1.5;
     const box = document.getElementById('photobox');
-    const rows = [];
+    const groups = [];
+    const entries = [];
 
-    for (let i = 0; i < photos.length; i += 3) {
-      const n = Math.min(3, photos.length - i);
+    for (let i = 0; i < photos.length; i += 3) groups.push(photos.slice(i, i + 3));
+    groups.reverse();
+
+    for (const group of groups) {
       const rowEl = document.createElement('div');
       rowEl.className = 'photos-row';
       const cells = [];
       let totalAR = 0;
-      for (let j = 0; j < n; j++) {
+      for (const [, ar] of group) {
         const cell = document.createElement('div');
-        cell.style.flex = photos[i + j][1] || DEFAULT_AR;
+        cell.style.flex = ar || DEFAULT_AR;
         totalAR += parseFloat(cell.style.flex);
         rowEl.appendChild(cell);
         cells.push(cell);
       }
       rowEl.style.aspectRatio = totalAR;
       box.appendChild(rowEl);
-      rows.push({ el: rowEl, cells });
+      group.forEach(([name], j) => entries.push({ name, rowEl, cells, cell: cells[j] }));
     }
 
-    photos.forEach(([name], i) => {
-      const { el: rowEl, cells } = rows[Math.floor(i / 3)];
-      const cell = cells[i % 3];
-
+    entries.forEach(({ name, rowEl, cells, cell }, i) => {
       const img = new Image();
       img.alt = '';
       img.tabIndex = -1;
       img.setAttribute('role', 'button');
-      img.setAttribute('aria-label', 'Photo ' + (i + 1) + ' of ' + photos.length);
+      img.setAttribute('aria-label', 'Photo ' + (i + 1) + ' of ' + entries.length);
       img.addEventListener('load', () => {
         cell.style.flex = (img.naturalWidth || 3) / (img.naturalHeight || 2);
         let totalAR = 0;
@@ -277,7 +277,7 @@
         img.tabIndex = 0;
       });
 
-      img.dataset.src = 'photos/' + name;
+      img.dataset.src = 'pictures/' + name;
 
       cell.appendChild(img);
       queueLoad('photos', 'image', (done) => {
