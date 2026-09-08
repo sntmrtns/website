@@ -33,14 +33,14 @@ requestAnimationFrame(_tick);
 		setTimeout(()=>{
 			const conn=navigator.connection;
 			if(conn&&(conn.saveData||/(^|-)2g$/.test(conn.effectiveType||'')))return;
-			[1,2,3].filter(x=>x!==n).forEach(x=>{new Image().src='logo'+x+'.svg?v=2';});
+			[1,2,3].filter(x=>x!==n).forEach(x=>{new Image().src='logos/logo-'+x+'.svg?v=2';});
 		},1500);
 	};
 	const loadLogo=()=>{
 		const l=document.getElementById('logo');
 		l.onload=()=>{l.style.display='block';startFade();};
 		l.onerror=()=>{startFade();};
-		l.src='logo'+n+'.svg?v=2';
+		l.src='logos/logo-'+n+'.svg?v=2';
 		if(l.complete&&l.naturalWidth){l.style.display='block';startFade();}
 	};
 	if(document.hidden){
