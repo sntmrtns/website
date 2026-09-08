@@ -29,7 +29,6 @@
     ["DSC03556.webp", 3 / 2], ["DSC03582.webp", 2 / 3], ["DSC03603.webp", 3 / 2],
     ["DSC03622.webp", 3 / 2], ["DSC03642.webp", 2 / 3], ["DSC03659.webp", 2 / 3],
     ["DSC03885.webp", 4 / 5], ["DSC04300.webp", 4 / 5], ["DSC04340.webp", 4 / 5],
-    ["DSC04431.webp", 2 / 3], ["DSC04456.webp", 2 / 3], ["DSC04471.webp", 3 / 2],
   ];
 
   const design = [
