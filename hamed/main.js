@@ -23,12 +23,12 @@
   ];
 
   const photos = [
-    ["picture-01.webp", 4 / 5], ["picture-02.webp", 3 / 2], ["picture-03.webp", 4 / 5],
-    ["picture-04.webp", 3 / 2], ["picture-05.webp", 3 / 2], ["picture-06.webp", 3 / 2],
-    ["picture-07.webp", 2 / 3], ["picture-08.webp", 3 / 2], ["picture-09.webp", 2 / 3],
-    ["picture-10.webp", 3 / 2], ["picture-11.webp", 2 / 3], ["picture-12.webp", 3 / 2],
-    ["picture-13.webp", 3 / 2], ["picture-14.webp", 2 / 3], ["picture-15.webp", 2 / 3],
-    ["picture-16.webp", 4 / 5], ["picture-17.webp", 4 / 5], ["picture-18.webp", 4 / 5],
+    ["DSC03137.webp", 4 / 5], ["DSC03145.webp", 3 / 2], ["DSC03148.webp", 4 / 5],
+    ["DSC03154.webp", 3 / 2], ["DSC03155.webp", 3 / 2], ["DSC03156.webp", 3 / 2],
+    ["DSC03237.webp", 2 / 3], ["DSC03293.webp", 3 / 2], ["DSC03296.webp", 2 / 3],
+    ["DSC03556.webp", 3 / 2], ["DSC03582.webp", 2 / 3], ["DSC03603.webp", 3 / 2],
+    ["DSC03622.webp", 3 / 2], ["DSC03642.webp", 2 / 3], ["DSC03659.webp", 2 / 3],
+    ["DSC03885.webp", 4 / 5], ["DSC04300.webp", 4 / 5], ["DSC04340.webp", 4 / 5],
   ];
 
   const design = [
