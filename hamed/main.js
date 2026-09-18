@@ -117,13 +117,36 @@
 
   const SECTIONS = ['work', 'design', 'photos', 'videos', 'music'];
 
-  function pauseAllMedia() {
-    document.querySelectorAll('video').forEach(v => { v.pause(); });
+  function pauseAllMedia(keep) {
+    document.querySelectorAll('video').forEach(v => { if (v !== keep) v.pause(); });
     document.querySelectorAll('iframe').forEach(f => {
-      if (f.dataset.src) return;
+      if (f.dataset.src || f.contentWindow === keep) return;
       try { f.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*'); } catch {}
       try { f.contentWindow.postMessage(JSON.stringify({ method: 'pause' }), '*'); } catch {}
     });
+  }
+
+  document.addEventListener('play', e => { if (e.target.tagName === 'VIDEO') pauseAllMedia(e.target); }, true);
+
+  window.addEventListener('message', e => {
+    if (!/^https:\/\/(w\.soundcloud\.com|www\.youtube-nocookie\.com|www\.youtube\.com)$/.test(e.origin)) return;
+    let data = e.data;
+    if (typeof data === 'string') { try { data = JSON.parse(data); } catch { return; } }
+    if (!data || typeof data !== 'object') return;
+    if (data.method === 'ready') {
+      e.source.postMessage(JSON.stringify({ method: 'addEventListener', value: 'play' }), e.origin);
+    } else if (data.method === 'play') {
+      pauseAllMedia(e.source);
+    } else if ((data.event === 'onStateChange' && data.info === 1) ||
+               (data.event === 'infoDelivery' && data.info && data.info.playerState === 1)) {
+      pauseAllMedia(e.source);
+    }
+  });
+
+  function listenToYouTube(iframe) {
+    [0, 500, 1500, 3000].forEach(ms => setTimeout(() => {
+      try { iframe.contentWindow.postMessage('{"event":"listening","id":1,"channel":"widget"}', '*'); } catch {}
+    }, ms));
   }
 
   const LANE_LIMIT = { image: 4, video: Infinity, audio: 4 };
@@ -222,6 +245,7 @@
       queueLoad('videos', 'video', (done) => {
         const step = () => { iframe.classList.add('loaded'); done(); };
         iframe.addEventListener('load', step, { once: true });
+        iframe.addEventListener('load', () => listenToYouTube(iframe), { once: true });
         iframe.addEventListener('error', step, { once: true });
         setTimeout(step, 8000);
         iframe.src = 'https://www.youtube-nocookie.com/embed/' + id + '?enablejsapi=1';
