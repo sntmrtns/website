@@ -32,8 +32,8 @@
   ];
 
   const design = [
-    'design/richie-souf/produced-by-cover-spotify.webp',
-    'design/richie-souf/produced-by-cover-apple-music.webp',
+    'design/richie-souf/produced-by-cover-spotify.webp?v=2',
+    'design/richie-souf/produced-by-cover-apple-music.webp?v=2',
     'design/roxie/roxie-motherfucker-cover.webp',
     'design/sneak/vanilla-sky-tracklist.webp',
     'design/2-20-03/profile-picture-2.webp',
