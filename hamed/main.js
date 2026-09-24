@@ -37,9 +37,9 @@
     'roxie/roxie-motherfucker-cover.webp',
     'sneak/vanilla-sky-tracklist.webp',
     '2-20-03/profile-picture-2.webp',
-    'not-a-human/profile-picture.png',
-    'not-a-human/version-2.png',
-    'not-a-human/version-1.png',
+    'not-a-human/profile-picture.webp',
+    'not-a-human/version-2.webp',
+    'not-a-human/version-1.webp',
     'sneak/sharpshooter-tracklist-2.webp',
     'sneak/sharpshooter-tracklist-1.webp',
     'sneak/ok-with-it-cover.webp',
@@ -51,9 +51,9 @@
     'soufpaw/leash-2.webp',
     'soufpaw/leash-1.webp',
     '2-20-03/fashion-week-cover.webp',
-    'saint-martins/logo-3.png',
-    'saint-martins/logo-2.png',
-    'saint-martins/logo-1.png',
+    'saint-martins/logo-3.webp',
+    'saint-martins/logo-2.webp',
+    'saint-martins/logo-1.webp',
   ];
 
   const music = {
@@ -255,19 +255,13 @@
   function zoomableImage(src, label) {
     const img = new Image();
     img.className = 'fade';
-    img.alt = '';
-    img.tabIndex = -1;
-    img.setAttribute('role', 'button');
-    img.setAttribute('aria-label', label);
+    img.alt = label;
     img.dataset.src = src;
     return img;
   }
 
   function loadImage(img, done) {
-    img.addEventListener('load', () => {
-      img.classList.add('loaded');
-      img.tabIndex = 0;
-    }, { once: true });
+    img.addEventListener('load', () => img.classList.add('loaded'), { once: true });
     onLoad(img, done);
     img.src = img.dataset.src;
   }
@@ -457,8 +451,7 @@
   const lbCount = document.getElementById('lb-count');
   const lbPrev = document.getElementById('lb-prev');
   const lbNext = document.getElementById('lb-next');
-  const lbClose = document.getElementById('lb-close');
-  let lbList = [], lbIndex = 0, lbBusy = false, lbTrigger = null, lbToken = 0;
+  let lbList = [], lbIndex = 0, lbBusy = false, lbToken = 0;
   let touchX = null, touchY = null, swiped = false;
 
   const lbIsOpen = () => lightbox.classList.contains('lb-visible');
@@ -490,7 +483,6 @@
     const imgs = Array.from(trigger.closest('.design, .photos').querySelectorAll('img'));
     lbList = imgs.map(img => img.dataset.src);
     lbIndex = imgs.indexOf(trigger);
-    lbTrigger = trigger;
     pauseAll();
     const visibility = lbList.length === 1 ? 'hidden' : '';
     [lbPrev, lbNext, lbCount].forEach(el => { el.style.visibility = visibility; });
@@ -499,10 +491,7 @@
       lightbox.classList.add('lb-visible');
       void lightbox.offsetHeight;
       lightbox.classList.add('lb-open');
-      afterTransition(lightbox, () => {
-        lbBusy = false;
-        lbClose.focus();
-      });
+      afterTransition(lightbox, () => { lbBusy = false; });
     });
   }
 
@@ -513,7 +502,6 @@
     afterTransition(lightbox, () => {
       lightbox.classList.remove('lb-visible');
       lbBusy = false;
-      lbTrigger.focus();
     });
   }
 
@@ -601,10 +589,7 @@
     nav.classList.add('visible');
     void nav.offsetHeight;
     nav.classList.add('open');
-    afterTransition(nav, () => {
-      navBusy = false;
-      document.getElementById('mobile-nav-close').focus();
-    });
+    afterTransition(nav, () => { navBusy = false; });
   }
 
   function closeNav(section) {
@@ -617,7 +602,6 @@
     afterTransition(nav, () => {
       nav.classList.remove('visible');
       navBusy = false;
-      menuBtn.focus();
     });
   }
 
@@ -646,29 +630,16 @@
     else if (t === nav || t.closest('#mobile-nav-close')) closeNav();
   });
 
-  function trapFocus(e, focusable) {
-    const i = focusable.indexOf(document.activeElement);
-    const next = e.shiftKey ? (i <= 0 ? focusable.length : i) - 1 : (i + 1) % focusable.length;
-    e.preventDefault();
-    focusable[next].focus();
-  }
+  document.addEventListener('mousedown', e => { if (!e.target.closest('video')) e.preventDefault(); });
 
   document.addEventListener('keydown', e => {
-    if (lbIsOpen()) {
+    if (e.key === 'Tab') e.preventDefault();
+    else if (lbIsOpen()) {
       if (e.key === 'Escape') closeLightbox();
       else if (e.key === 'ArrowLeft') lbNav(-1);
       else if (e.key === 'ArrowRight') lbNav(1);
-      else if (e.key === 'Tab') trapFocus(e, [lbClose, lbPrev, lbNext].filter(el => el.style.visibility !== 'hidden'));
-      return;
-    }
-    if (navOpen) {
-      if (e.key === 'Escape') closeNav();
-      else if (e.key === 'Tab') trapFocus(e, Array.from(nav.querySelectorAll('button')));
-      return;
-    }
-    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.design img, .photos img')) {
-      e.preventDefault();
-      openLightbox(e.target);
+    } else if (navOpen && e.key === 'Escape') {
+      closeNav();
     }
   });
 
