@@ -1,4 +1,4 @@
-*{user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+*{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
 img{-webkit-user-drag:none}
 
 body{background:#000;margin:0;overflow:hidden;opacity:0;animation:reveal 0s linear 7s forwards}
