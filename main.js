@@ -1,53 +1,66 @@
-document.addEventListener('contextmenu',(e)=>{e.preventDefault();});
-if(location.pathname.endsWith('/')&&location.pathname!=='/')history.replaceState(null,'',location.pathname.slice(0,-1)+location.search+location.hash);
+(() => {
+  'use strict';
 
-const timer=document.getElementById('timer');
-const dateEl=document.getElementById('date');
-const pad=(n,w)=>String(n).padStart(w,'0');
-let _lastTime='',_lastDate='';
-function _tick(){
-	const d=new Date();
-	const t=pad(d.getHours(),2)+':'+pad(d.getMinutes(),2)+':'+pad(d.getSeconds(),2)+':'+pad(Math.floor(d.getMilliseconds()/10),2);
-	if(t!==_lastTime){timer.textContent=t;_lastTime=t;}
-	const day=d.getFullYear()+'-'+pad(d.getMonth()+1,2)+'-'+pad(d.getDate(),2);
-	if(day!==_lastDate){dateEl.textContent=day;_lastDate=day;}
-	requestAnimationFrame(_tick);
-}
-requestAnimationFrame(_tick);
+  document.addEventListener('contextmenu', e => e.preventDefault());
 
-(()=>{
-	let last=0;
-	try{last=parseInt(localStorage.getItem('lastLogo'),10)||0;}catch{}
-	const choices=[1,2,3].filter(n=>n!==last);
-	const n=choices[Math.floor(Math.random()*choices.length)];
-	try{localStorage.setItem('lastLogo',n);}catch{}
-	let faded=false;
-	const startFade=()=>{
-		if(faded)return;
-		faded=true;
-		if(parseFloat(getComputedStyle(document.body).opacity)<1){
-			document.body.classList.add('fade-in');
-		}
-		document.body.addEventListener('animationend',()=>{document.body.style.opacity='1';},{once:true});
-		setTimeout(()=>{document.body.style.opacity='1';},1500);
-		setTimeout(()=>{
-			const conn=navigator.connection;
-			if(conn&&(conn.saveData||/(^|-)2g$/.test(conn.effectiveType||'')))return;
-			[1,2,3].filter(x=>x!==n).forEach(x=>{new Image().src='logos/logo-'+x+'.svg?v=2';});
-		},1500);
-	};
-	const loadLogo=()=>{
-		const l=document.getElementById('logo');
-		l.onload=()=>{l.style.display='block';startFade();};
-		l.onerror=()=>{startFade();};
-		l.src='logos/logo-'+n+'.svg?v=2';
-		if(l.complete&&l.naturalWidth){l.style.display='block';startFade();}
-	};
-	if(document.hidden){
-		document.addEventListener('visibilitychange',function h(){
-			if(!document.hidden){document.removeEventListener('visibilitychange',h);loadLogo();}
-		});
-	}else{
-		loadLogo();
-	}
+  const timer = document.getElementById('timer');
+  const date = document.getElementById('date');
+  const pad = (n, width) => String(n).padStart(width, '0');
+  let lastTime = '', lastDate = '';
+
+  function tick() {
+    const d = new Date();
+    const time = pad(d.getHours(), 2) + ':' + pad(d.getMinutes(), 2) + ':' + pad(d.getSeconds(), 2) + ':' + pad(Math.floor(d.getMilliseconds() / 10), 2);
+    if (time !== lastTime) timer.textContent = lastTime = time;
+    const day = d.getFullYear() + '-' + pad(d.getMonth() + 1, 2) + '-' + pad(d.getDate(), 2);
+    if (day !== lastDate) date.textContent = lastDate = day;
+    requestAnimationFrame(tick);
+  }
+
+  requestAnimationFrame(tick);
+
+  let last = 0;
+  try { last = parseInt(localStorage.getItem('lastLogo'), 10) || 0; } catch {}
+  const choices = [1, 2, 3].filter(n => n !== last);
+  const pick = choices[Math.floor(Math.random() * choices.length)];
+  try { localStorage.setItem('lastLogo', pick); } catch {}
+  const logoSrc = n => 'logos/logo-' + n + '.svg?v=2';
+
+  let revealed = false;
+
+  function reveal() {
+    if (revealed) return;
+    revealed = true;
+    if (parseFloat(getComputedStyle(document.body).opacity) < 1) document.body.classList.add('fade-in');
+    const settle = () => { document.body.style.opacity = '1'; };
+    document.body.addEventListener('animationend', settle, { once: true });
+    setTimeout(settle, 1500);
+    setTimeout(() => {
+      const conn = navigator.connection;
+      if (conn && (conn.saveData || /(^|-)2g$/.test(conn.effectiveType || ''))) return;
+      [1, 2, 3].filter(n => n !== pick).forEach(n => { new Image().src = logoSrc(n); });
+    }, 1500);
+  }
+
+  function loadLogo() {
+    const logo = document.getElementById('logo');
+    const show = () => {
+      logo.style.display = 'block';
+      reveal();
+    };
+    logo.onload = show;
+    logo.onerror = reveal;
+    logo.src = logoSrc(pick);
+    if (logo.complete && logo.naturalWidth) show();
+  }
+
+  if (!document.hidden) {
+    loadLogo();
+  } else {
+    document.addEventListener('visibilitychange', function onVisible() {
+      if (document.hidden) return;
+      document.removeEventListener('visibilitychange', onVisible);
+      loadLogo();
+    });
+  }
 })();
