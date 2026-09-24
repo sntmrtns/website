@@ -117,7 +117,10 @@
 
   const SECTIONS = ['work', 'design', 'photos', 'videos', 'music'];
 
+  let _playing = null;
+
   function pauseAllMedia(keep) {
+    _playing = keep || null;
     document.querySelectorAll('video').forEach(v => { if (v !== keep) v.pause(); });
     document.querySelectorAll('iframe').forEach(f => {
       if (f.dataset.src || f.contentWindow === keep) return;
@@ -348,15 +351,58 @@
       '&color=%23000000&auto_play=false&hide_related=true&show_comments=false&show_user=true' +
       '&show_reposts=false&show_teaser=false&visual=true&sharing=false';
 
+    const makeFrame = (t) => {
+      const iframe = document.createElement('iframe');
+      iframe.title = t.title;
+      iframe.allow = 'autoplay';
+      iframe.dataset.src = scSrc(t.sc);
+      return iframe;
+    };
+
+    const near = new Set();
+    let sweepTimer = null;
+
+    const mount = (cell) => {
+      const iframe = cell.firstChild;
+      if (!iframe.dataset.src) return;
+      iframe.addEventListener('load', () => iframe.classList.add('loaded'), { once: true });
+      iframe.src = iframe.dataset.src;
+      iframe.removeAttribute('data-src');
+    };
+
+    const unmount = (cell) => {
+      const iframe = cell.firstChild;
+      if (iframe.dataset.src || (_playing && iframe.contentWindow === _playing)) return;
+      cell.replaceChild(makeFrame(cell._track), iframe);
+    };
+
+    const sweep = () => {
+      sweepTimer = null;
+      document.querySelectorAll('.gridbox > div').forEach(cell => {
+        if (!cell._track) return;
+        if (near.has(cell)) mount(cell); else unmount(cell);
+      });
+    };
+
+    const observer = _lite && 'IntersectionObserver' in window && new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) near.add(e.target); else near.delete(e.target); });
+      clearTimeout(sweepTimer);
+      sweepTimer = setTimeout(sweep, 150);
+    }, { rootMargin: '100% 0px' });
+
     const buildGridbox = (tracks, boxId) => {
       const box = document.getElementById(boxId);
       tracks.forEach(t => {
         const cell = document.createElement('div');
         if (t.sc) {
-          const iframe = document.createElement('iframe');
-          iframe.title = t.title;
-          iframe.allow = 'autoplay';
-          iframe.dataset.src = scSrc(t.sc);
+          const iframe = makeFrame(t);
+          if (observer) {
+            cell._track = t;
+            cell.appendChild(iframe);
+            box.appendChild(cell);
+            observer.observe(cell);
+            return;
+          }
           queueLoad('music', 'audio', (done) => {
             const step = () => { iframe.classList.add('loaded'); done(); };
             iframe.addEventListener('load', step, { once: true });
