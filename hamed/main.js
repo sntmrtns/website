@@ -51,7 +51,6 @@
     'soufpaw/leash-2.webp',
     'soufpaw/leash-1.webp',
     '2-20-03/fashion-week-cover.webp',
-    '2-20-03/1.webp',
     'saint-martins/logo-3.webp',
     'saint-martins/logo-2.webp',
     'saint-martins/logo-1.webp',
