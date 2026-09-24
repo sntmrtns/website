@@ -1,268 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="color-scheme" content="dark">
-<title>Hamed Tahiri</title>
-<link rel="icon" type="image/png" href="/favicon.png">
-<meta name="robots" content="noindex, nosnippet">
-<link rel="stylesheet" href="style.css?v=372">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;600&amp;display=swap" rel="stylesheet">
-<link rel="preconnect" href="https://img.youtube.com">
-<link rel="dns-prefetch" href="https://w.soundcloud.com">
-<link rel="dns-prefetch" href="https://i1.sndcdn.com">
-<link rel="dns-prefetch" href="https://va.sndcdn.com">
-<link rel="preconnect" href="https://wave.sndcdn.com">
-<script src="main.js?v=206" defer></script>
-<noscript><style>body{opacity:1;animation:none}#site-lock{display:none}</style></noscript>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="robots" content="noindex, nosnippet">
+  <title>Hamed Tahiri</title>
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;600&amp;display=swap">
+  <link rel="dns-prefetch" href="https://www.youtube-nocookie.com">
+  <link rel="dns-prefetch" href="https://w.soundcloud.com">
+  <link rel="stylesheet" href="style.css?v=373">
+  <script src="main.js?v=207" defer></script>
+  <noscript><style>body{opacity:1;animation:none}#site-lock{display:none}.fade{opacity:1}</style></noscript>
 </head>
-
 <body>
   <header class="mobile-bar">
     <h1 class="visually-hidden">Hamed Tahiri</h1>
     <img class="mobile-bar-logo" src="logo.svg" alt="">
-    <button type="button" class="mobile-bar-btn" id="mobile-bar-btn" aria-label="Open menu" aria-expanded="false">
+    <button type="button" class="mobile-bar-btn" id="mobile-bar-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
       <span></span><span></span><span></span>
     </button>
   </header>
+
   <div class="mobile-nav" id="mobile-nav" role="dialog" aria-modal="true" aria-label="Navigation menu">
     <button type="button" class="mobile-nav-close" id="mobile-nav-close" aria-label="Close menu">
       <span></span><span></span>
     </button>
     <nav class="mobile-nav-links" aria-label="Mobile navigation">
-      <button type="button" class="mobile-nav-btn" id="mobile-btn-work" data-section="work">Experience</button>
-      <button type="button" class="mobile-nav-btn" id="mobile-btn-design" data-section="design">Design</button>
-      <button type="button" class="mobile-nav-btn" id="mobile-btn-photos" data-section="photos">Pictures</button>
-      <button type="button" class="mobile-nav-btn" id="mobile-btn-videos" data-section="videos">Videos</button>
-      <button type="button" class="mobile-nav-btn" id="mobile-btn-music" data-section="music">Music</button>
+      <button type="button" class="mobile-nav-btn" data-section="work" aria-current="page">Experience</button>
+      <button type="button" class="mobile-nav-btn" data-section="design">Design</button>
+      <button type="button" class="mobile-nav-btn" data-section="photos">Pictures</button>
+      <button type="button" class="mobile-nav-btn" data-section="videos">Videos</button>
+      <button type="button" class="mobile-nav-btn" data-section="music">Music</button>
     </nav>
   </div>
-  <div class="flex site-root">
 
+  <div class="site-root">
     <header class="header">
-      <div class="logo-box flex column">
+      <div class="logo-box">
         <img class="logo" src="logo.svg" alt="">
         <h1 class="name">HAMED TAHIRI</h1>
       </div>
 
-      <nav class="flex column" aria-label="Main navigation">
-        <button type="button" data-section="work" class="btn btn-active" id="btn-work" aria-current="page">Experience</button>
-        <div class="flex column sub-btns" id="sub-work">
-          <button type="button" data-scroll="grp-work" class="btn">Work</button>
-          <button type="button" data-scroll="grp-projects" class="btn">Projects</button>
+      <nav class="nav" aria-label="Main navigation">
+        <button type="button" class="btn" data-section="work" aria-current="page">Experience</button>
+        <div class="sub-btns" id="sub-work">
+          <button type="button" class="btn" data-scroll="grp-work">Work</button>
+          <button type="button" class="btn" data-scroll="grp-projects">Projects</button>
         </div>
-        <button type="button" data-section="design" class="btn" id="btn-design" aria-current="false">Design</button>
-        <button type="button" data-section="photos" class="btn" id="btn-photos" aria-current="false">Pictures</button>
-        <button type="button" data-section="videos" class="btn" id="btn-videos" aria-current="false">Videos</button>
-        <button type="button" data-section="music" class="btn" id="btn-music" aria-current="false">Music</button>
-        <div class="flex column sub-btns" id="sub-music" style="display:none">
-          <button type="button" data-scroll="personal" class="btn">Personal</button>
-          <button type="button" data-scroll="production" class="btn">Production</button>
-          <button type="button" data-scroll="mixing" class="btn">Mixing</button>
+        <button type="button" class="btn" data-section="design">Design</button>
+        <button type="button" class="btn" data-section="photos">Pictures</button>
+        <button type="button" class="btn" data-section="videos">Videos</button>
+        <button type="button" class="btn" data-section="music">Music</button>
+        <div class="sub-btns" id="sub-music" style="display:none">
+          <button type="button" class="btn" data-scroll="personal">Personal</button>
+          <button type="button" class="btn" data-scroll="production">Production</button>
+          <button type="button" class="btn" data-scroll="mixing">Mixing</button>
         </div>
       </nav>
     </header>
 
-    <main class="body-zoom">
-    <div class="body">
+    <main class="main">
+      <div class="content">
 
-      <div id="section-work">
-        <h2 class="exp-group href-section" id="grp-work">Work</h2>
-        <div id="rok" class="work href-section">
-          <div class="work-info">
-            <h3 class="entry-name"><img class="entry-logo" src="logos/rok.svg?v=2" alt="Rok"></h3>
-            <p class="work-role">Chief of Staff · September 2026 – Present</p>
-            <p class="work-desc">Rok Curkovic, known mononymously as Rok, is a Canadian record producer from Toronto, Ontario.</p>
+        <div id="section-work">
+          <h2 class="exp-group href-section" id="grp-work">Work</h2>
+
+          <div id="rok" class="work fade href-section">
+            <div class="work-info">
+              <h3 class="entry-name"><img class="entry-logo" src="logos/rok.svg?v=2" alt="Rok" style="--logo-h:50px"></h3>
+              <p class="work-role">Chief of Staff · September 2026 – Present</p>
+              <p class="work-desc">Rok Curkovic, known mononymously as Rok, is a Canadian record producer from Toronto, Ontario.</p>
+            </div>
+          </div>
+
+          <div id="warrlock" class="work fade href-section">
+            <div class="work-info">
+              <h3 class="entry-name"><img class="entry-logo" src="logos/warrlock.svg" alt="Warrlock"></h3>
+              <p class="work-role">Head of Operations · January 2025 – Present</p>
+              <p class="work-desc">Warrlock is a talent-management company co-founded in 2024 by American A&amp;R Will Cramer and Canadian record producer Rok.</p>
+            </div>
+            <div class="duties">
+              <ul class="duty-col">
+                <li>Selected the release slate and set the format of each drop, from single to EP to project, then directed each rollout on a consistent cadence with the marketing lead, from scheduling and asset creation to social posting and label coordination</li>
+                <li>Drove sustained growth in streams, monthly listeners, playlist adds, and saves against prior-year baselines, applying the same rollout model across the roster</li>
+                <li>Led artist teams through creative decisions and day-to-day operations, serving as the primary point of contact for internal and external communications</li>
+                <li>Oversaw distribution of multiple releases to DSPs and video content to YouTube, each complete with metadata, credits, and pre-save pages</li>
+                <li>Led full artist rebrands and secured verification across streaming, social, and lyrics platforms, establishing and maintaining cohesive artist profiles and catalog pages</li>
+              </ul>
+              <ul class="duty-col">
+                <li>Managed artist social media accounts and led content strategy across all channels, collaborating with marketing and creative teams on assets, copy, and engagement</li>
+                <li>Planned and led multi-day trips for recording sessions and music video shoots, managing logistics, scheduling, location scouting, photography, and videography</li>
+                <li>Designed and produced a range of promotional and creative assets, including tracklist artwork, memes, trailers, and music videos</li>
+                <li>Mixed multiple releases, handling manual vocal tuning, arranging, stem manipulation, and effects processing</li>
+              </ul>
+            </div>
+          </div>
+
+          <div id="soufside" class="work fade href-section">
+            <div class="work-info">
+              <h3 class="entry-name"><img class="entry-logo" src="logos/soufside.svg" alt="SOUFSIDE"></h3>
+              <p class="work-role">Head of Operations · February 2022 – Present</p>
+              <p class="work-desc">SOUFSIDE is a record label founded in 2022 by American record producer Richie Souf.</p>
+            </div>
+            <div class="duties">
+              <ul class="duty-col">
+                <li>Closed song clearances for signed producers and collected the fees owed to them, running each deal from term negotiation through contract drafting, review, invoicing, and tax documentation</li>
+              </ul>
+              <ul class="duty-col">
+                <li>Onboarded producers onto payment portals and administrative systems required by record labels</li>
+              </ul>
+            </div>
+          </div>
+
+          <div id="redda" class="work fade href-section">
+            <div class="work-info">
+              <h3 class="entry-name"><img class="entry-logo" src="logos/redda.svg" alt="Redda" style="--logo-h:60px"></h3>
+              <p class="work-role">Release Manager · October 2021 – October 2025</p>
+              <p class="work-desc">Bryan Trillos, professionally known as Redda, is an American recording artist, record producer, and model from Miami, Florida.</p>
+            </div>
+            <div class="duties">
+              <ul class="duty-col">
+                <li>Assisted in selecting the songs that made each project and setting the release order across the catalog</li>
+              </ul>
+              <ul class="duty-col">
+                <li>Shipped multiple projects and singles across every major DSP, plus music videos to YouTube, handling scheduling, delivery, and metadata</li>
+              </ul>
+            </div>
+          </div>
+
+          <div id="richiesouf" class="work fade href-section">
+            <div class="work-info">
+              <h3 class="entry-name"><img class="entry-logo" src="logos/richie-souf.svg" alt="Richie Souf"></h3>
+              <p class="work-role">Chief of Staff · June 2021 – Present</p>
+              <p class="work-desc">Tony T. Son, professionally known as Richie Souf, is an American record producer and label owner from Atlanta, Georgia.</p>
+            </div>
+            <div class="duties">
+              <ul class="duty-col">
+                <li>Led product and apparel design across two separate brand ventures, producing mockups, tech packs, advertisements, and websites</li>
+                <li>Maintained his Genius profile, including the full biography and credit accuracy</li>
+                <li>Provided artist and producer recommendations for collaboration</li>
+              </ul>
+              <ul class="duty-col">
+                <li>Served as sole Discord administrator, building and maintaining server structure and moderation systems while handling community management</li>
+                <li>Handled a wide range of personal and professional requests, including communications, document preparation, media sourcing and delivery, and custom hardware design</li>
+              </ul>
+            </div>
+          </div>
+
+          <div id="saintmartins" class="work fade href-section">
+            <div class="work-info">
+              <h3 class="entry-name"><img class="entry-logo" src="logos/saint-martins.svg" alt="Saint Martins" style="--logo-h:42px"></h3>
+              <p class="work-role">Co-Founder · February 2020 – Present</p>
+              <p class="work-desc">Saint Martins is a talent-management and creative-services company co-founded in 2020 by Hamed Tahiri and Hewad Tahiri.</p>
+            </div>
+            <div class="duties">
+              <ul class="duty-col">
+                <li>Pitched content and post ideas to social media pages to generate coverage</li>
+                <li>Photographed producers for press and promotional use, with work appearing in editorial content from music media outlets and publications</li>
+                <li>Established and maintained Genius profiles, writing bios, verifying accounts, and correcting miscredited or missing production credits across the roster's catalog</li>
+                <li>Served as manager to represented producers, overseeing their day-to-day operations, requests, inquiries, and external communications</li>
+              </ul>
+              <ul class="duty-col">
+                <li>Closed song clearances end to end for represented producers, from term negotiation through contract drafting, review, invoicing, and tax documentation, collecting the fees generated across the roster</li>
+                <li>Pursued and secured publishing deals, including administration and co-publishing agreements, to support royalty collection</li>
+                <li>Submitted credit and release details to publishers for every release</li>
+                <li>Onboarded producers onto payment portals and administrative systems required by record labels</li>
+              </ul>
+            </div>
+          </div>
+
+          <h2 class="exp-group href-section" id="grp-projects">Projects</h2>
+
+          <div id="fanengagement" class="work fade href-section">
+            <div class="work-info">
+              <h3 class="entry-name"><img class="entry-logo" src="logos/fan-engagement-dashboard.svg?v=2" alt="Fan Engagement Dashboard" style="--logo-h:39px"></h3>
+              <p class="work-role">Product Designer · June 2026</p>
+              <p class="work-desc">Rebuilt a cross-platform dashboard originally created by a fan engagement manager at a major record label.</p>
+            </div>
+            <div class="duties">
+              <ul class="duty-col">
+                <li>Corrected the Fan Network Growth data model, starting each platform's line at launch rather than running flat at zero, and rescaling axis ticks to fit only the visible data</li>
+                <li>Rebuilt the Fan Page Tracker, adding sortable columns, natural alphanumeric sorting, filters for platform and starred items, a sticky header, and a custom scrollbar with drag-to-scroll</li>
+                <li>Split the Top Movers panel into separate Top Gainers and Biggest Drops views, each showing three list items</li>
+                <li>Redesigned the front end, replacing the sidebar layout with a header-driven grid of aligned panels</li>
+                <li>Built a zoom-aware breakpoint, holding the desktop grid through 174% browser zoom with fixed pixel spacing that keeps proportions stable</li>
+              </ul>
+              <ul class="duty-col">
+                <li>Consolidated multiple panels into a single Fan Network Reach table, showing platform totals, month-over-month change, and inline share bars with adaptive percentage precision for low-share platforms</li>
+                <li>Rebuilt the Growth Velocity panel to read from full history, adding a positive-month ratio and a custom tooltip</li>
+                <li>Overhauled the design system, redefining spacing, corner radius, color, and typography standards across every panel, control, and tooltip</li>
+                <li>Fixed chart axis clipping, measuring rendered label widths with live font metrics, recalculating them after web fonts load, and locking the axis width across range and platform toggles</li>
+              </ul>
+            </div>
+          </div>
+
+          <div id="madcity" class="work fade href-section">
+            <div class="work-info">
+              <h3 class="entry-name"><img class="entry-logo" src="logos/schwifty-studios.svg" alt="Schwifty Studios" style="--logo-h:46px"></h3>
+              <p class="work-role">User Interface Designer · August 2020 – October 2020</p>
+              <p class="work-desc">Redesigned the user interface for <a href="https://www.roblox.com/games/1224212277/Mad-City-Chapter-2" target="_blank" rel="noopener noreferrer">Mad City</a>, an open-world action game on Roblox with 2.6B+ lifetime visits and 1.8M+ upvotes.</p>
+            </div>
+            <div class="duties">
+              <ul class="duty-col">
+                <li>Redesigned the complete UI system from a utilitarian interface into a cohesive, modern visual language, applying consistent color, gradient, and layout standards across every menu, shop, and HUD element</li>
+                <li>Replaced flat, single-purpose menus (shop, customization, challenges) with a reusable card and panel system applied consistently across a dozen-plus interfaces</li>
+                <li>Balanced modernization against player familiarity, preserving existing navigation patterns and menu structure so returning players could adapt quickly while still reworking the visual execution</li>
+                <li>Iterated across multiple design passes based on direct feedback from the paying developers, revising layouts and visual treatment per round of critique</li>
+              </ul>
+              <ul class="duty-col">
+                <li>Designed layouts to scale across mobile, tablet, console, and PC, accounting for differing screen sizes, aspect ratios, and input methods within a single UI system</li>
+                <li>Built the entire UI natively in Roblox's UI engine, from layouts and typography to color and gradient treatment, with external tools used only for icon graphics</li>
+                <li>Created a full icon set for buttons, panels, and categories to replace inconsistent or placeholder graphics</li>
+              </ul>
+            </div>
           </div>
         </div>
-        
-        <div id="warrlock" class="work href-section">
-          <div class="work-info">
-            <h3 class="entry-name"><img class="entry-logo" src="logos/warrlock.svg" alt="Warrlock"></h3>
-            <p class="work-role">Head of Operations · January 2025 – Present</p>
-            <p class="work-desc">Warrlock is a talent-management company co-founded in 2024 by American A&amp;R Will Cramer and Canadian record producer Rok.</p>
-          </div>
-          <div class="duties">
-            <ul class="duty-col">
-              <li>Selected the release slate and set the format of each drop, from single to EP to project, then directed each rollout on a consistent cadence with the marketing lead, from scheduling and asset creation to social posting and label coordination</li>
-              <li>Drove sustained growth in streams, monthly listeners, playlist adds, and saves against prior-year baselines, applying the same rollout model across the roster</li>
-              <li>Led artist teams through creative decisions and day-to-day operations, serving as the primary point of contact for internal and external communications</li>
-              <li>Oversaw distribution of multiple releases to DSPs and video content to YouTube, each complete with metadata, credits, and pre-save pages</li>
-              <li>Led full artist rebrands and secured verification across streaming, social, and lyrics platforms, establishing and maintaining cohesive artist profiles and catalog pages</li>
-            </ul>
-            <ul class="duty-col">
-              <li>Managed artist social media accounts and led content strategy across all channels, collaborating with marketing and creative teams on assets, copy, and engagement</li>
-              <li>Planned and led multi-day trips for recording sessions and music video shoots, managing logistics, scheduling, location scouting, photography, and videography</li>
-              <li>Designed and produced a range of promotional and creative assets, including tracklist artwork, memes, trailers, and music videos</li>
-              <li>Mixed multiple releases, handling manual vocal tuning, arranging, stem manipulation, and effects processing</li>
-            </ul>
-          </div>
+
+        <div id="section-design" style="display:none">
+          <h2 class="visually-hidden">Design</h2>
+          <div id="designbox" class="design"></div>
         </div>
 
-        <div id="soufside" class="work href-section">
-          <div class="work-info">
-            <h3 class="entry-name"><img class="entry-logo" src="logos/soufside.svg" alt="SOUFSIDE"></h3>
-            <p class="work-role">Head of Operations · February 2022 – Present</p>
-            <p class="work-desc">SOUFSIDE is a record label founded in 2022 by American record producer Richie Souf.</p>
-          </div>
-          <div class="duties">
-            <ul class="duty-col">
-              <li>Closed song clearances for signed producers and collected the fees owed to them, running each deal from term negotiation through contract drafting, review, invoicing, and tax documentation</li>
-            </ul>
-            <ul class="duty-col">
-              <li>Onboarded producers onto payment portals and administrative systems required by record labels</li>
-            </ul>
-          </div>
+        <div id="section-photos" style="display:none">
+          <h2 class="visually-hidden">Pictures</h2>
+          <div id="photobox" class="photos"></div>
         </div>
 
-        <div id="redda" class="work href-section">
-          <div class="work-info">
-            <h3 class="entry-name"><img class="entry-logo" src="logos/redda.svg" alt="Redda"></h3>
-            <p class="work-role">Release Manager · October 2021 – October 2025</p>
-            <p class="work-desc">Bryan Trillos, professionally known as Redda, is an American recording artist, record producer, and model from Miami, Florida.</p>
-          </div>
-          <div class="duties">
-            <ul class="duty-col">
-              <li>Assisted in selecting the songs that made each project and setting the release order across the catalog</li>
-            </ul>
-            <ul class="duty-col">
-              <li>Shipped multiple projects and singles across every major DSP, plus music videos to YouTube, handling scheduling, delivery, and metadata</li>
-            </ul>
-          </div>
-        </div>
-
-        <div id="richiesouf" class="work href-section">
-          <div class="work-info">
-            <h3 class="entry-name"><img class="entry-logo" src="logos/richie-souf.svg" alt="Richie Souf"></h3>
-            <p class="work-role">Chief of Staff · June 2021 – Present</p>
-            <p class="work-desc">Tony T. Son, professionally known as Richie Souf, is an American record producer and label owner from Atlanta, Georgia.</p>
-          </div>
-          <div class="duties">
-            <ul class="duty-col">
-               <li>Led product and apparel design across two separate brand ventures, producing mockups, tech packs, advertisements, and websites</li>
-               <li>Maintained his Genius profile, including the full biography and credit accuracy</li>
-               <li>Provided artist and producer recommendations for collaboration</li>
-            </ul>
-            <ul class="duty-col">
-              <li>Served as sole Discord administrator, building and maintaining server structure and moderation systems while handling community management</li>
-              <li>Handled a wide range of personal and professional requests, including communications, document preparation, media sourcing and delivery, and custom hardware design</li>
-            </ul>
-          </div>
-        </div>
-
-        <div id="saintmartins" class="work href-section">
-          <div class="work-info">
-            <h3 class="entry-name"><img class="entry-logo" src="logos/saint-martins.svg" alt="Saint Martins"></h3>
-            <p class="work-role">Co-Founder · February 2020 – Present</p>
-            <p class="work-desc">Saint Martins is a talent-management and creative-services company co-founded in 2020 by Hamed Tahiri and Hewad Tahiri.</p>
-          </div>
-          <div class="duties">
-            <ul class="duty-col">
-              <li>Pitched content and post ideas to social media pages to generate coverage</li>
-              <li>Photographed producers for press and promotional use, with work appearing in editorial content from music media outlets and publications</li>
-              <li>Established and maintained Genius profiles, writing bios, verifying accounts, and correcting miscredited or missing production credits across the roster's catalog</li>
-              <li>Served as manager to represented producers, overseeing their day-to-day operations, requests, inquiries, and external communications</li>
-            </ul>
-            <ul class="duty-col">
-              <li>Closed song clearances end to end for represented producers, from term negotiation through contract drafting, review, invoicing, and tax documentation, collecting the fees generated across the roster</li>
-              <li>Pursued and secured publishing deals, including administration and co-publishing agreements, to support royalty collection</li>
-              <li>Submitted credit and release details to publishers for every release</li>
-              <li>Onboarded producers onto payment portals and administrative systems required by record labels</li>
-            </ul>
-          </div>
-        </div>
-
-        <h2 class="exp-group href-section" id="grp-projects">Projects</h2>
-
-        <div id="fanengagement" class="work href-section">
-          <div class="work-info">
-            <h3 class="entry-name"><img class="entry-logo" src="logos/fan-engagement-dashboard.svg?v=2" alt="Fan Engagement Dashboard"></h3>
-            <p class="work-role">Product Designer · June 2026</p>
-            <p class="work-desc">Rebuilt a cross-platform dashboard originally created by a fan engagement manager at a major record label.</p>
-          </div>
-          <div class="duties">
-            <ul class="duty-col">
-              <li>Corrected the Fan Network Growth data model, starting each platform's line at launch rather than running flat at zero, and rescaling axis ticks to fit only the visible data</li>
-              <li>Rebuilt the Fan Page Tracker, adding sortable columns, natural alphanumeric sorting, filters for platform and starred items, a sticky header, and a custom scrollbar with drag-to-scroll</li>
-              <li>Split the Top Movers panel into separate Top Gainers and Biggest Drops views, each showing three list items</li>
-              <li>Redesigned the front end, replacing the sidebar layout with a header-driven grid of aligned panels</li>
-              <li>Built a zoom-aware breakpoint, holding the desktop grid through 174% browser zoom with fixed pixel spacing that keeps proportions stable</li>
-            </ul>
-            <ul class="duty-col">
-              <li>Consolidated multiple panels into a single Fan Network Reach table, showing platform totals, month-over-month change, and inline share bars with adaptive percentage precision for low-share platforms</li>
-              <li>Rebuilt the Growth Velocity panel to read from full history, adding a positive-month ratio and a custom tooltip</li>
-              <li>Overhauled the design system, redefining spacing, corner radius, color, and typography standards across every panel, control, and tooltip</li>
-              <li>Fixed chart axis clipping, measuring rendered label widths with live font metrics, recalculating them after web fonts load, and locking the axis width across range and platform toggles</li>
-            </ul>
-          </div>
-        </div>
-        
-        <div id="madcity" class="work href-section">
-          <div class="work-info">
-            <h3 class="entry-name"><img class="entry-logo" src="logos/schwifty-studios.svg" alt="Schwifty Studios"></h3>
-            <p class="work-role">User Interface Designer · August 2020 – October 2020</p>
-            <p class="work-desc">Redesigned the user interface for <a href="https://www.roblox.com/games/1224212277/Mad-City-Chapter-2" target="_blank" rel="noopener noreferrer">Mad City</a>, an open-world action game on Roblox with 2.6B+ lifetime visits and 1.8M+ upvotes.</p>
-          </div>
-          <div class="duties">
-            <ul class="duty-col">
-              <li>Redesigned the complete UI system from a utilitarian interface into a cohesive, modern visual language, applying consistent color, gradient, and layout standards across every menu, shop, and HUD element</li>
-              <li>Replaced flat, single-purpose menus (shop, customization, challenges) with a reusable card and panel system applied consistently across a dozen-plus interfaces</li>
-              <li>Balanced modernization against player familiarity, preserving existing navigation patterns and menu structure so returning players could adapt quickly while still reworking the visual execution</li>
-              <li>Iterated across multiple design passes based on direct feedback from the paying developers, revising layouts and visual treatment per round of critique</li>
-            </ul>
-            <ul class="duty-col">
-              <li>Designed layouts to scale across mobile, tablet, console, and PC, accounting for differing screen sizes, aspect ratios, and input methods within a single UI system</li>
-              <li>Built the entire UI natively in Roblox's UI engine, from layouts and typography to color and gradient treatment, with external tools used only for icon graphics</li>
-              <li>Created a full icon set for buttons, panels, and categories to replace inconsistent or placeholder graphics</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div id="section-design" style="display:none">
-        <h2 class="visually-hidden">Design</h2>
-        <div id="designbox" class="design"></div>
-      </div>
-
-      <div id="section-photos" style="display:none">
-        <h2 class="visually-hidden">Pictures</h2>
-        <div id="photobox" class="photos"></div>
-      </div>
-
-      <div id="section-videos" style="display:none">
-        <h2 class="visually-hidden">Videos</h2>
-        <div class="videos">
+        <div id="section-videos" style="display:none">
+          <h2 class="visually-hidden">Videos</h2>
           <div id="videobox" class="videobox"></div>
         </div>
-      </div>
 
-      <div id="section-music" style="display:none">
-        <div class="music">
-            <div id="personal" class="personal href-section">
-              <h2>Personal</h2>
-              <div id="gridbox-personal" class="gridbox"></div>
-            </div>
+        <div id="section-music" class="music" style="display:none">
+          <div id="personal" class="personal href-section">
+            <h2>Personal</h2>
+            <div id="gridbox-personal" class="gridbox"></div>
+          </div>
 
-            <div id="production" class="production href-section">
-              <h2>Production</h2>
-              <div id="gridbox-production" class="gridbox"></div>
-            </div>
+          <div id="production" class="production href-section">
+            <h2>Production</h2>
+            <div id="gridbox-production" class="gridbox"></div>
+          </div>
 
-            <div id="mixing" class="mixing href-section">
-              <h2>Mixing</h2>
-              <div id="gridbox-mixing" class="gridbox"></div>
-            </div>
+          <div id="mixing" class="mixing href-section">
+            <h2>Mixing</h2>
+            <div id="gridbox-mixing" class="gridbox"></div>
+          </div>
         </div>
-      </div>
 
-    </div>
-  </main>
+      </div>
+    </main>
   </div>
 
-  <div id="lightbox" role="dialog" aria-modal="true" aria-label="Image lightbox"><button type="button" id="lb-close" aria-label="Close lightbox"><span></span><span></span></button><button type="button" id="lb-prev" aria-label="Previous image">&#8592;</button><img alt=""><button type="button" id="lb-next" aria-label="Next image">&#8594;</button><span id="lb-count" aria-live="polite"></span></div>
+  <div id="lightbox" role="dialog" aria-modal="true" aria-label="Image lightbox">
+    <button type="button" id="lb-close" aria-label="Close lightbox"><span></span><span></span></button>
+    <button type="button" id="lb-prev" aria-label="Previous image">&#8592;</button>
+    <img alt="">
+    <button type="button" id="lb-next" aria-label="Next image">&#8594;</button>
+    <span id="lb-count" aria-live="polite"></span>
+  </div>
   <div id="site-lock"></div>
 </body>
 </html>

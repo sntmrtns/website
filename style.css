@@ -2,35 +2,28 @@
 img{-webkit-user-drag:none}
 
 body{background:#000;margin:0;overflow:hidden;opacity:0;animation:reveal 0s linear 7s forwards}
-.fade-in{animation:fadeIn 1s cubic-bezier(0.16,1,0.3,1) 0.5s both}
+body.fade-in{animation:fadeIn 1s cubic-bezier(0.16,1,0.3,1) 0.5s both}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes reveal{to{opacity:1}}
 
 .zoom-wrap{position:fixed;inset:0}
-.page-container{position:absolute;inset:0;display:flex;justify-content:center;align-items:center;flex-direction:column}
+.page-container{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center}
 .image-container{width:720px}
-.image-container img{width:720px;display:none}
-.page-footer{font-family:'Roboto Mono',monospace;position:absolute;bottom:100px;left:0;right:0}
-.page-footer-timer{display:flex;justify-content:center}
-.page-footer-timer-text{color:#fff;display:block;font-size:20px;font-weight:600}
-#timer{margin-right:26px}
+.image-container img{display:none;width:100%}
+.page-footer{position:absolute;bottom:100px;left:0;right:0;display:flex;justify-content:center;gap:26px;font-family:"Roboto Mono",monospace;font-size:20px;font-weight:600;color:#fff}
 
 @media(max-width:768px) and (pointer:coarse){
   .image-container{width:70vw}
-  .image-container img{width:70vw}
-  .page-footer-timer-text{font-size:13px}
-  #timer{margin-right:20px}
-  .page-footer{bottom:32px}
+  .page-footer{bottom:32px;gap:20px;font-size:13px}
 }
 
 @media(prefers-reduced-motion:reduce){
-  .fade-in{animation-duration:0.01ms;animation-delay:0ms}
+  body.fade-in{animation-duration:0.01ms;animation-delay:0ms}
 }
 
 @media print{
   body,body.fade-in{background:#fff;opacity:1;animation:none;overflow:visible}
-  .zoom-wrap,.page-container{position:static}
+  .zoom-wrap,.page-container,.page-footer{position:static}
   .image-container img{filter:invert(1)}
-  .page-footer{position:static;margin-top:40px}
-  .page-footer-timer-text{color:#000}
+  .page-footer{margin-top:40px;color:#000}
 }
