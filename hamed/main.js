@@ -36,7 +36,7 @@
     'richie-souf/produced-by-cover-apple-music.webp?v=2',
     'roxie/roxie-motherfucker-cover.webp',
     'sneak/vanilla-sky-tracklist.webp',
-    '2-20-03/profile-picture-2.webp',
+    '2-20-03/2026-02-20.webp',
     'not-a-human/profile-picture.webp',
     'not-a-human/version-2.webp',
     'not-a-human/version-1.webp',
