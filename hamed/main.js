@@ -43,7 +43,7 @@
     'sneak/sharpshooter-tracklist-2.webp',
     'sneak/sharpshooter-tracklist-1.webp',
     'sneak/ok-with-it-cover.webp',
-    '2-20-03/profile-picture-1.webp',
+    '2-20-03/2025-12-12.webp',
     'soufpaw/collar-3.webp',
     'soufpaw/collar-2.webp',
     'soufpaw/collar-1.webp',
