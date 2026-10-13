@@ -35,7 +35,6 @@ p{font-size:16px}
 .fade:not(.loaded){pointer-events:none}
 .section-shown .fade.loaded{opacity:1}
 .section-enter .fade{transition:none}
-.section-boot{position:absolute;top:0;left:0;width:100%;height:100vh;overflow:hidden;opacity:0;z-index:-1;pointer-events:none}
 
 #section-work{padding-bottom:100px}
 #section-work .exp-group{margin:56px 0 21px;padding:0;font-size:20px;font-weight:600;letter-spacing:.015em}
