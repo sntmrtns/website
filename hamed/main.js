@@ -207,17 +207,15 @@
     }, ms));
   }
 
-  const LANE_LIMIT = { image: 4, video: Infinity, audio: 4 };
-  const BOOT_SECTIONS = touch ? [] : ['videos', 'music'];
+  const LANE_LIMIT = { image: 4, video: Infinity };
+  const BACKGROUND_LANES = touch ? [] : ['image'];
   const queue = [];
-  const pending = {};
-  const live = { image: 0, video: 0, audio: 0 };
+  const live = { image: 0, video: 0 };
   let current = 'work';
   let loading = false;
 
   function queueLoad(section, lane, start) {
     queue.push({ section, lane, start });
-    pending[section] = (pending[section] || 0) + 1;
   }
 
   function pump() {
@@ -225,13 +223,12 @@
     for (const lane in LANE_LIMIT) {
       while (live[lane] < LANE_LIMIT[lane]) {
         let i = queue.findIndex(t => t.lane === lane && t.section === current);
-        if (i < 0 && !touch) i = queue.findIndex(t => t.lane === lane);
+        if (i < 0 && BACKGROUND_LANES.includes(lane)) i = queue.findIndex(t => t.lane === lane);
         if (i < 0) break;
         const task = queue.splice(i, 1)[0];
         live[lane]++;
         task.start(once(() => {
           live[lane]--;
-          if (--pending[task.section] === 0) syncSections();
           pump();
         }));
       }
@@ -242,9 +239,7 @@
     SECTIONS.forEach(s => {
       const el = document.getElementById('section-' + s);
       const active = s === current;
-      const booting = !active && BOOT_SECTIONS.includes(s) && pending[s] > 0;
-      el.style.display = active || booting ? '' : 'none';
-      el.classList.toggle('section-boot', booting);
+      el.style.display = active ? '' : 'none';
       el.inert = !active;
       if (!active) el.classList.remove('section-shown', 'section-enter');
     });
@@ -332,11 +327,8 @@
       return iframe;
     };
 
-    const mount = (iframe, track, done) => {
-      onLoad(iframe, () => {
-        iframe.classList.add('loaded');
-        if (done) done();
-      }, done && 12000);
+    const mount = (iframe, track) => {
+      onLoad(iframe, () => iframe.classList.add('loaded'));
       iframe.src = scSrc(track.sc);
     };
 
@@ -355,7 +347,7 @@
       });
     };
 
-    const observer = touch && new IntersectionObserver(entries => {
+    const observer = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) near.add(e.target);
         else near.delete(e.target);
@@ -395,14 +387,9 @@
           cell.appendChild(videoCell(track));
           return;
         }
-        const iframe = scFrame(track);
-        cell.appendChild(iframe);
-        if (observer) {
-          windowed.set(cell, track);
-          observer.observe(cell);
-        } else {
-          queueLoad('music', 'audio', done => mount(iframe, track, done));
-        }
+        cell.appendChild(scFrame(track));
+        windowed.set(cell, track);
+        observer.observe(cell);
       });
     });
   })();
