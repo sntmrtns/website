@@ -534,7 +534,40 @@
 
   window.addEventListener('resize', dropScrollPad);
 
+  // Mouse wheels jump in steps, so ease them toward the target; trackpads keep native scrolling.
+  let glideTarget = null, glideY = 0, glideFrame = 0;
+
+  function stopGlide() {
+    cancelAnimationFrame(glideFrame);
+    glideTarget = null;
+  }
+
+  function glideStep() {
+    if (Math.abs(window.scrollY - glideY) > 2) return stopGlide();
+    glideY += (glideTarget - glideY) * 0.12;
+    if (Math.abs(glideTarget - glideY) < 0.5) glideY = glideTarget;
+    window.scrollTo({ top: glideY, behavior: 'instant' });
+    glideY = window.scrollY;
+    if (Math.abs(glideTarget - glideY) < 0.5) glideTarget = null;
+    else glideFrame = requestAnimationFrame(glideStep);
+  }
+
+  document.addEventListener('wheel', e => {
+    if (e.ctrlKey || e.defaultPrevented || reducedMotion.matches || lbIsOpen()) return;
+    if (document.getElementById('site-lock')) return;
+    const isMouse = e.deltaMode !== 0 || (e.wheelDeltaY && e.wheelDeltaY % 120 === 0 && !e.deltaX);
+    if (!isMouse || !e.deltaY) return;
+    e.preventDefault();
+    const step = e.deltaMode === 1 ? e.deltaY * 40 : e.deltaMode === 2 ? e.deltaY * window.innerHeight : e.deltaY;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    if (glideTarget === null) glideY = glideTarget = window.scrollY;
+    glideTarget = Math.max(0, Math.min(max, glideTarget + step));
+    cancelAnimationFrame(glideFrame);
+    glideFrame = requestAnimationFrame(glideStep);
+  }, { passive: false });
+
   function scrollToId(id) {
+    stopGlide();
     const el = document.getElementById(id);
     const anchor = el.closest('[id^="section-"]').querySelector('.href-section');
     const top = el.getBoundingClientRect().top - anchor.getBoundingClientRect().top;
@@ -560,6 +593,7 @@
     current = name;
     syncSections(true);
     pump();
+    stopGlide();
     window.scrollTo({ top: 0, behavior: 'instant' });
   }
 
