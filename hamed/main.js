@@ -437,10 +437,12 @@
   syncSections();
 
   const lightbox = document.getElementById('lightbox');
-  const lbImg = lightbox.querySelector('img');
+  const lbImg = new Image();
   const lbCount = document.getElementById('lb-count');
   const lbPrev = document.getElementById('lb-prev');
   const lbNext = document.getElementById('lb-next');
+  lbImg.alt = '';
+  lightbox.insertBefore(lbImg, lbNext);
   let lbList = [], lbIndex = 0, lbBusy = false, lbToken = 0;
   let touchX = null, touchY = null, swiped = false;
 

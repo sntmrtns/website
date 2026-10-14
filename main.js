@@ -43,7 +43,9 @@
   }
 
   function loadLogo() {
-    const logo = document.getElementById('logo');
+    const logo = new Image();
+    logo.alt = 'Saint Martins';
+    document.querySelector('.image-container').prepend(logo);
     const show = () => {
       logo.style.display = 'block';
       reveal();
