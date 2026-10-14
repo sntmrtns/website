@@ -186,7 +186,7 @@
   const PLAYER_ORIGINS = ['https://w.soundcloud.com', 'https://www.youtube-nocookie.com', 'https://www.youtube.com'];
 
   window.addEventListener('message', e => {
-    if (!PLAYER_ORIGINS.includes(e.origin)) return;
+    if (!PLAYER_ORIGINS.includes(e.origin) || !e.source) return;
     let data = e.data;
     if (typeof data === 'string') {
       try { data = JSON.parse(data); } catch { return; }
