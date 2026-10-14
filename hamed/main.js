@@ -534,56 +534,7 @@
 
   window.addEventListener('resize', dropScrollPad);
 
-  // Mouse wheels jump in steps, so drive them with a critically damped spring (the curve Apple's
-  // interfaces settle with): it eases in, keeps its velocity when retargeted and never overshoots.
-  // Trackpads keep native scrolling. Embeds would swallow the wheel mid-glide, so they ignore the
-  // pointer until the glide has settled.
-  const GLIDE_STIFFNESS = 15;
-  let glideTarget = null, glideY = 0, glideV = 0, glideTime = 0, glideFrame = 0, glideRelease = 0;
-
-  function stopGlide() {
-    cancelAnimationFrame(glideFrame);
-    glideTarget = null;
-    glideV = 0;
-    clearTimeout(glideRelease);
-    glideRelease = setTimeout(() => document.documentElement.classList.remove('gliding'), 300);
-  }
-
-  function glideStep(now) {
-    if (Math.abs(window.scrollY - glideY) > 2) return stopGlide();
-    const dt = Math.min((now - glideTime) / 1000, 1 / 30);
-    glideTime = now;
-    const w = GLIDE_STIFFNESS, x = glideY - glideTarget, decay = Math.exp(-w * dt), k = (glideV + w * x) * dt;
-    glideY = glideTarget + (x + k) * decay;
-    glideV = (glideV - k * w) * decay;
-    if (Math.abs(glideTarget - glideY) < 0.5 && Math.abs(glideV) < 10) {
-      window.scrollTo({ top: glideTarget, behavior: 'instant' });
-      return stopGlide();
-    }
-    window.scrollTo({ top: glideY, behavior: 'instant' });
-    glideFrame = requestAnimationFrame(glideStep);
-  }
-
-  document.addEventListener('wheel', e => {
-    if (e.ctrlKey || e.defaultPrevented || reducedMotion.matches || lbIsOpen()) return;
-    if (document.getElementById('site-lock')) return;
-    const isMouse = e.deltaMode !== 0 || (e.wheelDeltaY && e.wheelDeltaY % 120 === 0 && !e.deltaX);
-    if (!isMouse || !e.deltaY) return;
-    e.preventDefault();
-    const step = e.deltaMode === 1 ? e.deltaY * 40 : e.deltaMode === 2 ? e.deltaY * window.innerHeight : e.deltaY;
-    const max = document.documentElement.scrollHeight - window.innerHeight;
-    if (glideTarget === null) {
-      glideY = glideTarget = window.scrollY;
-      glideTime = performance.now() - 1000 / 60;
-      glideFrame = requestAnimationFrame(glideStep);
-      clearTimeout(glideRelease);
-      document.documentElement.classList.add('gliding');
-    }
-    glideTarget = Math.max(0, Math.min(max, glideTarget + step));
-  }, { passive: false });
-
   function scrollToId(id) {
-    stopGlide();
     const el = document.getElementById(id);
     const anchor = el.closest('[id^="section-"]').querySelector('.href-section');
     const top = el.getBoundingClientRect().top - anchor.getBoundingClientRect().top;
@@ -609,7 +560,6 @@
     current = name;
     syncSections(true);
     pump();
-    stopGlide();
     window.scrollTo({ top: 0, behavior: 'instant' });
   }
 
