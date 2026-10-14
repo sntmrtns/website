@@ -254,6 +254,8 @@
     const img = new Image();
     img.className = 'fade';
     img.alt = label;
+    img.tabIndex = 0;
+    img.setAttribute('role', 'button');
     img.dataset.src = src;
     return img;
   }
@@ -447,6 +449,20 @@
   let touchX = null, touchY = null, swiped = false;
 
   const lbIsOpen = () => lightbox.classList.contains('lb-visible');
+  const lbClose = document.getElementById('lb-close');
+  const backdrop = [document.querySelector('.mobile-bar'), document.querySelector('.site-root')];
+  let lbReturnFocus = null, usingKeyboard = false;
+
+  document.addEventListener('keydown', () => { usingKeyboard = true; }, true);
+  document.addEventListener('pointerdown', () => { usingKeyboard = false; }, true);
+
+  function setBackdropInert(on, ...extra) {
+    backdrop.concat(extra).forEach(el => { el.inert = on; });
+  }
+
+  function keyboardFocus(el) {
+    if (usingKeyboard && el) el.focus({ preventScroll: true });
+  }
   const lbWrap = i => (i + lbList.length) % lbList.length;
 
   function lbShow(then) {
@@ -479,8 +495,11 @@
     const visibility = lbList.length === 1 ? 'hidden' : '';
     [lbPrev, lbNext, lbCount].forEach(el => { el.style.visibility = visibility; });
     lbBusy = true;
+    lbReturnFocus = trigger;
     lbShow(() => {
       lightbox.classList.add('lb-visible');
+      setBackdropInert(true, nav);
+      keyboardFocus(lbClose);
       void lightbox.offsetHeight;
       lightbox.classList.add('lb-open');
       afterTransition(lightbox, () => { lbBusy = false; });
@@ -493,6 +512,8 @@
     lightbox.classList.remove('lb-open');
     afterTransition(lightbox, () => {
       lightbox.classList.remove('lb-visible');
+      setBackdropInert(false, nav);
+      keyboardFocus(lbReturnFocus);
       lbBusy = false;
     });
   }
@@ -579,6 +600,8 @@
     navOpen = navBusy = true;
     setMenuState(true);
     nav.classList.add('visible');
+    setBackdropInert(true);
+    keyboardFocus(document.getElementById('mobile-nav-close'));
     void nav.offsetHeight;
     nav.classList.add('open');
     afterTransition(nav, () => { navBusy = false; });
@@ -593,6 +616,8 @@
     nav.classList.remove('open');
     afterTransition(nav, () => {
       nav.classList.remove('visible');
+      setBackdropInert(false);
+      if (!section) keyboardFocus(menuBtn);
       navBusy = false;
     });
   }
@@ -625,8 +650,10 @@
   document.addEventListener('mousedown', e => { if (!e.target.closest('video')) e.preventDefault(); });
 
   document.addEventListener('keydown', e => {
-    if (e.key === 'Tab') e.preventDefault();
-    else if (lbIsOpen()) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.design img, .photos img')) {
+      e.preventDefault();
+      openLightbox(e.target);
+    } else if (lbIsOpen()) {
       if (e.key === 'Escape') closeLightbox();
       else if (e.key === 'ArrowLeft') lbNav(-1);
       else if (e.key === 'ArrowRight') lbNav(1);
@@ -636,7 +663,7 @@
   });
 
   const blockScroll = e => e.preventDefault();
-  const blockKeys = e => { if (SCROLL_KEYS.includes(e.key)) e.preventDefault(); };
+  const blockKeys = e => { if (e.key === 'Tab' || SCROLL_KEYS.includes(e.key)) e.preventDefault(); };
   document.addEventListener('wheel', blockScroll, { passive: false });
   document.addEventListener('keydown', blockKeys);
 
