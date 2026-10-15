@@ -339,6 +339,7 @@
     let sweepTimer = 0;
 
     const sweep = () => {
+      if (current !== 'music') return;
       windowed.forEach((track, cell) => {
         const iframe = cell.firstChild;
         if (near.has(cell)) {
