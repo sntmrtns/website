@@ -340,13 +340,11 @@
 
     const sweep = () => {
       if (current !== 'music') return;
-      windowed.forEach((track, cell) => {
-        const iframe = cell.firstChild;
-        if (near.has(cell)) {
-          if (!iframe.src) mount(iframe, track);
-        } else if (iframe.src && iframe.contentWindow !== playing) {
-          cell.replaceChild(scFrame(track), iframe);
-        }
+      near.forEach(cell => {
+        mount(cell.firstChild, windowed.get(cell));
+        windowed.delete(cell);
+        near.delete(cell);
+        observer.unobserve(cell);
       });
     };
 
