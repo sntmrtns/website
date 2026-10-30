@@ -45,6 +45,7 @@ p{font-size:16px}
 .work{padding:50px 0 49px}
 .work:last-child{padding-bottom:0}
 .entry-name{margin:0}
+.entry-name-text{margin:0 0 19px;font-size:28px;font-weight:600;line-height:1.1}
 .entry-logo{display:block;width:auto;height:var(--logo-h,32px);max-width:100%;margin:0 0 19px}
 .work-role{margin:0;line-height:1.5}
 .work-desc{margin:13px 0 0;line-height:1.5;text-wrap:pretty}
