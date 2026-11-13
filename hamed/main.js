@@ -207,10 +207,10 @@
     }, ms));
   }
 
-  const LANE_LIMIT = { image: 4, video: Infinity };
-  const BACKGROUND_LANES = touch ? [] : ['image'];
+  const LANE_LIMIT = { image: 4, video: Infinity, embed: Infinity };
+  const BACKGROUND_LIMIT = touch ? {} : { image: 4, video: 2, embed: 2 };
   const queue = [];
-  const live = { image: 0, video: 0 };
+  const live = { image: 0, video: 0, embed: 0 };
   let current = 'work';
   let loading = false;
 
@@ -223,7 +223,7 @@
     for (const lane in LANE_LIMIT) {
       while (live[lane] < LANE_LIMIT[lane]) {
         let i = queue.findIndex(t => t.lane === lane && t.section === current);
-        if (i < 0 && BACKGROUND_LANES.includes(lane)) i = queue.findIndex(t => t.lane === lane);
+        if (i < 0 && live[lane] < (BACKGROUND_LIMIT[lane] || 0)) i = queue.findIndex(t => t.lane === lane);
         if (i < 0) break;
         const task = queue.splice(i, 1)[0];
         live[lane]++;
@@ -329,10 +329,16 @@
       return iframe;
     };
 
-    const mount = (iframe, track) => {
-      onLoad(iframe, () => iframe.classList.add('loaded'));
+    const mount = (iframe, track, done = () => {}) => {
+      onLoad(iframe, () => {
+        iframe.classList.add('loaded');
+        done();
+      }, 8000);
       iframe.src = scSrc(track.sc);
     };
+
+    const PRELOAD = 8;
+    let preloaded = 0;
 
     const windowed = new Map();
     const near = new Set();
@@ -388,7 +394,12 @@
           cell.appendChild(videoCell(track));
           return;
         }
-        cell.appendChild(scFrame(track));
+        const iframe = scFrame(track);
+        cell.appendChild(iframe);
+        if (preloaded++ < PRELOAD) {
+          queueLoad('music', 'embed', done => mount(iframe, track, done));
+          return;
+        }
         windowed.set(cell, track);
         observer.observe(cell);
       });
