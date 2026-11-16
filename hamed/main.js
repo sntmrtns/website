@@ -211,12 +211,14 @@
   const BACKGROUND_LANES = touch ? [] : ['image'];
   const EMBED_LIMIT = 3;
   const EMBED_SLOT_MS = 2500;
-  const LEAD_DELAY = 2500;
+  const LEAD_DELAY = 1500;
+  const PRIME_DWELL = 65;
   const queue = [];
   const live = { image: 0 };
   const embeds = { videos: [], music: [] };
   const embedsLive = { videos: 0, music: 0 };
   const lead = {};
+  const primed = {};
   let leadsPreloading = false;
   let current = 'work';
   let loading = false;
@@ -273,31 +275,54 @@
     for (let i = 0; i < list.length; i++) {
       const r = list[i].el.getBoundingClientRect();
       if (r.bottom > 0 && r.top < vh) return i;
-      if (near < 0 && r.bottom > -vh && r.top < 2 * vh) near = i;
+      if (near < 0 && r.bottom > -vh && r.top < 3 * vh) near = i;
     }
     return near;
+  }
+
+  function embedSlots(section) {
+    const l = lead[section];
+    return EMBED_LIMIT - (l.started && !l.done ? 1 : 0) - embedsLive[section];
+  }
+
+  function startEmbed(section, i) {
+    const free = once(() => {
+      embedsLive[section]--;
+      pumpEmbeds();
+    });
+    embedsLive[section]++;
+    setTimeout(free, EMBED_SLOT_MS);
+    embeds[section].splice(i, 1)[0].start(free);
   }
 
   function pumpEmbeds() {
     const section = current;
     const list = embeds[section];
     if (!loading || !list) return;
-    if (!lead[section].done) {
-      startLead(section);
-      return;
-    }
-    while (embedsLive[section] < EMBED_LIMIT) {
+    startLead(section);
+    while (embedSlots(section) > 0) {
       const i = nextEmbed(list);
       if (i < 0) break;
-      const free = once(() => {
-        embedsLive[section]--;
-        pumpEmbeds();
-      });
-      embedsLive[section]++;
-      setTimeout(free, EMBED_SLOT_MS);
-      list.splice(i, 1)[0].start(free);
+      startEmbed(section, i);
     }
   }
+
+  function primeEmbeds(section) {
+    const list = embeds[section];
+    if (!loading || !list || section === current || primed[section]) return;
+    primed[section] = true;
+    startLead(section);
+    while (embedSlots(section) > 0 && list.length) startEmbed(section, 0);
+  }
+
+  document.querySelectorAll('[data-section]').forEach(btn => {
+    const section = btn.dataset.section;
+    let timer = 0;
+    btn.addEventListener('pointerenter', () => { timer = setTimeout(primeEmbeds, PRIME_DWELL, section); });
+    btn.addEventListener('pointerleave', () => clearTimeout(timer));
+    btn.addEventListener('pointerdown', () => primeEmbeds(section));
+    btn.addEventListener('focus', () => primeEmbeds(section));
+  });
 
   let embedTimer = 0;
   function scheduleEmbeds() {
