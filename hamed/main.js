@@ -205,26 +205,49 @@
     }
   });
 
-  function revealEmbed(iframe, done, poster) {
+  function afterEnter(section, fn) {
+    if (section.classList.contains('section-enter')) setTimeout(fn, FADE_MS);
+    else fn();
+  }
+
+  function revealEmbed(iframe, done) {
     const section = iframe.closest('[id^="section-"]');
-    const show = once(() => {
-      const reveal = () => iframe.classList.add('loaded');
-      if (section.classList.contains('section-enter')) setTimeout(reveal, FADE_MS);
-      else reveal();
+    const show = once(() => afterEnter(section, () => iframe.classList.add('loaded')));
+    iframe.addEventListener('ready', () => setTimeout(show, READY_SETTLE), { once: true });
+    onLoad(iframe, () => {
+      done();
+      setTimeout(show, READY_WAIT);
+    }, 8000);
+  }
+
+  const batch = [];
+
+  function flushBatch() {
+    if (!batch.length || batch.some(b => !b.ready)) return;
+    const group = batch.splice(0);
+    afterEnter(group[0].iframe.closest('[id^="section-"]'), () => {
+      group.forEach(b => b.iframe.classList.add('loaded'));
+      setTimeout(() => group.forEach(b => b.done()), FADE_MS);
     });
+  }
+
+  function revealBatched(iframe, done, poster) {
+    const entry = { iframe, done, ready: false };
+    const show = once(() => {
+      entry.ready = true;
+      flushBatch();
+    });
+    batch.push(entry);
     iframe.addEventListener('ready', () => {
-      const settle = new Promise(resolve => setTimeout(resolve, poster ? POSTER_SETTLE : READY_SETTLE));
-      const drawn = poster && new Promise(resolve => {
+      const settle = new Promise(resolve => setTimeout(resolve, POSTER_SETTLE));
+      const drawn = new Promise(resolve => {
         const img = new Image();
         onLoad(img, resolve, POSTER_WAIT);
         img.src = poster;
       });
       Promise.all([settle, drawn]).then(show);
     }, { once: true });
-    onLoad(iframe, () => {
-      done();
-      setTimeout(show, READY_WAIT);
-    }, 8000);
+    onLoad(iframe, () => setTimeout(show, BATCH_WAIT), 5000);
   }
 
   function listenToYouTube(iframe) {
@@ -243,6 +266,8 @@
   const POSTER_SETTLE = 400;
   const POSTER_WAIT = 2500;
   const READY_WAIT = 4000;
+  const BATCH_WAIT = 2500;
+  const BATCHED = { videos: true };
   const queue = [];
   const live = { image: 0 };
   const embeds = { videos: [], music: [] };
@@ -295,7 +320,7 @@
       pumpEmbeds();
       if (leadsPreloading) preloadLeads();
     });
-    setTimeout(free, EMBED_SLOT_MS);
+    if (!BATCHED[section]) setTimeout(free, EMBED_SLOT_MS);
     l.start(free);
   }
 
@@ -328,7 +353,7 @@
     });
     embedsLive[section]++;
     warmSection(section);
-    setTimeout(free, EMBED_SLOT_MS);
+    if (!BATCHED[section]) setTimeout(free, EMBED_SLOT_MS);
     embeds[section].splice(i, 1)[0].start(free);
   }
 
@@ -427,7 +452,7 @@
       iframe.allowFullscreen = true;
       box.appendChild(iframe);
       addEmbed('videos', iframe, done => {
-        revealEmbed(iframe, done, 'https://i.ytimg.com/vi/' + v.id + '/maxresdefault.jpg');
+        revealBatched(iframe, done, 'https://i.ytimg.com/vi/' + v.id + '/maxresdefault.jpg');
         iframe.addEventListener('load', () => listenToYouTube(iframe), { once: true });
         iframe.src = 'https://www.youtube-nocookie.com/embed/' + v.id + '?enablejsapi=1';
       });
