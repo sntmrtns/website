@@ -206,7 +206,12 @@
   });
 
   function revealEmbed(iframe, done, poster) {
-    const show = once(() => iframe.classList.add('loaded'));
+    const section = iframe.closest('[id^="section-"]');
+    const show = once(() => {
+      const reveal = () => iframe.classList.add('loaded');
+      if (section.classList.contains('section-enter')) setTimeout(reveal, FADE_MS);
+      else reveal();
+    });
     iframe.addEventListener('ready', () => {
       const settle = new Promise(resolve => setTimeout(resolve, poster ? POSTER_SETTLE : READY_SETTLE));
       const drawn = poster && new Promise(resolve => {
@@ -230,20 +235,19 @@
 
   const LANE_LIMIT = { image: 4 };
   const BACKGROUND_LANES = touch ? [] : ['image'];
-  const EMBED_LIMIT = 3;
+  const EMBED_LIMIT = 2;
   const EMBED_SLOT_MS = 2500;
-  const LEAD_DELAY = 1500;
-  const PRIME_DWELL = 65;
+  const EMBED_SCROLL_MS = 100;
+  const LEAD_DELAY = 2500;
   const READY_SETTLE = 120;
   const POSTER_SETTLE = 400;
   const POSTER_WAIT = 2500;
-  const READY_WAIT = 1500;
+  const READY_WAIT = 4000;
   const queue = [];
   const live = { image: 0 };
   const embeds = { videos: [], music: [] };
   const embedsLive = { videos: 0, music: 0 };
   const lead = {};
-  const primed = {};
   const warm = new Set();
   let leadsPreloading = false;
   let current = 'work';
@@ -268,7 +272,6 @@
         }));
       }
     }
-    pumpEmbeds();
   }
 
   function addEmbed(section, el, start) {
@@ -341,32 +344,16 @@
     }
   }
 
-  function primeEmbeds(section) {
-    const list = embeds[section];
-    if (!loading || !list || section === current || primed[section]) return;
-    primed[section] = true;
-    startLead(section);
-    while (embedSlots(section) > 0 && list.length) startEmbed(section, 0);
-  }
-
-  document.querySelectorAll('[data-section]').forEach(btn => {
-    const section = btn.dataset.section;
-    let timer = 0;
-    btn.addEventListener('pointerenter', () => { timer = setTimeout(primeEmbeds, PRIME_DWELL, section); });
-    btn.addEventListener('pointerleave', () => clearTimeout(timer));
-    btn.addEventListener('pointerdown', () => primeEmbeds(section));
-    btn.addEventListener('focus', () => primeEmbeds(section));
-  });
-
-  let embedTimer = 0;
-  function scheduleEmbeds() {
-    if (!embeds[current] || !embeds[current].length) return;
+  let embedTimer = 0, embedDue = 0;
+  function scheduleEmbeds(delay) {
+    if (!embeds[current]) return;
+    embedDue = Math.max(embedDue, performance.now() + delay);
     clearTimeout(embedTimer);
-    embedTimer = setTimeout(pumpEmbeds, 100);
+    embedTimer = setTimeout(pumpEmbeds, embedDue - performance.now());
   }
 
-  window.addEventListener('scroll', scheduleEmbeds, { passive: true });
-  window.addEventListener('resize', scheduleEmbeds);
+  window.addEventListener('scroll', () => scheduleEmbeds(EMBED_SCROLL_MS), { passive: true });
+  window.addEventListener('resize', () => scheduleEmbeds(EMBED_SCROLL_MS));
 
   function syncSections(entering) {
     SECTIONS.forEach(s => {
@@ -691,6 +678,7 @@
     syncSections(true);
     window.scrollTo({ top: 0, behavior: 'instant' });
     pump();
+    scheduleEmbeds(FADE_MS + 50);
   }
 
   const nav = document.getElementById('mobile-nav');
@@ -789,6 +777,7 @@
   function start() {
     loading = true;
     pump();
+    scheduleEmbeds(FADE_MS + 50);
     if (!touch) setTimeout(() => (window.requestIdleCallback || setTimeout)(preloadLeads), LEAD_DELAY);
     if (!document.hidden) {
       reveal();
