@@ -192,10 +192,6 @@
       try { data = JSON.parse(data); } catch { return; }
     }
     if (!data || typeof data !== 'object') return;
-    if (data.method === 'ready' || data.event === 'onReady') {
-      const iframe = Array.from(document.querySelectorAll('iframe')).find(f => f.contentWindow === e.source);
-      if (iframe) iframe.dispatchEvent(new Event('ready'));
-    }
     if (data.method === 'ready') {
       e.source.postMessage(JSON.stringify({ method: 'addEventListener', value: 'play' }), e.origin);
     } else if (data.method === 'play' ||
@@ -205,76 +201,16 @@
     }
   });
 
-  function afterEnter(section, fn) {
-    if (section.classList.contains('section-enter')) setTimeout(fn, FADE_MS);
-    else fn();
-  }
-
-  function revealEmbed(iframe, done) {
-    const section = iframe.closest('[id^="section-"]');
-    const show = once(() => afterEnter(section, () => iframe.classList.add('loaded')));
-    iframe.addEventListener('ready', () => setTimeout(show, READY_SETTLE), { once: true });
-    onLoad(iframe, () => {
-      done();
-      setTimeout(show, READY_WAIT);
-    }, 8000);
-  }
-
-  const batch = [];
-
-  function flushBatch() {
-    if (!batch.length || batch.some(b => !b.ready)) return;
-    const group = batch.splice(0);
-    afterEnter(group[0].iframe.closest('[id^="section-"]'), () => {
-      group.forEach(b => b.iframe.classList.add('loaded'));
-      setTimeout(() => group.forEach(b => b.done()), FADE_MS);
-    });
-  }
-
-  function revealBatched(iframe, done, poster) {
-    const entry = { iframe, done, ready: false };
-    const show = once(() => {
-      entry.ready = true;
-      flushBatch();
-    });
-    batch.push(entry);
-    iframe.addEventListener('ready', () => {
-      const settle = new Promise(resolve => setTimeout(resolve, POSTER_SETTLE));
-      const drawn = new Promise(resolve => {
-        const img = new Image();
-        onLoad(img, resolve, POSTER_WAIT);
-        img.src = poster;
-      });
-      Promise.all([settle, drawn]).then(show);
-    }, { once: true });
-    onLoad(iframe, () => setTimeout(show, BATCH_WAIT), 5000);
-  }
-
   function listenToYouTube(iframe) {
     [0, 500, 1500, 3000].forEach(ms => setTimeout(() => {
       iframe.contentWindow.postMessage('{"event":"listening","id":1,"channel":"widget"}', '*');
     }, ms));
   }
 
-  const LANE_LIMIT = { image: 4 };
+  const LANE_LIMIT = { image: 4, video: Infinity };
   const BACKGROUND_LANES = touch ? [] : ['image'];
-  const EMBED_LIMIT = { videos: 4, music: 2 };
-  const EMBED_SLOT_MS = 2500;
-  const EMBED_SCROLL_MS = 100;
-  const LEAD_DELAY = 2500;
-  const READY_SETTLE = 120;
-  const POSTER_SETTLE = 400;
-  const POSTER_WAIT = 2500;
-  const READY_WAIT = 4000;
-  const BATCH_WAIT = 2500;
-  const BATCHED = { videos: true };
   const queue = [];
-  const live = { image: 0 };
-  const embeds = { videos: [], music: [] };
-  const embedsLive = { videos: 0, music: 0 };
-  const lead = {};
-  const warm = new Set();
-  let leadsPreloading = false;
+  const live = { image: 0, video: 0 };
   let current = 'work';
   let loading = false;
 
@@ -299,93 +235,11 @@
     }
   }
 
-  function addEmbed(section, el, start) {
-    if (lead[section]) embeds[section].push({ el, start });
-    else lead[section] = { start, started: false, done: false };
-  }
-
-  function warmSection(section) {
-    if (warm.has(section)) return;
-    warm.add(section);
-    if (section !== current) document.getElementById('section-' + section).classList.add('section-warm');
-  }
-
-  function startLead(section) {
-    const l = lead[section];
-    if (l.started) return;
-    l.started = true;
-    warmSection(section);
-    const free = once(() => {
-      l.done = true;
-      pumpEmbeds();
-      if (leadsPreloading) preloadLeads();
-    });
-    if (!BATCHED[section]) setTimeout(free, EMBED_SLOT_MS);
-    l.start(free);
-  }
-
-  function preloadLeads() {
-    leadsPreloading = true;
-    const section = Object.keys(lead).find(s => !lead[s].started);
-    if (section) startLead(section);
-  }
-
-  function nextEmbed(list) {
-    const vh = window.innerHeight;
-    let near = -1;
-    for (let i = 0; i < list.length; i++) {
-      const r = list[i].el.getBoundingClientRect();
-      if (r.bottom > 0 && r.top < vh) return i;
-      if (near < 0 && r.bottom > -vh && r.top < 3 * vh) near = i;
-    }
-    return near;
-  }
-
-  function embedSlots(section) {
-    const l = lead[section];
-    return EMBED_LIMIT[section] - (l.started && !l.done ? 1 : 0) - embedsLive[section];
-  }
-
-  function startEmbed(section, i) {
-    const free = once(() => {
-      embedsLive[section]--;
-      pumpEmbeds();
-    });
-    embedsLive[section]++;
-    warmSection(section);
-    if (!BATCHED[section]) setTimeout(free, EMBED_SLOT_MS);
-    embeds[section].splice(i, 1)[0].start(free);
-  }
-
-  function pumpEmbeds() {
-    const section = current;
-    const list = embeds[section];
-    if (!loading || !list) return;
-    startLead(section);
-    while (embedSlots(section) > 0) {
-      const i = nextEmbed(list);
-      if (i < 0) break;
-      startEmbed(section, i);
-    }
-  }
-
-  let embedTimer = 0, embedDue = 0;
-  function scheduleEmbeds(delay) {
-    if (!embeds[current]) return;
-    embedDue = Math.max(embedDue, performance.now() + delay);
-    clearTimeout(embedTimer);
-    embedTimer = setTimeout(pumpEmbeds, embedDue - performance.now());
-  }
-
-  window.addEventListener('scroll', () => scheduleEmbeds(EMBED_SCROLL_MS), { passive: true });
-  window.addEventListener('resize', () => scheduleEmbeds(EMBED_SCROLL_MS));
-
   function syncSections(entering) {
     SECTIONS.forEach(s => {
       const el = document.getElementById('section-' + s);
       const active = s === current;
       el.style.display = active ? '' : 'none';
-      el.classList.toggle('section-warm', !active && warm.has(s));
       el.inert = !active;
       if (!active) el.classList.remove('section-shown', 'section-enter');
     });
@@ -451,8 +305,11 @@
       iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
       iframe.allowFullscreen = true;
       box.appendChild(iframe);
-      addEmbed('videos', iframe, done => {
-        revealBatched(iframe, done, 'https://i.ytimg.com/vi/' + v.id + '/maxresdefault.jpg');
+      queueLoad('videos', 'video', done => {
+        onLoad(iframe, () => {
+          iframe.classList.add('loaded');
+          done();
+        }, 8000);
         iframe.addEventListener('load', () => listenToYouTube(iframe), { once: true });
         iframe.src = 'https://www.youtube-nocookie.com/embed/' + v.id + '?enablejsapi=1';
       });
@@ -472,10 +329,33 @@
       return iframe;
     };
 
-    const mount = (iframe, track, done) => {
-      revealEmbed(iframe, done);
+    const mount = (iframe, track) => {
+      onLoad(iframe, () => iframe.classList.add('loaded'));
       iframe.src = scSrc(track.sc);
     };
+
+    const windowed = new Map();
+    const near = new Set();
+    let sweepTimer = 0;
+
+    const sweep = () => {
+      if (current !== 'music') return;
+      near.forEach(cell => {
+        mount(cell.firstChild, windowed.get(cell));
+        windowed.delete(cell);
+        near.delete(cell);
+        observer.unobserve(cell);
+      });
+    };
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) near.add(e.target);
+        else near.delete(e.target);
+      });
+      clearTimeout(sweepTimer);
+      sweepTimer = setTimeout(sweep, 150);
+    }, { rootMargin: '100% 0px' });
 
     const videoCell = track => {
       const video = document.createElement('video');
@@ -508,9 +388,9 @@
           cell.appendChild(videoCell(track));
           return;
         }
-        const iframe = scFrame(track);
-        cell.appendChild(iframe);
-        addEmbed('music', cell, done => mount(iframe, track, done));
+        cell.appendChild(scFrame(track));
+        windowed.set(cell, track);
+        observer.observe(cell);
       });
     });
   })();
@@ -701,9 +581,8 @@
     });
     current = name;
     syncSections(true);
-    window.scrollTo({ top: 0, behavior: 'instant' });
     pump();
-    scheduleEmbeds(FADE_MS + 50);
+    window.scrollTo({ top: 0, behavior: 'instant' });
   }
 
   const nav = document.getElementById('mobile-nav');
@@ -802,8 +681,6 @@
   function start() {
     loading = true;
     pump();
-    scheduleEmbeds(FADE_MS + 50);
-    if (!touch) setTimeout(() => (window.requestIdleCallback || setTimeout)(preloadLeads), LEAD_DELAY);
     if (!document.hidden) {
       reveal();
       return;
