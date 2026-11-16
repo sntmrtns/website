@@ -211,10 +211,13 @@
   const BACKGROUND_LANES = touch ? [] : ['image'];
   const EMBED_LIMIT = 3;
   const EMBED_SLOT_MS = 2500;
+  const LEAD_DELAY = 2500;
   const queue = [];
   const live = { image: 0 };
   const embeds = { videos: [], music: [] };
   const embedsLive = { videos: 0, music: 0 };
+  const lead = {};
+  let leadsPreloading = false;
   let current = 'work';
   let loading = false;
 
@@ -241,7 +244,27 @@
   }
 
   function addEmbed(section, el, start) {
-    embeds[section].push({ el, start });
+    if (lead[section]) embeds[section].push({ el, start });
+    else lead[section] = { start, started: false, done: false };
+  }
+
+  function startLead(section) {
+    const l = lead[section];
+    if (l.started) return;
+    l.started = true;
+    const free = once(() => {
+      l.done = true;
+      pumpEmbeds();
+      if (leadsPreloading) preloadLeads();
+    });
+    setTimeout(free, EMBED_SLOT_MS);
+    l.start(free);
+  }
+
+  function preloadLeads() {
+    leadsPreloading = true;
+    const section = Object.keys(lead).find(s => !lead[s].started);
+    if (section) startLead(section);
   }
 
   function nextEmbed(list) {
@@ -259,6 +282,10 @@
     const section = current;
     const list = embeds[section];
     if (!loading || !list) return;
+    if (!lead[section].done) {
+      startLead(section);
+      return;
+    }
     while (embedsLive[section] < EMBED_LIMIT) {
       const i = nextEmbed(list);
       if (i < 0) break;
@@ -708,6 +735,7 @@
   function start() {
     loading = true;
     pump();
+    if (!touch) setTimeout(() => (window.requestIdleCallback || setTimeout)(preloadLeads), LEAD_DELAY);
     if (!document.hidden) {
       reveal();
       return;
