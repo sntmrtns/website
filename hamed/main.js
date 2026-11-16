@@ -121,7 +121,6 @@
   const SECTIONS = ['work', 'design', 'photos', 'videos', 'music'];
   const FADE_MS = 250;
   const EASE = 'cubic-bezier(0.16,1,0.3,1)';
-  const BOOT_TIMEOUT = 5000;
   const READY_SETTLE = 120;
   const READY_WAIT = 4000;
   const POSTER_SETTLE = 400;
@@ -740,8 +739,5 @@
   }
 
   const critical = Array.from(document.querySelectorAll('.mobile-bar-logo, .logo, .entry-logo'));
-  Promise.race([
-    Promise.all(critical.map(img => img.complete || new Promise(resolve => onLoad(img, resolve)))),
-    new Promise(resolve => setTimeout(resolve, BOOT_TIMEOUT)),
-  ]).then(start);
+  Promise.all(critical.map(img => img.complete || new Promise(resolve => onLoad(img, resolve)))).then(start);
 })();
