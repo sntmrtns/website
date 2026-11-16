@@ -122,7 +122,7 @@
   const FADE_MS = 250;
   const EASE = 'cubic-bezier(0.16,1,0.3,1)';
   const READY_SETTLE = 120;
-  const READY_WAIT = 4000;
+  const MUSIC_SLOT_MS = 6000;
   const POSTER_SETTLE = 400;
   const POSTER_WAIT = 8000;
   const LEAD_DELAY = 1500;
@@ -223,9 +223,7 @@
 
   function revealEmbed(iframe, poster) {
     const show = once(() => afterSectionEnter(iframe, () => iframe.classList.add('loaded')));
-    let fallback = 0;
     iframe.addEventListener('ready', () => {
-      clearTimeout(fallback);
       const settle = new Promise(resolve => setTimeout(resolve, poster ? POSTER_SETTLE : READY_SETTLE));
       const drawn = poster && new Promise(resolve => {
         const img = new Image();
@@ -234,9 +232,6 @@
       });
       Promise.all([settle, drawn]).then(show);
     }, { once: true });
-    onLoad(iframe, () => {
-      if (!iframe.dataset.ready) fallback = setTimeout(show, READY_WAIT);
-    }, 8000);
   }
 
   function listenToYouTube(iframe) {
@@ -245,10 +240,10 @@
     }, ms));
   }
 
-  const LANE_LIMIT = { image: 4, video: Infinity };
+  const LANE_LIMIT = { image: 4, video: Infinity, embed: 4 };
   const BACKGROUND_LANES = touch ? [] : ['image'];
   const queue = [];
-  const live = { image: 0, video: 0 };
+  const live = { image: 0, video: 0, embed: 0 };
   let current = 'work';
   let loading = false;
 
@@ -387,33 +382,12 @@
       return iframe;
     };
 
-    const mount = (iframe, track) => {
+    const mount = (iframe, track, done) => {
       revealEmbed(iframe);
+      iframe.addEventListener('ready', done, { once: true });
+      setTimeout(done, MUSIC_SLOT_MS);
       iframe.src = scSrc(track.sc);
     };
-
-    const windowed = new Map();
-    const near = new Set();
-    let sweepTimer = 0;
-
-    const sweep = () => {
-      if (current !== 'music') return;
-      near.forEach(cell => {
-        windowed.get(cell)();
-        windowed.delete(cell);
-        near.delete(cell);
-        observer.unobserve(cell);
-      });
-    };
-
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) near.add(e.target);
-        else near.delete(e.target);
-      });
-      clearTimeout(sweepTimer);
-      sweepTimer = setTimeout(sweep, 150);
-    }, { rootMargin: '100% 0px' });
 
     const videoCell = track => {
       const video = document.createElement('video');
@@ -428,11 +402,12 @@
       return video;
     };
 
-    const mountVideo = (video, track) => {
+    const mountVideo = (video, track, done) => {
       const poster = new Image();
       onLoad(poster, () => {
         video.poster = track.poster;
         afterSectionEnter(video, () => video.classList.add('loaded'));
+        done();
       });
       poster.src = track.poster;
     };
@@ -445,18 +420,18 @@
         box.appendChild(cell);
         const el = track.video ? videoCell(track) : scFrame(track);
         cell.appendChild(el);
-        windowed.set(cell, () => (track.video ? mountVideo : mount)(el, track));
-        observer.observe(cell);
+        let started = false;
+        const load = done => {
+          if (started) return done();
+          started = true;
+          (track.video ? mountVideo : mount)(el, track, done);
+        };
+        queueLoad('music', 'embed', load);
         if (!track.video && !leadQueued) {
           leadQueued = true;
           leads.push(next => {
-            if (!windowed.has(cell)) return next();
             warmSection('music');
-            windowed.get(cell)();
-            windowed.delete(cell);
-            near.delete(cell);
-            observer.unobserve(cell);
-            onLoad(el, next, 8000);
+            load(once(next));
           });
         }
       });
@@ -744,7 +719,7 @@
   function start() {
     loading = true;
     pump();
-    if (!touch) setTimeout(() => (window.requestIdleCallback || setTimeout)(preloadLeads), LEAD_DELAY);
+    setTimeout(() => (window.requestIdleCallback || setTimeout)(preloadLeads), LEAD_DELAY);
     if (!document.hidden) {
       reveal();
       return;
