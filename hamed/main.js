@@ -126,6 +126,7 @@
   const READY_WAIT = 4000;
   const POSTER_SETTLE = 400;
   const POSTER_WAIT = 8000;
+  const VIDEO_STAGGER = 150;
   const SCROLL_KEYS = [' ', 'PageUp', 'PageDown', 'End', 'Home', 'ArrowLeft', 'ArrowUp', 'ArrowRight', 'ArrowDown'];
 
   const touch = matchMedia('(pointer: coarse)').matches;
@@ -217,8 +218,26 @@
     else fn();
   }
 
-  function revealEmbed(iframe, poster) {
-    const show = once(() => afterSectionEnter(iframe, () => iframe.classList.add('loaded')));
+  function inOrder(gap) {
+    const ready = [];
+    let next = 0, waiting = false;
+    const flush = () => {
+      if (waiting || !ready[next]) return;
+      ready[next++]();
+      waiting = true;
+      setTimeout(() => {
+        waiting = false;
+        flush();
+      }, gap);
+    };
+    return i => fn => {
+      ready[i] = fn;
+      flush();
+    };
+  }
+
+  function revealEmbed(iframe, poster, slot = fn => fn()) {
+    const show = once(() => afterSectionEnter(iframe, () => slot(() => iframe.classList.add('loaded'))));
     let fallback = 0;
     iframe.addEventListener('ready', () => {
       clearTimeout(fallback);
@@ -332,7 +351,8 @@
 
   (() => {
     const box = document.getElementById('videobox');
-    videos.forEach(v => {
+    const slot = inOrder(VIDEO_STAGGER);
+    videos.forEach((v, i) => {
       const iframe = document.createElement('iframe');
       iframe.className = 'fade';
       iframe.title = v.title;
@@ -340,7 +360,7 @@
       iframe.allowFullscreen = true;
       box.appendChild(iframe);
       queueLoad('videos', 'video', done => {
-        revealEmbed(iframe, 'https://i.ytimg.com/vi/' + v.id + '/maxresdefault.jpg');
+        revealEmbed(iframe, 'https://i.ytimg.com/vi/' + v.id + '/maxresdefault.jpg', slot(i));
         onLoad(iframe, done, 8000);
         iframe.addEventListener('load', () => listenToYouTube(iframe), { once: true });
         iframe.src = 'https://www.youtube-nocookie.com/embed/' + v.id + '?enablejsapi=1';
