@@ -219,6 +219,7 @@
   const embedsLive = { videos: 0, music: 0 };
   const lead = {};
   const primed = {};
+  const warm = new Set();
   let leadsPreloading = false;
   let current = 'work';
   let loading = false;
@@ -250,10 +251,17 @@
     else lead[section] = { start, started: false, done: false };
   }
 
+  function warmSection(section) {
+    if (warm.has(section)) return;
+    warm.add(section);
+    if (section !== current) document.getElementById('section-' + section).classList.add('section-warm');
+  }
+
   function startLead(section) {
     const l = lead[section];
     if (l.started) return;
     l.started = true;
+    warmSection(section);
     const free = once(() => {
       l.done = true;
       pumpEmbeds();
@@ -291,6 +299,7 @@
       pumpEmbeds();
     });
     embedsLive[section]++;
+    warmSection(section);
     setTimeout(free, EMBED_SLOT_MS);
     embeds[section].splice(i, 1)[0].start(free);
   }
@@ -339,6 +348,7 @@
       const el = document.getElementById('section-' + s);
       const active = s === current;
       el.style.display = active ? '' : 'none';
+      el.classList.toggle('section-warm', !active && warm.has(s));
       el.inert = !active;
       if (!active) el.classList.remove('section-shown', 'section-enter');
     });
