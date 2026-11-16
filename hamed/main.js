@@ -192,6 +192,10 @@
       try { data = JSON.parse(data); } catch { return; }
     }
     if (!data || typeof data !== 'object') return;
+    if (data.method === 'ready' || data.event === 'onReady') {
+      const iframe = Array.from(document.querySelectorAll('iframe')).find(f => f.contentWindow === e.source);
+      if (iframe) iframe.dispatchEvent(new Event('ready'));
+    }
     if (data.method === 'ready') {
       e.source.postMessage(JSON.stringify({ method: 'addEventListener', value: 'play' }), e.origin);
     } else if (data.method === 'play' ||
@@ -200,6 +204,15 @@
       pauseAll(e.source);
     }
   });
+
+  function revealEmbed(iframe, done) {
+    const show = once(() => iframe.classList.add('loaded'));
+    iframe.addEventListener('ready', () => setTimeout(show, READY_SETTLE), { once: true });
+    onLoad(iframe, () => {
+      done();
+      setTimeout(show, READY_WAIT);
+    }, 8000);
+  }
 
   function listenToYouTube(iframe) {
     [0, 500, 1500, 3000].forEach(ms => setTimeout(() => {
@@ -213,6 +226,8 @@
   const EMBED_SLOT_MS = 2500;
   const LEAD_DELAY = 1500;
   const PRIME_DWELL = 65;
+  const READY_SETTLE = 120;
+  const READY_WAIT = 1500;
   const queue = [];
   const live = { image: 0 };
   const embeds = { videos: [], music: [] };
@@ -415,10 +430,7 @@
       iframe.allowFullscreen = true;
       box.appendChild(iframe);
       addEmbed('videos', iframe, done => {
-        onLoad(iframe, () => {
-          iframe.classList.add('loaded');
-          done();
-        }, 8000);
+        revealEmbed(iframe, done);
         iframe.addEventListener('load', () => listenToYouTube(iframe), { once: true });
         iframe.src = 'https://www.youtube-nocookie.com/embed/' + v.id + '?enablejsapi=1';
       });
@@ -439,10 +451,7 @@
     };
 
     const mount = (iframe, track, done) => {
-      onLoad(iframe, () => {
-        iframe.classList.add('loaded');
-        done();
-      }, 8000);
+      revealEmbed(iframe, done);
       iframe.src = scSrc(track.sc);
     };
 
