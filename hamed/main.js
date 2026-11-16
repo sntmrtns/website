@@ -205,9 +205,17 @@
     }
   });
 
-  function revealEmbed(iframe, done) {
+  function revealEmbed(iframe, done, poster) {
     const show = once(() => iframe.classList.add('loaded'));
-    iframe.addEventListener('ready', () => setTimeout(show, READY_SETTLE), { once: true });
+    iframe.addEventListener('ready', () => {
+      const settle = new Promise(resolve => setTimeout(resolve, poster ? POSTER_SETTLE : READY_SETTLE));
+      const drawn = poster && new Promise(resolve => {
+        const img = new Image();
+        onLoad(img, resolve, POSTER_WAIT);
+        img.src = poster;
+      });
+      Promise.all([settle, drawn]).then(show);
+    }, { once: true });
     onLoad(iframe, () => {
       done();
       setTimeout(show, READY_WAIT);
@@ -227,6 +235,8 @@
   const LEAD_DELAY = 1500;
   const PRIME_DWELL = 65;
   const READY_SETTLE = 120;
+  const POSTER_SETTLE = 400;
+  const POSTER_WAIT = 2500;
   const READY_WAIT = 1500;
   const queue = [];
   const live = { image: 0 };
@@ -430,7 +440,7 @@
       iframe.allowFullscreen = true;
       box.appendChild(iframe);
       addEmbed('videos', iframe, done => {
-        revealEmbed(iframe, done);
+        revealEmbed(iframe, done, 'https://i.ytimg.com/vi/' + v.id + '/maxresdefault.jpg');
         iframe.addEventListener('load', () => listenToYouTube(iframe), { once: true });
         iframe.src = 'https://www.youtube-nocookie.com/embed/' + v.id + '?enablejsapi=1';
       });
