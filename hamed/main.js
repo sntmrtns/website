@@ -122,6 +122,10 @@
   const FADE_MS = 250;
   const EASE = 'cubic-bezier(0.16,1,0.3,1)';
   const BOOT_TIMEOUT = 5000;
+  const READY_SETTLE = 120;
+  const READY_WAIT = 4000;
+  const POSTER_SETTLE = 400;
+  const POSTER_WAIT = 8000;
   const SCROLL_KEYS = [' ', 'PageUp', 'PageDown', 'End', 'Home', 'ArrowLeft', 'ArrowUp', 'ArrowRight', 'ArrowDown'];
 
   const touch = matchMedia('(pointer: coarse)').matches;
@@ -192,6 +196,13 @@
       try { data = JSON.parse(data); } catch { return; }
     }
     if (!data || typeof data !== 'object') return;
+    if (data.method === 'ready' || data.event === 'onReady') {
+      const iframe = Array.from(document.querySelectorAll('iframe')).find(f => f.contentWindow === e.source);
+      if (iframe && !iframe.dataset.ready) {
+        iframe.dataset.ready = '1';
+        iframe.dispatchEvent(new Event('ready'));
+      }
+    }
     if (data.method === 'ready') {
       e.source.postMessage(JSON.stringify({ method: 'addEventListener', value: 'play' }), e.origin);
     } else if (data.method === 'play' ||
@@ -200,6 +211,29 @@
       pauseAll(e.source);
     }
   });
+
+  function afterSectionEnter(el, fn) {
+    if (el.closest('.section-enter')) setTimeout(afterSectionEnter, 30, el, fn);
+    else fn();
+  }
+
+  function revealEmbed(iframe, poster) {
+    const show = once(() => afterSectionEnter(iframe, () => iframe.classList.add('loaded')));
+    let fallback = 0;
+    iframe.addEventListener('ready', () => {
+      clearTimeout(fallback);
+      const settle = new Promise(resolve => setTimeout(resolve, poster ? POSTER_SETTLE : READY_SETTLE));
+      const drawn = poster && new Promise(resolve => {
+        const img = new Image();
+        onLoad(img, resolve, POSTER_WAIT);
+        img.src = poster;
+      });
+      Promise.all([settle, drawn]).then(show);
+    }, { once: true });
+    onLoad(iframe, () => {
+      if (!iframe.dataset.ready) fallback = setTimeout(show, READY_WAIT);
+    }, 8000);
+  }
 
   function listenToYouTube(iframe) {
     [0, 500, 1500, 3000].forEach(ms => setTimeout(() => {
@@ -306,10 +340,8 @@
       iframe.allowFullscreen = true;
       box.appendChild(iframe);
       queueLoad('videos', 'video', done => {
-        onLoad(iframe, () => {
-          iframe.classList.add('loaded');
-          done();
-        }, 8000);
+        revealEmbed(iframe, 'https://i.ytimg.com/vi/' + v.id + '/maxresdefault.jpg');
+        onLoad(iframe, done, 8000);
         iframe.addEventListener('load', () => listenToYouTube(iframe), { once: true });
         iframe.src = 'https://www.youtube-nocookie.com/embed/' + v.id + '?enablejsapi=1';
       });
@@ -330,7 +362,7 @@
     };
 
     const mount = (iframe, track) => {
-      onLoad(iframe, () => iframe.classList.add('loaded'));
+      revealEmbed(iframe);
       iframe.src = scSrc(track.sc);
     };
 
