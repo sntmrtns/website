@@ -396,7 +396,7 @@
     const sweep = () => {
       if (current !== 'music') return;
       near.forEach(cell => {
-        mount(cell.firstChild, windowed.get(cell));
+        windowed.get(cell)();
         windowed.delete(cell);
         near.delete(cell);
         observer.unobserve(cell);
@@ -416,22 +416,22 @@
       const video = document.createElement('video');
       video.className = 'fade';
       video.preload = 'none';
-      video.poster = track.poster;
       video.controls = true;
       video.setAttribute('aria-label', track.title);
       const source = document.createElement('source');
       source.src = track.video;
       source.type = 'video/mp4';
       video.appendChild(source);
-      queueLoad('music', 'image', done => {
-        const poster = new Image();
-        onLoad(poster, () => {
-          afterSectionEnter(video, () => video.classList.add('loaded'));
-          done();
-        });
-        poster.src = track.poster;
-      });
       return video;
+    };
+
+    const mountVideo = (video, track) => {
+      const poster = new Image();
+      onLoad(poster, () => {
+        video.poster = track.poster;
+        afterSectionEnter(video, () => video.classList.add('loaded'));
+      });
+      poster.src = track.poster;
     };
 
     Object.entries(music).forEach(([group, tracks]) => {
@@ -439,12 +439,9 @@
       tracks.forEach(track => {
         const cell = document.createElement('div');
         box.appendChild(cell);
-        if (track.video) {
-          cell.appendChild(videoCell(track));
-          return;
-        }
-        cell.appendChild(scFrame(track));
-        windowed.set(cell, track);
+        const el = track.video ? videoCell(track) : scFrame(track);
+        cell.appendChild(el);
+        windowed.set(cell, () => (track.video ? mountVideo : mount)(el, track));
         observer.observe(cell);
       });
     });
