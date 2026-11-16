@@ -207,10 +207,14 @@
     }, ms));
   }
 
-  const LANE_LIMIT = { image: 4, video: Infinity };
+  const LANE_LIMIT = { image: 4 };
   const BACKGROUND_LANES = touch ? [] : ['image'];
+  const EMBED_LIMIT = 3;
+  const EMBED_SLOT_MS = 2500;
   const queue = [];
-  const live = { image: 0, video: 0 };
+  const live = { image: 0 };
+  const embeds = { videos: [], music: [] };
+  const embedsLive = { videos: 0, music: 0 };
   let current = 'work';
   let loading = false;
 
@@ -233,7 +237,50 @@
         }));
       }
     }
+    pumpEmbeds();
   }
+
+  function addEmbed(section, el, start) {
+    embeds[section].push({ el, start });
+  }
+
+  function nextEmbed(list) {
+    const vh = window.innerHeight;
+    let near = -1;
+    for (let i = 0; i < list.length; i++) {
+      const r = list[i].el.getBoundingClientRect();
+      if (r.bottom > 0 && r.top < vh) return i;
+      if (near < 0 && r.bottom > -vh && r.top < 2 * vh) near = i;
+    }
+    return near;
+  }
+
+  function pumpEmbeds() {
+    const section = current;
+    const list = embeds[section];
+    if (!loading || !list) return;
+    while (embedsLive[section] < EMBED_LIMIT) {
+      const i = nextEmbed(list);
+      if (i < 0) break;
+      const free = once(() => {
+        embedsLive[section]--;
+        pumpEmbeds();
+      });
+      embedsLive[section]++;
+      setTimeout(free, EMBED_SLOT_MS);
+      list.splice(i, 1)[0].start(free);
+    }
+  }
+
+  let embedTimer = 0;
+  function scheduleEmbeds() {
+    if (!embeds[current] || !embeds[current].length) return;
+    clearTimeout(embedTimer);
+    embedTimer = setTimeout(pumpEmbeds, 100);
+  }
+
+  window.addEventListener('scroll', scheduleEmbeds, { passive: true });
+  window.addEventListener('resize', scheduleEmbeds);
 
   function syncSections(entering) {
     SECTIONS.forEach(s => {
@@ -305,7 +352,7 @@
       iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
       iframe.allowFullscreen = true;
       box.appendChild(iframe);
-      queueLoad('videos', 'video', done => {
+      addEmbed('videos', iframe, done => {
         onLoad(iframe, () => {
           iframe.classList.add('loaded');
           done();
@@ -329,33 +376,13 @@
       return iframe;
     };
 
-    const mount = (iframe, track) => {
-      onLoad(iframe, () => iframe.classList.add('loaded'));
+    const mount = (iframe, track, done) => {
+      onLoad(iframe, () => {
+        iframe.classList.add('loaded');
+        done();
+      }, 8000);
       iframe.src = scSrc(track.sc);
     };
-
-    const windowed = new Map();
-    const near = new Set();
-    let sweepTimer = 0;
-
-    const sweep = () => {
-      if (current !== 'music') return;
-      near.forEach(cell => {
-        mount(cell.firstChild, windowed.get(cell));
-        windowed.delete(cell);
-        near.delete(cell);
-        observer.unobserve(cell);
-      });
-    };
-
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) near.add(e.target);
-        else near.delete(e.target);
-      });
-      clearTimeout(sweepTimer);
-      sweepTimer = setTimeout(sweep, 150);
-    }, { rootMargin: '100% 0px' });
 
     const videoCell = track => {
       const video = document.createElement('video');
@@ -388,9 +415,9 @@
           cell.appendChild(videoCell(track));
           return;
         }
-        cell.appendChild(scFrame(track));
-        windowed.set(cell, track);
-        observer.observe(cell);
+        const iframe = scFrame(track);
+        cell.appendChild(iframe);
+        addEmbed('music', cell, done => mount(iframe, track, done));
       });
     });
   })();
@@ -581,8 +608,8 @@
     });
     current = name;
     syncSections(true);
-    pump();
     window.scrollTo({ top: 0, behavior: 'instant' });
+    pump();
   }
 
   const nav = document.getElementById('mobile-nav');
