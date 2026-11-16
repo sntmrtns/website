@@ -448,11 +448,6 @@
   })();
 
   document.querySelectorAll('.work').forEach(entry => {
-    const logo = entry.querySelector('.entry-logo');
-    const show = () => entry.classList.add('loaded');
-    if (logo.complete) show();
-    else onLoad(logo, show);
-
     const duties = entry.querySelector('.duties');
     if (!duties) return;
     duties.id = entry.id + '-duties';
