@@ -122,7 +122,7 @@
   const FADE_MS = 250;
   const EASE = 'cubic-bezier(0.16,1,0.3,1)';
   const READY_SETTLE = 120;
-  const MUSIC_SLOT_MS = 6000;
+  const EMBED_SLOT_MS = 6000;
   const POSTER_SETTLE = 400;
   const POSTER_WAIT = 8000;
   const LEAD_DELAY = 1500;
@@ -240,7 +240,7 @@
     }, ms));
   }
 
-  const LANE_LIMIT = { image: 4, video: Infinity, embed: 4 };
+  const LANE_LIMIT = { image: 4, video: 4, embed: 4 };
   const BACKGROUND_LANES = touch ? [] : ['image'];
   const queue = [];
   const live = { image: 0, video: 0, embed: 0 };
@@ -357,14 +357,15 @@
         if (started) return done();
         started = true;
         revealEmbed(iframe, 'https://i.ytimg.com/vi/' + v.id + '/maxresdefault.jpg');
-        onLoad(iframe, done, 8000);
+        iframe.addEventListener('ready', done, { once: true });
+        setTimeout(done, EMBED_SLOT_MS);
         iframe.addEventListener('load', () => listenToYouTube(iframe), { once: true });
         iframe.src = 'https://www.youtube-nocookie.com/embed/' + v.id + '?enablejsapi=1';
       };
       queueLoad('videos', 'video', mount);
       if (i === 0) leads.push(next => {
         warmSection('videos');
-        mount(next);
+        mount(once(next));
       });
     });
   })();
@@ -385,7 +386,7 @@
     const mount = (iframe, track, done) => {
       revealEmbed(iframe);
       iframe.addEventListener('ready', done, { once: true });
-      setTimeout(done, MUSIC_SLOT_MS);
+      setTimeout(done, EMBED_SLOT_MS);
       iframe.src = scSrc(track.sc);
     };
 
