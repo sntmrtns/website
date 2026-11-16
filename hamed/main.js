@@ -258,7 +258,7 @@
 
   const LANE_LIMIT = { image: 4 };
   const BACKGROUND_LANES = touch ? [] : ['image'];
-  const EMBED_LIMIT = 2;
+  const EMBED_LIMIT = { videos: 4, music: 2 };
   const EMBED_SLOT_MS = 2500;
   const EMBED_SCROLL_MS = 100;
   const LEAD_DELAY = 2500;
@@ -343,7 +343,7 @@
 
   function embedSlots(section) {
     const l = lead[section];
-    return EMBED_LIMIT - (l.started && !l.done ? 1 : 0) - embedsLive[section];
+    return EMBED_LIMIT[section] - (l.started && !l.done ? 1 : 0) - embedsLive[section];
   }
 
   function startEmbed(section, i) {
