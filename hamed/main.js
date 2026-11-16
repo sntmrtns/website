@@ -167,8 +167,12 @@
       return;
     }
     const anim = el.animate(keyframes, { duration: FADE_MS, easing: EASE });
-    anim.onfinish = anim.oncancel = once(done);
-    setTimeout(() => anim.cancel(), FADE_MS + 500);
+    const finish = once(done);
+    anim.onfinish = anim.oncancel = finish;
+    setTimeout(() => {
+      anim.cancel();
+      finish();
+    }, FADE_MS + 500);
   }
 
   let playing = null;
@@ -313,7 +317,7 @@
   }
 
   function loadImage(img, done) {
-    img.addEventListener('load', () => img.classList.add('loaded'), { once: true });
+    img.addEventListener('load', () => afterSectionEnter(img, () => img.classList.add('loaded')), { once: true });
     onLoad(img, done);
     img.src = img.dataset.src;
   }
@@ -422,7 +426,7 @@
       queueLoad('music', 'image', done => {
         const poster = new Image();
         onLoad(poster, () => {
-          video.classList.add('loaded');
+          afterSectionEnter(video, () => video.classList.add('loaded'));
           done();
         });
         poster.src = track.poster;
