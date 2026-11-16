@@ -125,6 +125,7 @@
   const READY_WAIT = 4000;
   const POSTER_SETTLE = 400;
   const POSTER_WAIT = 8000;
+  const LEAD_DELAY = 1500;
   const SCROLL_KEYS = [' ', 'PageUp', 'PageDown', 'End', 'Home', 'ArrowLeft', 'ArrowUp', 'ArrowRight', 'ArrowDown'];
 
   const touch = matchMedia('(pointer: coarse)').matches;
@@ -251,6 +252,19 @@
   let current = 'work';
   let loading = false;
 
+  const leads = [];
+  const warm = new Set();
+
+  function warmSection(section) {
+    warm.add(section);
+    if (section !== current) document.getElementById('section-' + section).classList.add('section-warm');
+  }
+
+  function preloadLeads() {
+    const lead = leads.shift();
+    if (lead) lead(() => setTimeout(preloadLeads));
+  }
+
   function queueLoad(section, lane, start) {
     queue.push({ section, lane, start });
   }
@@ -277,6 +291,7 @@
       const el = document.getElementById('section-' + s);
       const active = s === current;
       el.style.display = active ? '' : 'none';
+      el.classList.toggle('section-warm', !active && warm.has(s));
       el.inert = !active;
       if (!active) el.classList.remove('section-shown', 'section-enter');
     });
@@ -335,18 +350,26 @@
 
   (() => {
     const box = document.getElementById('videobox');
-    videos.forEach(v => {
+    videos.forEach((v, i) => {
       const iframe = document.createElement('iframe');
       iframe.className = 'fade';
       iframe.title = v.title;
       iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
       iframe.allowFullscreen = true;
       box.appendChild(iframe);
-      queueLoad('videos', 'video', done => {
+      let started = false;
+      const mount = done => {
+        if (started) return done();
+        started = true;
         revealEmbed(iframe, 'https://i.ytimg.com/vi/' + v.id + '/maxresdefault.jpg');
         onLoad(iframe, done, 8000);
         iframe.addEventListener('load', () => listenToYouTube(iframe), { once: true });
         iframe.src = 'https://www.youtube-nocookie.com/embed/' + v.id + '?enablejsapi=1';
+      };
+      queueLoad('videos', 'video', mount);
+      if (i === 0) leads.push(next => {
+        warmSection('videos');
+        mount(next);
       });
     });
   })();
@@ -414,6 +437,7 @@
       poster.src = track.poster;
     };
 
+    let leadQueued = false;
     Object.entries(music).forEach(([group, tracks]) => {
       const box = document.getElementById('gridbox-' + group);
       tracks.forEach(track => {
@@ -423,6 +447,18 @@
         cell.appendChild(el);
         windowed.set(cell, () => (track.video ? mountVideo : mount)(el, track));
         observer.observe(cell);
+        if (!track.video && !leadQueued) {
+          leadQueued = true;
+          leads.push(next => {
+            if (!windowed.has(cell)) return next();
+            warmSection('music');
+            windowed.get(cell)();
+            windowed.delete(cell);
+            near.delete(cell);
+            observer.unobserve(cell);
+            onLoad(el, next, 8000);
+          });
+        }
       });
     });
   })();
@@ -708,6 +744,7 @@
   function start() {
     loading = true;
     pump();
+    if (!touch) setTimeout(() => (window.requestIdleCallback || setTimeout)(preloadLeads), LEAD_DELAY);
     if (!document.hidden) {
       reveal();
       return;
