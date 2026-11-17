@@ -480,7 +480,6 @@
 
   const lightbox = document.getElementById('lightbox');
   const lbImg = new Image();
-  const lbCount = document.getElementById('lb-count');
   const lbPrev = document.getElementById('lb-prev');
   const lbNext = document.getElementById('lb-next');
   lbImg.alt = '';
@@ -513,7 +512,6 @@
       if (token !== lbToken) return;
       lbImg.src = src;
       lbImg.alt = 'Image ' + (lbIndex + 1) + ' of ' + lbList.length;
-      lbCount.textContent = (lbIndex + 1) + ' / ' + lbList.length;
       if (then) then();
     }, 8000);
     pre.src = src;
@@ -533,7 +531,7 @@
     lbIndex = imgs.indexOf(trigger);
     pauseAll();
     const visibility = lbList.length === 1 ? 'hidden' : '';
-    [lbPrev, lbNext, lbCount].forEach(el => { el.style.visibility = visibility; });
+    [lbPrev, lbNext].forEach(el => { el.style.visibility = visibility; });
     lbBusy = true;
     lbReturnFocus = trigger;
     lbShow(() => {
