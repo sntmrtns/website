@@ -61,8 +61,7 @@ iframe.fade{opacity:.01;will-change:opacity}
 .duties li{position:relative;margin:0 0 13px;padding-left:25px;font-size:16px;line-height:1.5;text-wrap:pretty}
 .duties li::before{content:"\2014";position:absolute;left:0;top:0}
 
-.design{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,500px),1fr));gap:25px;margin-bottom:100px}
-.design img{display:block;width:100%;height:auto;aspect-ratio:1;cursor:zoom-in}
+.design{margin-bottom:100px}
 
 .photos{margin-bottom:100px}
 .photos-row{display:flex;gap:25px;margin-bottom:25px}
@@ -133,7 +132,7 @@ body:has(#lightbox.lb-open) .mobile-bar-logo,body:has(#lightbox.lb-open) .mobile
   .duties{display:block;margin:10px 0 0}
   .duties li{font-size:13px;padding-left:18px;margin:0 0 6px}
 
-  .design{grid-template-columns:repeat(2,1fr);gap:15px;margin-bottom:0}
+  .design{margin-bottom:0}
   .photos{margin-bottom:0}
   .photos-row{gap:15px;margin-bottom:15px}
   .photos-row:last-child{margin-bottom:0}

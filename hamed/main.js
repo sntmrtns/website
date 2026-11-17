@@ -32,31 +32,31 @@
   ];
 
   const design = [
-    'richie-souf/2026-09-15-2.webp',
-    'richie-souf/2026-09-15-1.webp',
-    'roxie/2026-08-30.webp',
-    '2-20-03/2026-02-20.webp',
-    'sneak/2026-02-11.webp',
-    'not-a-human/2026-01-16-2.webp',
-    'not-a-human/2026-01-16-1.webp',
-    '2-20-03/2025-12-12.webp',
-    'not-a-human/2025-07-17.webp',
-    'sneak/2025-03-25-2.webp',
-    'sneak/2025-03-25-1.webp',
-    'sneak/2025-03-18.webp',
-    'soufpaw/2024-12-27-6.webp',
-    'soufpaw/2024-12-27-5.webp',
-    'soufpaw/2024-12-27-4.webp',
-    'soufpaw/2024-12-27-3.webp',
-    'soufpaw/2024-12-27-2.webp',
-    'soufpaw/2024-12-27-1.webp',
-    '2-20-03/2024-02-22-2.webp',
-    '2-20-03/2024-02-22-1.webp',
-    '2-20-03/2023-11-11.webp',
-    '2-20-03/2023-11-02.webp',
-    'saint-martins/logo-3.webp',
-    'saint-martins/logo-2.webp',
-    'saint-martins/logo-1.webp',
+    ['richie-souf/2026-09-15-2.webp', 1],
+    ['richie-souf/2026-09-15-1.webp', 1],
+    ['roxie/2026-08-30.webp', 1],
+    ['2-20-03/2026-02-20.webp', 1],
+    ['sneak/2026-02-11.webp', 1],
+    ['not-a-human/2026-01-16-2.webp', 1],
+    ['not-a-human/2026-01-16-1.webp', 1],
+    ['2-20-03/2025-12-12.webp', 1],
+    ['not-a-human/2025-07-17.webp', 1],
+    ['sneak/2025-03-25-2.webp', 1],
+    ['sneak/2025-03-25-1.webp', 1],
+    ['sneak/2025-03-18.webp', 1],
+    ['soufpaw/2024-12-27-6.webp', 1],
+    ['soufpaw/2024-12-27-5.webp', 1],
+    ['soufpaw/2024-12-27-4.webp', 1],
+    ['soufpaw/2024-12-27-3.webp', 1],
+    ['soufpaw/2024-12-27-2.webp', 1],
+    ['soufpaw/2024-12-27-1.webp', 1],
+    ['2-20-03/2024-02-22-2.webp', 1],
+    ['2-20-03/2024-02-22-1.webp', 1],
+    ['2-20-03/2023-11-11.webp', 1],
+    ['2-20-03/2023-11-02.webp', 1],
+    ['saint-martins/logo-3.webp', 1],
+    ['saint-martins/logo-2.webp', 1],
+    ['saint-martins/logo-1.webp', 1],
   ];
 
   const music = {
@@ -123,6 +123,7 @@
   const EASE = 'cubic-bezier(0.16,1,0.3,1)';
   const READY_SETTLE = 120;
   const EMBED_SLOT_MS = 6000;
+  const ROW_SIZE = 3;
   const POSTER_SETTLE = 400;
   const POSTER_WAIT = 8000;
   const LEAD_DELAY = 1500;
@@ -313,35 +314,36 @@
     img.src = img.dataset.src;
   }
 
-  (() => {
-    const box = document.getElementById('designbox');
-    design.forEach((src, i) => {
-      const img = zoomableImage('design/' + src, 'Image ' + (i + 1) + ' of ' + design.length);
-      box.appendChild(img);
-      queueLoad('design', 'image', done => loadImage(img, done));
-    });
-  })();
-
-  (() => {
-    const box = document.getElementById('photobox');
+  function buildRows(box, items, section, dir, label, reverse) {
     const rows = [];
-    for (let i = 0; i < photos.length; i += 3) rows.unshift(photos.slice(i, i + 3));
+    for (let i = 0; i < items.length; i += ROW_SIZE) rows.push(items.slice(i, i + ROW_SIZE));
+    if (reverse) rows.reverse();
     let n = 0;
     rows.forEach(row => {
       const rowEl = document.createElement('div');
       rowEl.className = 'photos-row';
-      rowEl.style.aspectRatio = row.reduce((sum, [, ratio]) => sum + ratio, 0);
+      const ratios = row.map(([, ratio]) => ratio);
+      const missing = (ROW_SIZE - row.length) * ratios.reduce((sum, r) => sum + r, 0) / row.length;
+      rowEl.style.aspectRatio = ratios.reduce((sum, r) => sum + r, 0) + missing;
       row.forEach(([name, ratio]) => {
         const cell = document.createElement('div');
         cell.style.flex = ratio;
-        const img = zoomableImage('pictures/' + name, 'Photo ' + ++n + ' of ' + photos.length);
+        const img = zoomableImage(dir + name, label + ' ' + ++n + ' of ' + items.length);
         cell.appendChild(img);
         rowEl.appendChild(cell);
-        queueLoad('photos', 'image', done => loadImage(img, done));
+        queueLoad(section, 'image', done => loadImage(img, done));
       });
+      if (missing) {
+        const spacer = document.createElement('div');
+        spacer.style.flex = missing;
+        rowEl.appendChild(spacer);
+      }
       box.appendChild(rowEl);
     });
-  })();
+  }
+
+  buildRows(document.getElementById('designbox'), design, 'design', 'design/', 'Image');
+  buildRows(document.getElementById('photobox'), photos, 'photos', 'pictures/', 'Photo', true);
 
   (() => {
     const box = document.getElementById('videobox');
