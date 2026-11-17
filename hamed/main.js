@@ -240,7 +240,7 @@
     }, ms));
   }
 
-  const LANE_LIMIT = { image: 4, video: 4, embed: 4 };
+  const LANE_LIMIT = { image: 16, video: 4, embed: 4 };
   const BACKGROUND_LANES = touch ? [] : ['image'];
   const queue = [];
   const live = { image: 0, video: 0, embed: 0 };
