@@ -222,8 +222,9 @@
     else fn();
   }
 
-  function revealEmbed(iframe, poster) {
-    const show = once(() => afterSectionEnter(iframe, () => iframe.classList.add('loaded')));
+  function revealEmbed(iframe, poster, gate) {
+    const fadeIn = () => afterSectionEnter(iframe, () => iframe.classList.add('loaded'));
+    const show = once(() => (gate ? gate(fadeIn) : fadeIn()));
     iframe.addEventListener('ready', () => {
       const settle = new Promise(resolve => setTimeout(resolve, poster ? POSTER_SETTLE : READY_SETTLE));
       const drawn = poster && new Promise(resolve => {
@@ -248,8 +249,35 @@
   let current = 'work';
   let loading = false;
 
-  const leads = [];
+  const leads = [[], []];
   const warm = new Set();
+  const loadTimes = {};
+  const enteredAt = {};
+  const heldSecond = {};
+
+  // The first two embeds of Videos and Music load in the background. The first
+  // shows as soon as it is ready. The second waits until halfway between the tab
+  // finishing its fade and when the next, not yet loaded, embed is expected to
+  // appear, judged by how long these first two took to load.
+  function leadGate(section, rank) {
+    const started = performance.now();
+    return fadeIn => {
+      (loadTimes[section] = loadTimes[section] || []).push(performance.now() - started);
+      if (rank === 0) return fadeIn();
+      heldSecond[section] = fadeIn;
+      if (enteredAt[section] != null) releaseSecond(section);
+    };
+  }
+
+  function releaseSecond(section) {
+    const fadeIn = heldSecond[section];
+    if (!fadeIn) return;
+    delete heldSecond[section];
+    const times = loadTimes[section];
+    const expected = Math.max(FADE_MS, times.reduce((a, b) => a + b, 0) / times.length);
+    const at = enteredAt[section] + (FADE_MS + expected) / 2;
+    setTimeout(fadeIn, Math.max(0, at - performance.now()));
+  }
 
   function warmSection(section) {
     warm.add(section);
@@ -257,7 +285,7 @@
   }
 
   function preloadLeads() {
-    const lead = leads.shift();
+    const lead = leads[0].shift() || leads[1].shift();
     if (lead) lead(() => setTimeout(preloadLeads));
   }
 
@@ -358,14 +386,14 @@
       const mount = done => {
         if (started) return done();
         started = true;
-        revealEmbed(iframe, 'https://i.ytimg.com/vi/' + v.id + '/maxresdefault.jpg');
+        revealEmbed(iframe, 'https://i.ytimg.com/vi/' + v.id + '/maxresdefault.jpg', i < 2 && leadGate('videos', i));
         iframe.addEventListener('ready', done, { once: true });
         setTimeout(done, EMBED_SLOT_MS);
         iframe.addEventListener('load', () => listenToYouTube(iframe), { once: true });
         iframe.src = 'https://www.youtube-nocookie.com/embed/' + v.id + '?enablejsapi=1';
       };
       queueLoad('videos', 'video', mount);
-      if (i === 0) leads.push(next => {
+      if (i < 2) leads[i].push(next => {
         warmSection('videos');
         mount(once(next));
       });
@@ -385,8 +413,8 @@
       return iframe;
     };
 
-    const mount = (iframe, track, done) => {
-      revealEmbed(iframe);
+    const mount = (iframe, track, done, rank) => {
+      revealEmbed(iframe, null, rank != null && leadGate('music', rank));
       iframe.addEventListener('ready', done, { once: true });
       setTimeout(done, EMBED_SLOT_MS);
       iframe.src = scSrc(track.sc);
@@ -415,7 +443,7 @@
       poster.src = track.poster;
     };
 
-    let leadQueued = false;
+    let leadCount = 0;
     Object.entries(music).forEach(([group, tracks]) => {
       const box = document.getElementById('gridbox-' + group);
       tracks.forEach(track => {
@@ -424,15 +452,15 @@
         const el = track.video ? videoCell(track) : scFrame(track);
         cell.appendChild(el);
         let started = false;
+        const rank = !track.video && leadCount < 2 ? leadCount++ : null;
         const load = done => {
           if (started) return done();
           started = true;
-          (track.video ? mountVideo : mount)(el, track, done);
+          (track.video ? mountVideo : mount)(el, track, done, rank);
         };
         queueLoad('music', 'embed', load);
-        if (!track.video && !leadQueued) {
-          leadQueued = true;
-          leads.push(next => {
+        if (rank != null) {
+          leads[rank].push(next => {
             warmSection('music');
             load(once(next));
           });
@@ -619,7 +647,9 @@
       sub.style.display = sub.id === 'sub-' + name ? '' : 'none';
     });
     current = name;
+    if (enteredAt[name] == null) enteredAt[name] = performance.now();
     syncSections(true);
+    releaseSecond(name);
     pump();
     window.scrollTo({ top: 0, behavior: 'instant' });
   }
