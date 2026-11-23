@@ -33,7 +33,6 @@
 
   const design = [
     ['richie-souf/2026-09-15-2.webp', 1],
-    ['richie-souf/2026-09-15-1.webp', 1],
     ['roxie/2026-08-30.webp', 1],
     ['2-20-03/2026-02-20.webp', 1],
     ['sneak/2026-02-11.webp', 1],
