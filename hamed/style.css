@@ -54,8 +54,8 @@ iframe.fade{opacity:.01;will-change:opacity}
 .entry-logo{display:block;width:auto;height:var(--logo-h,32px);max-width:100%;margin:0 0 19px}
 .work-role{margin:0;line-height:1.5}
 .work-desc{margin:13px 0 0;line-height:1.5;text-wrap:pretty}
-.work-role a,.work-desc a{color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px;transition:opacity 0.15s cubic-bezier(0.16,1,0.3,1)}
-.work-role a:hover,.work-desc a:hover{opacity:0.6}
+.work-role a,.work-desc a,.duties a{color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px;transition:opacity 0.15s cubic-bezier(0.16,1,0.3,1)}
+.work-role a:hover,.work-desc a:hover,.duties a:hover{opacity:0.6}
 .duty-toggle{margin:14px 0 0;font-size:16px;text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px;transition:opacity 0.15s cubic-bezier(0.16,1,0.3,1)}
 .duty-toggle:hover{opacity:0.6}
 .duties-wrap{overflow:hidden}
@@ -173,5 +173,5 @@ body:has(#lightbox.lb-open) .mobile-bar-logo,body:has(#lightbox.lb-open) .mobile
   body.fade-in{animation-duration:0.01ms;animation-delay:0ms}
   #lightbox,.mobile-nav,.mobile-bar-logo,.mobile-bar-btn,.fade,.btn,.duty-toggle,
   #lb-prev,#lb-next,#lb-close,
-  .work-role a,.work-desc a{transition-duration:0.01ms}
+  .work-role a,.work-desc a,.duties a{transition-duration:0.01ms}
 }
