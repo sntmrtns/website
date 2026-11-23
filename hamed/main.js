@@ -54,9 +54,6 @@
     ['2-20-03/2024-02-22-1.webp', 1],
     ['2-20-03/2023-11-11.webp', 1],
     ['2-20-03/2023-11-02.webp', 1],
-    ['saint-martins/logo-3.webp', 1],
-    ['saint-martins/logo-2.webp', 1],
-    ['saint-martins/logo-1.webp', 1],
   ];
 
   const music = {
