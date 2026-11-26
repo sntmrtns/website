@@ -650,7 +650,7 @@
 
   const nav = document.getElementById('mobile-nav');
   const menuBtn = document.getElementById('mobile-bar-btn');
-  let navOpen = false, navBusy = false;
+  let navOpen = false, navBusy = false, navToken = 0;
 
   function setMenuState(open) {
     menuBtn.setAttribute('aria-expanded', String(open));
@@ -666,7 +666,8 @@
     keyboardFocus(document.getElementById('mobile-nav-close'));
     void nav.offsetHeight;
     nav.classList.add('open');
-    afterTransition(nav, () => { navBusy = false; });
+    const token = ++navToken;
+    afterTransition(nav, () => { if (token === navToken) navBusy = false; });
   }
 
   function closeNav(section) {
@@ -676,13 +677,24 @@
     setMenuState(false);
     if (section) showSection(section);
     nav.classList.remove('open');
+    const token = ++navToken;
     afterTransition(nav, () => {
+      if (token !== navToken) return;
       nav.classList.remove('visible');
       setBackdropInert(false);
       if (!section) keyboardFocus(menuBtn);
       navBusy = false;
     });
   }
+
+  matchMedia('(max-width:1575px)').addEventListener('change', e => {
+    if (e.matches || !nav.classList.contains('visible')) return;
+    navToken++;
+    navOpen = navBusy = false;
+    setMenuState(false);
+    nav.classList.remove('open', 'visible');
+    setBackdropInert(false);
+  });
 
   document.addEventListener('click', e => {
     const t = e.target;
