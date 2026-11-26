@@ -688,12 +688,9 @@
   }
 
   matchMedia('(max-width:1575px)').addEventListener('change', e => {
-    if (e.matches || !nav.classList.contains('visible')) return;
-    navToken++;
-    navOpen = navBusy = false;
-    setMenuState(false);
-    nav.classList.remove('open', 'visible');
-    setBackdropInert(false);
+    if (e.matches || !navOpen) return;
+    navBusy = false;
+    closeNav();
   });
 
   document.addEventListener('click', e => {
